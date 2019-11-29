@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<config
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd"
+>
+  <default>
+    <idealpostcodes>
+      <settings>
+        <enabled>1</enabled>
+        <user_token />
+        <postcode_lookup>1</postcode_lookup>
+        <autocomplete>1</autocomplete>
+        <populate_organisation>1</populate_organisation>
+        <require_county>0</require_county>
+        <hoist_country>1</hoist_country>
+      </settings>
+    </idealpostcodes>
+  </default>
+</config>

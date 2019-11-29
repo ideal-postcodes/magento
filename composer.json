@@ -1,0 +1,26 @@
+{
+  "name": "idealpostcodes/module-ukaddresssearch",
+  "description": "Ideal Postcodes UK address search magento extension. Ideal-Postcodes.co.uk",
+  "type": "magento2-module",
+  "version": "0.0.1",
+  "require": {
+    "php": "~5.5.0|~5.6.0|~7.0"
+  },
+  "authors": [
+    {
+      "name": "Ideal Postcodes",
+      "email": "support@ideal-postcodes.co.uk",
+      "homepage": "https://ideal-postcodes.co.uk/open_source",
+      "role": "Developer"
+    }
+  ],
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "Idealpostcodes\\Ukaddresssearch\\": ""
+    }
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,191 @@
+<?xml version="1.0" ?>
+<config
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd"
+>
+  <system>
+    <section
+      id="idealpostcodes"
+      translate="label"
+      sortOrder="100"
+      showInDefault="1"
+      showInWebsite="1"
+      showInStore="1"
+    >
+      <label>Ideal Postcodes</label>
+      <tab>service</tab>
+      <resource>Idealpostcodes_Ukaddresssearch::idealpostcodes</resource>
+      <group
+        id="required"
+        translate="label"
+        sortOrder="10"
+        showInDefault="1"
+        showInWebsite="1"
+        showInStore="1"
+      >
+        <label>Required</label>
+        <field
+          id="enabled"
+          type="select"
+          translate="label,comment"
+          sortOrder="10"
+          showInDefault="1"
+          showInWebsite="1"
+          showInStore="1"
+        >
+          <label>Enabled</label>
+          <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+          <config_path>idealpostcodes/settings/enabled</config_path>
+          <comment>Enable UK Address Search and Validation</comment>
+        </field>
+        <field
+          id="api_key"
+          type="text"
+          translate="label,comment"
+          sortOrder="20"
+          showInDefault="1"
+          showInWebsite="1"
+          showInStore="1"
+        >
+          <label>API Key</label>
+          <config_path>idealpostcodes/settings/api_key</config_path>
+          <comment>Your API Key can be found on your dashboard</comment>
+          <depends>
+            <field id="enabled">1</field>
+          </depends>
+        </field>
+      </group>
+      <group
+        id="options"
+        translate="label"
+        sortOrder="20"
+        showInDefault="1"
+        showInWebsite="1"
+        showInStore="1"
+      >
+        <label>Options</label>
+        <field
+          id="postcode_lookup"
+          type="select"
+          translate="label"
+          sortOrder="40"
+          showInDefault="1"
+          showInWebsite="1"
+          showInStore="1"
+        >
+          <label>Enable Postcode Lookup</label>
+          <comment>
+            This will present a postcode lookup search box on your address forms. The user will be directed to type their postcode and select an address from a list.
+          </comment>
+          <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+          <config_path>idealpostcodes/settings/postcode_lookup</config_path>
+          <depends>
+            <field id="enabled">1</field>
+          </depends>
+        </field>
+        <field
+          id="autocomplete"
+          type="select"
+          translate="label"
+          sortOrder="50"
+          showInDefault="1"
+          showInWebsite="1"
+          showInStore="1"
+        >
+          <label>Enable Address Autocomplete</label>
+          <comment>
+            This will enable address autocomplete on the first address line on your address forms.
+          </comment>
+          <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+          <config_path>idealpostcodes/settings/autocomplete</config_path>
+          <depends>
+            <field id="enabled">1</field>
+          </depends>
+        </field>
+        <field
+          id="populate_organisation"
+          type="select"
+          translate="label,comment"
+          sortOrder="60"
+          showInDefault="1"
+          showInWebsite="1"
+          showInStore="1"
+        >
+          <label>Enable Populate Organisation</label>
+          <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+          <config_path>idealpostcodes/settings/populate_organisation</config_path>
+          <comment>Fill the Company field based on selected address.</comment>
+          <depends>
+            <field id="enabled">1</field>
+          </depends>
+        </field>
+        <field
+          id="require_county"
+          type="select"
+          translate="label,comment"
+          sortOrder="70"
+          showInDefault="1"
+          showInWebsite="1"
+          showInStore="1"
+        >
+          <label>Enable County</label>
+          <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+          <comment>
+            This will populate the region field with the county name. County data is no longer used in the UK to identify a premise, however this can be enabled if you prefer.
+          </comment>
+          <config_path>idealpostcodes/settings/require_county</config_path>
+          <depends>
+            <field id="enabled">1</field>
+          </depends>
+        </field>
+        <field
+          id="hoist_country"
+          type="select"
+          translate="label,comment"
+          sortOrder="80"
+          showInDefault="1"
+          showInWebsite="1"
+          showInStore="1"
+        >
+          <label>Hoist Country Field</label>
+          <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+          <comment>
+            This will hoist the country input field to the top of your address form. This is useful if your default country is not a UK territory. Our UK search solutions will only present on address forms where the selected country is a UK territory.
+          </comment>
+          <config_path>idealpostcodes/settings/hoist_country</config_path>
+          <depends>
+            <field id="enabled">1</field>
+          </depends>
+        </field>
+      </group>
+      <group
+        id="admin"
+        translate="label"
+        sortOrder="30"
+        showInDefault="1"
+        showInWebsite="1"
+        showInStore="1"
+      >
+        <label>Administration</label>
+        <field
+          id="user_token"
+          type="text"
+          translate="label,comment"
+          sortOrder="30"
+          showInDefault="1"
+          showInWebsite="1"
+          showInStore="1"
+        >
+          <label>User Token</label>
+          <comment>
+            Your User Token can be found on your accounts page. This is not required for your address validation to function. It is only required if you need to retrieve usage statistics on your API Key.
+          </comment>
+          <config_path>idealpostcodes/settings/user_token</config_path>
+          <depends>
+            <field id="enabled">1</field>
+          </depends>
+        </field>
+      </group>
+    </section>
+  </system>
+</config>

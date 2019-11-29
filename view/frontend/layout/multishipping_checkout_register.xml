@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="checkout" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<head>
+    <css src="Idealpostcodes_Ukaddresssearch::ideal-postcodes-autocomplete.css"/>
+		<css src="Idealpostcodes_Ukaddresssearch::jquery.postcodes.css"/>
+		<script src="Idealpostcodes_Ukaddresssearch::jquery.postcodes.min.js"/>
+		<script src="Idealpostcodes_Ukaddresssearch::ideal-postcodes-autocomplete.min.js"/>
+		<script src="Idealpostcodes_Ukaddresssearch::binding.js"/>
+	</head>
+	<body>
+		<referenceBlock name="head.additional">
+			<block class="Magento\Framework\View\Element\Template" name="idealpostcodes.ukaddresssearch.multishipping_checkout_register" template="Idealpostcodes_Ukaddresssearch::multishipping_checkout_register.phtml" />
+		</referenceBlock>
+	</body>
+</page>

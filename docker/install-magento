@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+
+su www-data <<EOSU
+set -e
+
+MYSQL_HOST='db'
+MYSQL_ROOT_PASSWORD='myrootpassword'
+MYSQL_USER='magento'
+MYSQL_PASSWORD='magento'
+MYSQL_DATABASE='magento'
+
+MAGENTO_LANGUAGE='en_GB'
+MAGENTO_TIMEZONE='UTC'
+MAGENTO_DEFAULT_CURRENCY='GBP'
+MAGENTO_URL='http://localhost:3000'
+MAGENTO_BACKEND_FRONTNAME='admin'
+MAGENTO_USE_SECURE='0'
+MAGENTO_BASE_URL_SECURE='0'
+MAGENTO_USE_SECURE_ADMIN='0'
+
+MAGENTO_ADMIN_FIRSTNAME='Admin'
+MAGENTO_ADMIN_LASTNAME='MyStore'
+MAGENTO_ADMIN_EMAIL='admin@ideal-postcodes.co.uk'
+MAGENTO_ADMIN_USERNAME='admin'
+MAGENTO_ADMIN_PASSWORD='foobar21'
+
+echo 'Running magento setup:install'
+/var/www/html/bin/magento setup:install \
+  --base-url=$MAGENTO_URL \
+  --backend-frontname=$MAGENTO_BACKEND_FRONTNAME \
+  --language=$MAGENTO_LANGUAGE \
+  --timezone=$MAGENTO_TIMEZONE \
+  --currency=$MAGENTO_DEFAULT_CURRENCY \
+  --db-host=$MYSQL_HOST \
+  --db-name=$MYSQL_DATABASE \
+  --db-user=$MYSQL_USER \
+  --db-password=$MYSQL_PASSWORD \
+  --use-secure=$MAGENTO_USE_SECURE \
+  --base-url-secure=$MAGENTO_BASE_URL_SECURE \
+  --use-secure-admin=$MAGENTO_USE_SECURE_ADMIN \
+  --admin-firstname=$MAGENTO_ADMIN_FIRSTNAME \
+  --admin-lastname=$MAGENTO_ADMIN_LASTNAME \
+  --admin-email=$MAGENTO_ADMIN_EMAIL \
+  --admin-user=$MAGENTO_ADMIN_USERNAME \
+  --admin-password=$MAGENTO_ADMIN_PASSWORD
+
+# /var/www/html/bin/magento sampledata:deploy
+
+echo 'Enabled Ideal Postcodes extension'
+/var/www/html/bin/magento module:enable Idealpostcodes_Ukaddresssearch
+
+echo 'Running magento setup:upgrade'
+/var/www/html/bin/magento setup:upgrade
+
+echo 'Running magento setup:di:compile'
+/var/www/html/bin/magento setup:di:compile
+
+echo 'Running magento setup:static-content:deploy'
+/var/www/html/bin/magento setup:static-content:deploy -f
+EOSU

@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+su www-data <<EOSU
+set -e
+
+echo 'Running magento setup:static-content:deploy'
+/var/www/html/bin/magento setup:static-content:deploy -f
+EOSU

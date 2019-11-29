@@ -1,0 +1,27 @@
+version: '3.0'
+services:
+  db:
+    image: mariadb
+    volumes:
+      - db-data:/var/lib/mysql/data
+    env_file:
+      - ./docker/.env
+  web:
+    build: .
+    ports:
+      - "3000:80"
+    links:
+      - db
+    env_file:
+      - ./docker/.env
+    volumes:
+      - ".:/var/www/html/app/code/Idealpostcodes/Ukaddresssearch"
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "8580:80"
+    links:
+      - db
+volumes:
+  db-data:

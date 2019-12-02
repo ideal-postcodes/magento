@@ -1,8 +1,23 @@
 {
   "name": "magento",
   "version": "1.0.0",
+  "private": true,
   "description": "Ideal Postcodes Magento Extension",
   "main": "index.js",
+  "author": {
+    "name": "Ideal Postcodes",
+    "email": "support@ideal-postcodes.co.uk",
+    "url": "https://ideal-postcodes.co.uk"
+  },
+  "bugs": {
+    "url": "https://github.com/ideal-postcodes/magento/issues",
+    "email": "support@ideal-postcodes.co.uk"
+  },
+  "homepage": "https://github.com/ideal-postcodes/magento",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ideal-postcodes/magento.git"
+  },
   "scripts": {
     "semantic-release": "semantic-release",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -19,8 +34,8 @@
   "devDependencies": {
     "@cablanchard/semantic-release": "~1.3.1",
     "@prettier/plugin-php": "~0.11.2",
-    "@prettier/plugin-xml": "^0.3.0",
-    "prettier": "^1.19.1",
+    "@prettier/plugin-xml": "~0.3.0",
+    "prettier": "~1.19.1",
     "semantic-release": "~15.13.31"
   }
 }

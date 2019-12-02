@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/ideal-postcodes/magento/compare/1.0.1...1.0.2) (2019-12-02)
+
+
+### Bug Fixes
+
+* **Composer:** Enable automated versioned releases ([f46e4d8](https://github.com/ideal-postcodes/magento/commit/f46e4d81caf5fc919e82af850b0c53596aaa4e81))
+
 ## [1.0.1](https://github.com/ideal-postcodes/magento/compare/1.0.0...1.0.1) (2019-12-02)
 
 

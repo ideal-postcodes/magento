@@ -15,17 +15,18 @@ This extension enables [Ideal-Postcodes.co.uk](https://ideal-postcodes.co.uk) ad
   - User shipping address
   - User address book
 - Allows for following address selection mode:
-  - Postcode Lookup
-  - Address Autocomplete
+  - [Postcode Lookup](https://img.ideal-postcodes.co.uk/billing-page-select-address.png)
+  - [Address Autocomplete](https://img.ideal-postcodes.co.uk/billing-page-autocomplete.png)
 - Address search and validation enabled for [countries covered by Postcode Address File](https://ideal-postcodes.co.uk/guides/supported-territories)
 - Hides address search for non-UK territories
+- API Key and other configuration scoped by website, store or view
 - Asynchronously performs checks if key is active and usable
   - Checks if your API Key is currently usable before presenting your users with address search fields
   - Prevents errors from occuring if your key runs out of balance or is accidentally misconfigured
 - **Option** hoists country selection above address fields
 - **Option** populate Company name based on address
 - **Option** populate county field
-- Administration Page
+- [Administration Page](https://img.ideal-postcodes.co.uk/idpc-options.png)
   - Insert API Key credentials
 
 ## Links
@@ -81,23 +82,33 @@ magento setup:di:compile
 magento setup:static-content:deploy -f
 ```
 
+After installation is complete you will need to apply your API Key
+
 ### Configuration
 
-The API Key may be inserted on the administration dashboard
+Apply your API Key via the Configuration dashboard.
 
-## Development
+You can find this on your administration page under Stores Menu -> Configuration -> Services Tab -> Ideal Postcodes.
 
-Run this extension on a clean magento image via docker with:
+![Configuration](http://img.ideal-postcodes.co.uk/idpc-options-cropped.png)
+
+## Run Locally
+
+If you have `docker` and `make` installed, you can run and test this extension locally on a clean magento install with a single command:
 
 ```bash
 make bootstrap
 ```
 
-A Magento store will be served on `localhost:3000`
+This will build a new magento store on a docker image with this extension mounted, launch required services (i.e. MariaDB) with `docker-compose` and execute the necessary steps to bootstrap magento and initialise the extension. The Magento store will be served on `localhost:3000`. You can access the administration page via `http://localhost:3000/admin` with user name `admin` and password `foobar21`.
 
-This repository currently builds a Magento 2 docker container and mounts this entension into `app/code/Idealpostcodes/Ukaddresssearch`.
+The `Makefile` contains a number of helper methods to launch and bootstrap Magento container with extension. To see current list of methods, run `make`.
 
-`Makefile` contains a number of helper methods to launch and bootstrap Magento container with extension. To see current list of methods, run `make`
+## Screenshots
+
+![Postcode Lookup](https://img.ideal-postcodes.co.uk/billing-page-select-address.png)
+![Address Autocomplete](https://img.ideal-postcodes.co.uk/billing-page-autocomplete.png)
+![Configuration](https://img.ideal-postcodes.co.uk/idpc-options.png)
 
 ## Licence
 

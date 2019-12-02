@@ -4,6 +4,9 @@
 
 > UK Address Search and Validation Magento Extension
 
+![Packagist Version](https://img.shields.io/packagist/v/idealpostcodes/module-ukaddresssearch)
+![PHP from Packagist](https://img.shields.io/packagist/php-v/idealpostcodes/module-ukaddresssearch)
+
 This extension enables [Ideal-Postcodes.co.uk](https://ideal-postcodes.co.uk) address validation for UK addresses on a magento store
 
 [Get in contact](https://ideal-postcodes.co.uk/support) if you need assistance or have questions. Raise an issue for bugs or feature requests

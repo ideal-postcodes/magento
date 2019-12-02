@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/ideal-postcodes/magento/compare/1.0.0...1.0.1) (2019-12-02)
+
+
+### Bug Fixes
+
+* **Readme:** Add release badge ([ed38a57](https://github.com/ideal-postcodes/magento/commit/ed38a5793e1d3cb5c64535de7347cc1a35fbf038))
+
 # 1.0.0 (2019-12-02)
 
 

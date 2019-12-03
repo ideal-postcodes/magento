@@ -132,7 +132,6 @@
     this.hoistCountry();
     this.applyAutocomplete();
     this.applyPostcodeLookup();
-    this.detectCountry();
     this.observeCountry();
     this.loaded(true);
   };
@@ -205,6 +204,7 @@
       checkKey: true,
       onLoaded: function() {
         self._autocompleteInstances.push(controller);
+        self.detectCountry(); // Check if correct country is engaged
       },
       inputField: "#" + self.$lineOne().attr("id"),
       onAddressRetrieved: self.handleAddressSelection.bind(self),
@@ -238,6 +238,8 @@
           )
         );
         self._postcodeLookupInstances.push($instance);
+        self.detectCountry(); // Check if correct country is engaged
+
       },
       onAddressSelected: self.handleAddressSelection.bind(self),
       onSearchError: self.handleError.bind(self)

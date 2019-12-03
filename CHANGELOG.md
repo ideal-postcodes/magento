@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/ideal-postcodes/magento/compare/1.0.2...1.0.3) (2019-12-03)
+
+
+### Bug Fixes
+
+* **Binding:** Check if valid country after asynchronous API Key checks ([3feb6a3](https://github.com/ideal-postcodes/magento/commit/3feb6a3045a4b1fcf066f0172ebd12850eed9bd3))
+
 ## [1.0.2](https://github.com/ideal-postcodes/magento/compare/1.0.1...1.0.2) (2019-12-02)
 
 

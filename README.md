@@ -68,7 +68,7 @@ This repository needs to be loaded into your Magento directory. The following di
 Inside of `app/code/Idealpostcodes/Ukaddresses` you can retrieve the extension by
 
 - Download and untar from [our releases page](https://github.com/ideal-postcodes/magento/releases)
-- Git clone this project `git clone -depth=1 https://github.com/ideal-postcodes/magento.git`
+- Git clone this project `git clone --depth=1 https://github.com/ideal-postcodes/magento.git`
 - Git clone a specific version `git clone --branch <tag> -depth=1 https://github.com/ideal-postcodes/magento.git`
 
 ### Magento Connect
@@ -85,6 +85,10 @@ magento setup:upgrade
 magento setup:di:compile
 magento setup:static-content:deploy -f
 ```
+
+To run the above commands you will need to add `magento` to your system PATH.
+
+More information on command line configuration is available in the [Magento documentation](https://devdocs.magento.com/guides/v2.3/config-guide/cli/config-cli-subcommands.html)
 
 After installation is complete you will need to apply your API Key
 

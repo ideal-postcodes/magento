@@ -45,13 +45,16 @@ This extension enables [Ideal-Postcodes.co.uk](https://ideal-postcodes.co.uk) ad
 
 ## Installation
 
-This extension can be retrieved using the following methods
+This extension can be retrieved using the following methods:
 
 - [Composer](#composer)
 - [Manual](#manual)
 - [Magento Connect](#magento-connect)
 
-Once the extension is copied, you will need to run the [final install steps](#final-install-steps)
+Once the extension is copied, you will need to:
+
+1. Run the [final install steps](#final-install-steps) to activate the module on your Magento store
+2. [Configure your API Key and settings](#configure) to enable UK address search on your checkout
 
 ### Composer
 
@@ -63,13 +66,13 @@ composer require idealpostcodes/module-ukaddresssearch
 
 ### Manual
 
-This repository needs to be loaded into your Magento directory. The following directory needs to be present in your Magento codebase `app/code/Idealpostcodes/Ukaddresses`
+This repository needs to be loaded into your Magento directory. The following directory needs to be present in your Magento codebase `app/code/Idealpostcodes/Ukaddressessearch`
 
-Inside of `app/code/Idealpostcodes/Ukaddresses` you can retrieve the extension by
+Inside of `app/code/Idealpostcodes/Ukaddressessearch` you can retrieve the extension by
 
 - Download and untar from [our releases page](https://github.com/ideal-postcodes/magento/releases)
 - Git clone this project `git clone --depth=1 https://github.com/ideal-postcodes/magento.git`
-- Git clone a specific version `git clone --branch <tag> -depth=1 https://github.com/ideal-postcodes/magento.git`
+- Git clone a specific version `git clone --branch <tag> -depth=1 https://github.com/ideal-postcodes/magento.git` where `<tag>` is the specific release (e.g. `1.0.2`)
 
 ### Magento Connect
 
@@ -77,7 +80,7 @@ Currently not available
 
 ### Final Install Steps
 
-You may enable and install this extension with the following commands
+You may enable and install this extension using the [Magento CLI](https://devdocs.magento.com/guides/v2.3/config-guide/cli/config-cli-subcommands.html) with the following commands:
 
 ```bash
 magento module:enable Idealpostcodes_Ukaddresssearch
@@ -86,11 +89,7 @@ magento setup:di:compile
 magento setup:static-content:deploy -f
 ```
 
-To run the above commands you will need to add `magento` to your system PATH.
-
-More information on command line configuration is available in the [Magento documentation](https://devdocs.magento.com/guides/v2.3/config-guide/cli/config-cli-subcommands.html)
-
-After installation is complete you will need to apply your API Key
+After installation is complete you will need to apply your [API Key in the configuration step](#configuration).
 
 ### Configuration
 

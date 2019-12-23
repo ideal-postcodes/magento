@@ -31,6 +31,6 @@
     "@prettier/plugin-php": "~0.11.2",
     "@prettier/plugin-xml": "~0.3.0",
     "prettier": "~1.19.1",
-    "semantic-release": "~15.13.31"
+    "semantic-release": "~15.14.0"
   }
 }

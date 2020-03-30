@@ -236,7 +236,6 @@
         );
         self._postcodeLookupInstances.push($instance);
         self.detectCountry(); // Check if correct country is engaged
-
       },
       onAddressSelected: self.handleAddressSelection.bind(self),
       onSearchError: self.handleError.bind(self)
@@ -259,6 +258,7 @@
   IdpcBinding.prototype.hideAll = function() {
     this._autocompleteInstances.forEach(function(instance) {
       var interface = instance.interface;
+      if (!interface) return;
       var input = interface.input;
 
       // Disable current autocomplet activity just in case
@@ -283,7 +283,8 @@
 
   IdpcBinding.prototype.showAll = function() {
     this._autocompleteInstances.forEach(function(instance) {
-      instance.interface.initialiseEventListeners();
+      var interface = instance.interface;
+      if (interface) interface.initialiseEventListeners();
     });
     this._postcodeLookupInstances.forEach(function($instance) {
       $instance.show();

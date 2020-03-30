@@ -102,8 +102,6 @@
     if ($country.is("input")) this.$country().val(country);
   };
 
-  IdpcBinding.prototype.toIso = function(address) {};
-
   // Hoists country field up before address lines
   IdpcBinding.prototype.hoistCountry = function() {
     if (this.hoistCountryField !== true) return;
@@ -179,7 +177,6 @@
       this.updateField(this.$county, address.county);
     }
     if (this.populateOrganisation === true) {
-      console.log(this.populateOrganisation);
       this.updateField(this.$organisation, address.organisation_name);
     }
   };

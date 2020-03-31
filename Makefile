@@ -16,6 +16,11 @@ init:
 up:
 	docker-compose up -d
 
+## Launch docker-compose as background daemon
+.PHONY: down
+down:
+	docker-compose down -d
+
 ## -- Development Methods --
 
 ## Run magento upgrade

@@ -1,3 +1,18 @@
+# [1.1.0](https://github.com/ideal-postcodes/magento/compare/1.0.3...1.1.0) (2020-03-31)
+
+
+### Bug Fixes
+
+* **Autocomplete:** Ensure listener init idempotent ([256f5da](https://github.com/ideal-postcodes/magento/commit/256f5da8a8345eae3e09578badd6c67d7120bd51))
+* **Autocomplete:** Fix potential race condition ([8a5b66d](https://github.com/ideal-postcodes/magento/commit/8a5b66df5308d082558ab1a0352a97c835e20997))
+* **Billing:** Poll DOM before applying search ([aba1a1c](https://github.com/ideal-postcodes/magento/commit/aba1a1c9ff0367d0a244ce8e6a827334e7a44416))
+* **Bindings:** Remove development artefacts ([ebb231b](https://github.com/ideal-postcodes/magento/commit/ebb231b0f95bc90d7db5e9d94a19e297fd69e46e))
+
+
+### Features
+
+* **Address Lines:** Variable address lines ([ac1dc47](https://github.com/ideal-postcodes/magento/commit/ac1dc471614932253f7135f19a51653869a8f365))
+
 ## [1.0.3](https://github.com/ideal-postcodes/magento/compare/1.0.2...1.0.3) (2019-12-03)
 
 

@@ -18,30 +18,42 @@ requirejs(['jquery'], function(jQuery){
     // Exit early if disabled
     if (enabled === false) return;
 
-    window.idpc = {
-      shippingFormBinding: new IdpcBinding({
-        container: '#checkout-step-shipping',
-        api_key: api_key,
-        postcodeLookup: postcodeLookup,
-        requireCounty: requireCounty,
-        addressAutocomplete: addressAutocomplete,
-        populateOrganisation: populateOrganisation,
-        hoistCountryField: hoistCountryField,
-        jQuery: jQuery
-      }),
+    var shippingFormBinding  = new IdpcBinding({
+      container: '#checkout-step-shipping',
+      api_key: api_key,
+      postcodeLookup: postcodeLookup,
+      requireCounty: requireCounty,
+      addressAutocomplete: addressAutocomplete,
+      populateOrganisation: populateOrganisation,
+      hoistCountryField: hoistCountryField,
+      jQuery: jQuery
+    });
 
-      billingFormBinding: new IdpcBinding({
-        container: '.payment-method-billing-address',
-        api_key: api_key,
-        postcodeLookup: postcodeLookup,
-        requireCounty: requireCounty,
-        addressAutocomplete: addressAutocomplete,
-        populateOrganisation: populateOrganisation,
-        hoistCountryField: hoistCountryField,
-        jQuery: jQuery
-      })
+    var billingFormBindings = [];
+    var interval = setInterval(function () {
+      var $instances = jQuery(".billing-address-form");
+      if ($instances.length === 0) return;
+      clearInterval(interval);
+      $instances.each(function (_, $instance) {
+        billingFormBindings.push(
+          new IdpcBinding({
+            container: $instance,
+            api_key: api_key,
+            postcodeLookup: postcodeLookup,
+            requireCounty: requireCounty,
+            addressAutocomplete: addressAutocomplete,
+            populateOrganisation: populateOrganisation,
+            hoistCountryField: hoistCountryField,
+            jQuery: jQuery
+          })
+        );
+      });
+    }, 1000);
+
+    window.idpc = {
+      shippingFormBinding: shippingFormBinding,
+      billingFormBindings: billingFormBindings,
     }
   });
 });
 </script>
-

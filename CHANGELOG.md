@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/ideal-postcodes/magento/compare/1.1.0...1.1.1) (2020-03-31)
+
+
+### Bug Fixes
+
+* **Composer:** Expand compatible php versions ([43bc454](https://github.com/ideal-postcodes/magento/commit/43bc454df1c2c91e8565ecd2ecb7ecee3093166e))
+
 # [1.1.0](https://github.com/ideal-postcodes/magento/compare/1.0.3...1.1.0) (2020-03-31)
 
 

@@ -219,9 +219,9 @@
     if ($linesContainer.length === 0) return;
 
     // Instantiate lookup container and insert to DOM
-    var lookupContainer = $(
-      '<div class="idpc_lookup field" id="idpc_postcode_lookup">'
-    ).insertBefore($linesContainer);
+    var lookupContainer = $('<div class="idpc_lookup field">').insertBefore(
+      $linesContainer
+    );
 
     // Insert postode lookup
     var $instance = lookupContainer.setupPostcodeLookup({

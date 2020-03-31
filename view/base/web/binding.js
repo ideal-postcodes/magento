@@ -32,6 +32,8 @@
 
     this.lineOneIdentifier = options.lineOneIdentifier || '[name="street[0]"]';
     this.lineTwoIdentifier = options.lineTwoIdentifier || '[name="street[1]"]';
+    this.lineThreeIdentifier =
+      options.lineThreeIdentifier || '[name="street[2]"]';
     this.postcodeIdentifier = options.postcodeIdentifier || '[name="postcode"]';
     this.postTownIdentifier = options.postTownIdentifier || '[name="city"]';
     this.organisationIdentifier =
@@ -59,6 +61,21 @@
 
   IdpcBinding.prototype.$lineTwo = function() {
     return this.$container().find(this.lineTwoIdentifier);
+  };
+
+  IdpcBinding.prototype.$lineThree = function() {
+    return this.$container().find(this.lineThreeIdentifier);
+  };
+
+  /**
+   * Returns number of address lines
+   */
+  IdpcBinding.prototype.nLines = function() {
+    if (this.$lineThree().length) return 3;
+    if (this.$lineTwo().length) return 2;
+    if (this.$lineOne().length) return 1;
+    // System default as fallback
+    return 2;
   };
 
   IdpcBinding.prototype.$organisation = function() {
@@ -160,15 +177,27 @@
     return $container.attr("idpc");
   };
 
+  // Append line to last elem in lines
+  var append = function(lines, line) {
+    var n = lines.length - 1;
+    if (!line) return;
+    lines[n] = lines[n] + ", " + line.trim();
+  };
+
   IdpcBinding.prototype.handleAddressSelection = function(address) {
-    var lineTwo = [address.line_2, address.line_3]
-      .filter(function(line) {
-        return line.trim().length > 0;
-      })
-      .join(", ")
-      .trim();
-    this.updateField(this.$lineOne, address.line_1);
-    this.updateField(this.$lineTwo, lineTwo);
+    // Reduce lines to number of applicable lines in form
+    var n = this.nLines();
+    var lines = [address.line_1, address.line_2, address.line_3].reduce(
+      function(lines, line, i) {
+        if (i < n) lines.push(line);
+        if (i >= n) append(lines, line);
+        return lines;
+      },
+      []
+    );
+    this.updateField(this.$lineOne, lines[0] || "");
+    this.updateField(this.$lineTwo, lines[1] || "");
+    this.updateField(this.$lineThree, lines[2] || "");
     this.updateField(this.$postTown, address.post_town);
     this.updateField(this.$postcode, address.postcode);
 

@@ -1,0 +1,10 @@
+{
+  "extends": "@cablanchard/tsconfig",
+  "compilerOptions": {
+    "strict": true,
+    "target": "ESNext",
+    "declaration": false,
+    "lib": ["es6", "dom"]
+  },
+  "include": ["lib/*"]
+}

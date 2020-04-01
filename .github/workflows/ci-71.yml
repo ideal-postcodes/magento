@@ -1,0 +1,32 @@
+name: Integration Tests (PHP 7.1, Magento 2.2)
+
+on:
+  - push
+
+jobs:
+  integration:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Launch Magento test environment
+        run: make up-71
+
+        # Note: -T option required to avoid creating pseudo-TTY.
+      - name: Run install script
+        run: >-
+          docker-compose exec -T web bash -c 'dockerize -wait tcp://db:3306 -timeout 60m /usr/local/bin/install-magento'
+        env:
+          COMPOSE_INTERACTIVE_NO_CLI: "1"
+
+      # - name: Disable cache
+      #   run: make cache-disable
+      #   env:
+      #     COMPOSE_INTERACTIVE_NO_CLI: "1"
+
+      - uses: cypress-io/github-action@v1
+        env:
+          CYPRESS_API_KEY: ${{ secrets.API_KEY }}
+        # with:
+        #   browser: firefox
+        #   headless: true

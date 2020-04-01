@@ -6,7 +6,8 @@
 .PHONY: bootstrap
 bootstrap: up init
 
-## Initialise repository
+
+## Initialise repository - run install-magento
 .PHONY: init
 init:
 	docker-compose exec web dockerize -wait tcp://db:3306 -timeout 60m /usr/local/bin/install-magento
@@ -16,10 +17,27 @@ init:
 up:
 	docker-compose up -d
 
-## Launch docker-compose as background daemon
+## Shut down docker-compose services
 .PHONY: down
 down:
-	docker-compose down -d
+	docker-compose down
+
+## -- CI Test Methods --
+
+## Start up PHP 7.1
+.PHONY: up-71
+up-71:
+	docker-compose -f docker-compose.yml -f docker/71.yml up -d
+
+## Start up PHP 7.2
+.PHONY: up-72
+up-72:
+	docker-compose -f docker-compose.yml -f docker/72.yml up -d
+
+## Start up PHP 7.3
+.PHONY: up-73
+up-73:
+	docker-compose -f docker-compose.yml -f docker/73.yml up -d
 
 ## -- Development Methods --
 
@@ -52,6 +70,16 @@ cache-disable:
 .PHONY: cache-flush
 cache-flush:
 	docker-compose exec web /var/www/html/bin/magento cache:flush
+
+## Set base URL as 127.0.0.1 instead of localhost - fixes session expirey issue
+.PHONY: set-base-url
+set-base-url:
+	docker-compose exec db mysql -u magento -pmagento -D magento -e 'UPDATE `core_config_data` SET `value`="http://127.0.0.1:3000/" WHERE path="web/secure/base_url"'
+	docker-compose exec db mysql -u magento -pmagento -D magento -e 'UPDATE `core_config_data` SET `value`="http://127.0.0.1:3000/" WHERE path="web/unsecure/base_url"'
+
+## Fix for session expired error in development
+.PHONY: fix-session-expire
+fix-session-expire: set-base-url cache-flush
 
 ## Tail logs
 .PHONY: logs

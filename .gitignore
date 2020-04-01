@@ -62,3 +62,7 @@ dist
 .DS_Store
 
 docs
+
+# cypress videos and screenshots
+cypress/screenshots/
+cypress/videos/

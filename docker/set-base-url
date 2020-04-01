@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+su www-data <<EOSU
+set -e
+
+echo 'Running magento setup:upgrade'
+/var/www/html/bin/magento setup:upgrade
+
+echo 'Running magento setup:di:compile'
+/var/www/html/bin/magento setup:di:compile
+EOSU

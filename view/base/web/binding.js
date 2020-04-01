@@ -10,14 +10,14 @@
    * Binds Ideal Postcodes address search functionality to magento frontend components
    */
   var IdpcBinding = function(options) {
+    this.$ = options.jQuery || options.$;
     this.api_key = options.api_key;
 
     // Exit if key not present
     if (typeof this.api_key !== "string") return;
     if (this.api_key.trim().length === 0) return;
 
-    this.container = options.container;
-    this.$ = options.jQuery || options.$;
+    this.form = options.container;
 
     // Should postcode lookup be enabled
     this.postcodeLookup = toBoolean(options.postcodeLookup, true);
@@ -51,20 +51,23 @@
     this.watch();
   };
 
-  IdpcBinding.prototype.$container = function() {
-    return this.$(this.container);
+  /**
+   * Returns a jQuery instance of form
+   */
+  IdpcBinding.prototype.$form = function() {
+    return this.$(this.form);
   };
 
   IdpcBinding.prototype.$lineOne = function() {
-    return this.$container().find(this.lineOneIdentifier);
+    return this.$form().find(this.lineOneIdentifier);
   };
 
   IdpcBinding.prototype.$lineTwo = function() {
-    return this.$container().find(this.lineTwoIdentifier);
+    return this.$form().find(this.lineTwoIdentifier);
   };
 
   IdpcBinding.prototype.$lineThree = function() {
-    return this.$container().find(this.lineThreeIdentifier);
+    return this.$form().find(this.lineThreeIdentifier);
   };
 
   /**
@@ -79,23 +82,23 @@
   };
 
   IdpcBinding.prototype.$organisation = function() {
-    return this.$container().find(this.organisationIdentifier);
+    return this.$form().find(this.organisationIdentifier);
   };
 
   IdpcBinding.prototype.$postTown = function() {
-    return this.$container().find(this.postTownIdentifier);
+    return this.$form().find(this.postTownIdentifier);
   };
 
   IdpcBinding.prototype.$postcode = function() {
-    return this.$container().find(this.postcodeIdentifier);
+    return this.$form().find(this.postcodeIdentifier);
   };
 
   IdpcBinding.prototype.$county = function() {
-    return this.$container().find(this.countyIdentifier);
+    return this.$form().find(this.countyIdentifier);
   };
 
   IdpcBinding.prototype.$country = function() {
-    return this.$container().find(this.countryIdentifier);
+    return this.$form().find(this.countryIdentifier);
   };
 
   // Set country field according to full country name `country`
@@ -137,18 +140,20 @@
     return this.$lineOne().closest(this.addressLinesIdentifier);
   };
 
-  // Apply address search functionality within container
+  // Apply address search functionality within form
   IdpcBinding.prototype.load = function() {
     // Guard: Exit if instantiated
     if (this.loaded()) return;
     // Guard: Check if line 1 address field is present
     if (this.addressFieldsPresent() !== true) return;
 
+    // Eagerly mark as loaded to prevent loop upon error
+    this.loaded(true);
+
     this.hoistCountry();
     this.applyAutocomplete();
     this.applyPostcodeLookup();
     this.observeCountry();
-    this.loaded(true);
   };
 
   // Listens for change in country selection. Activates plugins where appropriate
@@ -167,14 +172,14 @@
   // Determines whether address search has been applied within container
   // - If boolean argument provided, marks search as applied
   IdpcBinding.prototype.loaded = function(attrValue) {
-    var $container = this.$container();
+    var $form = this.$form();
 
     if (attrValue === true) {
-      $container.attr("idpc", "true");
+      $form.attr("idpc", "true");
       return attrValue;
     }
 
-    return $container.attr("idpc");
+    return $form.attr("idpc");
   };
 
   // Append line to last elem in lines
@@ -354,5 +359,31 @@
     guernsey: "GG"
   };
 
+  // Address update on account
+  var IdpcWatcher = function(options) {
+    var self = this;
+    this.$forms = [];
+    this.bindings = [];
+    var attach = function() {
+      jQuery(options.targets).each(function(_, form) {
+        var $form = jQuery(form);
+        if (self.isCached($form)) return;
+        self.$forms.push($form);
+        var o = jQuery.extend({ container: $form }, options.options);
+        self.bindings.push(new IdpcBinding(o));
+      });
+    };
+    attach();
+    this.interval = setInterval(attach, 3000);
+  };
+
+  IdpcWatcher.prototype.isCached = function($form) {
+    for (var i = 0; i < this.$forms.length; i += 1) {
+      if (this.$forms[i][0] === $form[0]) return true;
+    }
+    return false;
+  };
+
   window.IdpcBinding = IdpcBinding;
+  window.IdpcWatcher = IdpcWatcher;
 })(window);

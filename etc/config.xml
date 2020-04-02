@@ -13,6 +13,10 @@
         <populate_organisation>1</populate_organisation>
         <require_county>0</require_county>
         <hoist_country>1</hoist_country>
+        <checkout_targets>#checkout-step-shipping form,.billing-address-form</checkout_targets>
+        <customer_address_target>#form-validate</customer_address_target>
+        <multishipping_checkout_targets>#form-validate</multishipping_checkout_targets>
+        <multishipping_checkout_register_target>#form-validate</multishipping_checkout_register_target>
       </settings>
     </idealpostcodes>
   </default>

@@ -159,6 +159,88 @@
         </field>
       </group>
       <group
+        id="customise"
+        translate="label"
+        sortOrder="40"
+        showInDefault="1"
+        showInWebsite="1"
+        showInStore="1"
+      >
+        <label>Advanced Configuration</label>
+        <field
+          id="checkout_targets"
+          type="text"
+          translate="label,comment"
+          sortOrder="30"
+          showInDefault="1"
+          showInWebsite="1"
+          showInStore="1"
+        >
+          <label>Checkout Targets</label>
+          <comment>
+            Customer Checkout Page. Update the target address form which the plugin should attach to. The target should be a DOM element which encompasses your address fields. Use CSS selectors, e.g. "#shipping-address,#billing-addresss"
+          </comment>
+          <config_path>idealpostcodes/settings/checkout_targets</config_path>
+          <depends>
+            <field id="enabled">1</field>
+          </depends>
+        </field>
+        <field
+          id="customer_address_target"
+          type="text"
+          translate="label,comment"
+          sortOrder="30"
+          showInDefault="1"
+          showInWebsite="1"
+          showInStore="1"
+        >
+          <label>Customer Address Edit Targets</label>
+          <comment>
+            Customer Address Edit Pages. Update the target address form which the plugin should attach to. The target should be a DOM element which encompasses your address fields. Use CSS selectors, e.g. "#shipping-address,#billing-addresss"
+          </comment>
+          <config_path>idealpostcodes/settings/customer_address_target</config_path>
+          <depends>
+            <field id="enabled">1</field>
+          </depends>
+        </field>
+        <field
+          id="multishipping_checkout_targets"
+          type="text"
+          translate="label,comment"
+          sortOrder="30"
+          showInDefault="1"
+          showInWebsite="1"
+          showInStore="1"
+        >
+          <label>Multi Shipping Checkout Targets</label>
+          <comment>
+            Multi Shipping Checkout Pages. Update the target address form which the plugin should attach to. The target should be a DOM element which encompasses your address fields. Use CSS selectors, e.g. "#shipping-address,#billing-addresss"
+          </comment>
+          <config_path>idealpostcodes/settings/multishipping_checkout_targets</config_path>
+          <depends>
+            <field id="enabled">1</field>
+          </depends>
+        </field>
+        <field
+          id="multishipping_checkout_register_target"
+          type="text"
+          translate="label,comment"
+          sortOrder="30"
+          showInDefault="1"
+          showInWebsite="1"
+          showInStore="1"
+        >
+          <label>Multi Shipping Checkout Register Target</label>
+          <comment>
+            Mutli Shipping Register Pages. Update the target address form which the plugin should attach to. The target should be a DOM element which encompasses your address fields. Use CSS selectors, e.g. "#shipping-address,#billing-addresss"
+          </comment>
+          <config_path>idealpostcodes/settings/multishipping_checkout_register_target</config_path>
+          <depends>
+            <field id="enabled">1</field>
+          </depends>
+        </field>
+      </group>
+      <group
         id="admin"
         translate="label"
         sortOrder="30"

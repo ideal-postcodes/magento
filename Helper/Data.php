@@ -33,6 +33,42 @@ class Data extends AbstractHelper /** * @var EncryptorInterface */
         return $apiKey;
     }
 
+    public function getCheckoutTargets($scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT)
+    {
+        $apiKey = $this->scopeConfig->getValue(
+            'idealpostcodes/settings/checkout_targets',
+            $scope
+        );
+        return $apiKey;
+    }
+
+    public function getCustomerAddressTarget($scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT)
+    {
+        $apiKey = $this->scopeConfig->getValue(
+            'idealpostcodes/settings/customer_address_target',
+            $scope
+        );
+        return $apiKey;
+    }
+
+    public function getMultishippingCheckoutTargets($scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT)
+    {
+        $apiKey = $this->scopeConfig->getValue(
+            'idealpostcodes/settings/multishipping_checkout_targets',
+            $scope
+        );
+        return $apiKey;
+    }
+
+    public function getMultishippingCheckoutRegisterTarget($scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT)
+    {
+        $apiKey = $this->scopeConfig->getValue(
+            'idealpostcodes/settings/multishipping_checkout_register_target',
+            $scope
+        );
+        return $apiKey;
+    }
+
     public function getUserToken(
         $scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT
     ) {
@@ -98,7 +134,11 @@ class Data extends AbstractHelper /** * @var EncryptorInterface */
             'addressAutocomplete' => $this->usesAutocomplete($scope),
             'populateOrganisation' => $this->populateOrganisation($scope),
             'hoistCountryField' => $this->hoistCountry($scope),
-            'requireCounty' => $this->requireCounty($scope)
+            'requireCounty' => $this->requireCounty($scope),
+            'checkout_targets' => $this->getCheckoutTargets($scope),
+            'customer_address_target' => $this->getCustomerAddressTarget($scope),
+            'multishipping_checkout_targets' => $this->getMultishippingCheckoutTargets($scope),
+            'multishipping_checkout_register_target' => $this->getMultishippingCheckoutRegisterTarget($scope)
         );
         return $config;
     }

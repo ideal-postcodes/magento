@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/ideal-postcodes/magento/compare/1.1.1...1.2.0) (2020-04-02)
+
+
+### Features
+
+* **Advanced Configuration:** Allow custom targets ([b35f661](https://github.com/ideal-postcodes/magento/commit/b35f6618f059af2c0f8ea151d86a80b1708af9d5))
+
 ## [1.1.1](https://github.com/ideal-postcodes/magento/compare/1.1.0...1.1.1) (2020-03-31)
 
 

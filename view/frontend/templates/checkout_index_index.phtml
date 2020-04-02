@@ -1,61 +1,37 @@
 <?php
 $helper = $this->helper('Idealpostcodes\Ukaddresssearch\Helper\Data'); ?>
+
 <script type="text/javascript">
-(function () {
-  var api_key = "<?php echo $helper->getConfig('api_key'); ?>";
-  var postcodeLookup = <?php echo $helper->getConfig('postcodeLookup'); ?>;
-  var addressAutocomplete = <?php echo $helper->getConfig(
+requirejs(['jquery'], function(jQuery){
+  jQuery(function() {
+    var api_key = "<?php echo $helper->getConfig('api_key'); ?>";
+    var postcodeLookup = <?php echo $helper->getConfig('postcodeLookup'); ?>;
+    var addressAutocomplete = <?php echo $helper->getConfig(
       'addressAutocomplete'
-  ); ?>;
-  var populateOrganisation = <?php echo $helper->getConfig(
+    ); ?>;
+    var populateOrganisation = <?php echo $helper->getConfig(
       'populateOrganisation'
-  ); ?>;
-  var hoistCountryField = <?php echo $helper->getConfig('hoistCountryField'); ?>;
-  var requireCounty = <?php echo $helper->getConfig('requireCounty'); ?>;
-  var enabled = <?php echo $helper->getConfig('enabled'); ?>;
+    ); ?>;
+    var hoistCountryField = <?php echo $helper->getConfig('hoistCountryField'); ?>;
+    var requireCounty = <?php echo $helper->getConfig('requireCounty'); ?>;
+    var enabled = <?php echo $helper->getConfig('enabled'); ?>;
+    var targets = "<?php echo $helper->getConfig('checkout_targets'); ?>";
 
-  requirejs(['jquery'], function(jQuery){
-    jQuery(function() {
-      // Exit early if disabled
-      if (enabled === false) return;
+    // Exit early if disabled
+    if (enabled === false) return;
 
-      var shippingFormBinding  = new IdpcBinding({
-        container: '#checkout-step-shipping',
+    window.idpc = new IdpcWatcher({
+      targets: targets,
+      options: {
         api_key: api_key,
         postcodeLookup: postcodeLookup,
         requireCounty: requireCounty,
         addressAutocomplete: addressAutocomplete,
         populateOrganisation: populateOrganisation,
         hoistCountryField: hoistCountryField,
-        jQuery: jQuery
-      });
-
-      var billingFormBindings = [];
-      var interval = setInterval(function () {
-        var $instances = jQuery(".billing-address-form");
-        if ($instances.length === 0) return;
-        clearInterval(interval);
-        $instances.each(function (_, $instance) {
-          billingFormBindings.push(
-            new IdpcBinding({
-              container: $instance,
-              api_key: api_key,
-              postcodeLookup: postcodeLookup,
-              requireCounty: requireCounty,
-              addressAutocomplete: addressAutocomplete,
-              populateOrganisation: populateOrganisation,
-              hoistCountryField: hoistCountryField,
-              jQuery: jQuery
-            })
-          );
-        });
-      }, 1000);
-
-      window.idpc = {
-        shippingFormBinding: shippingFormBinding,
-        billingFormBindings: billingFormBindings,
+        jQuery: jQuery,
       }
     });
   });
-})();
+});
 </script>

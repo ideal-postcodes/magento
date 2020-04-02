@@ -29,6 +29,7 @@ This extension enables [Ideal-Postcodes.co.uk](https://ideal-postcodes.co.uk) ad
 - **Option** hoists country selection above address fields
 - **Option** populate Company name based on address
 - **Option** populate county field
+- **Option** specify custom address forms to deploy address validation
 - [Administration Page](https://img.ideal-postcodes.co.uk/idpc-options.png)
   - Insert API Key credentials
 

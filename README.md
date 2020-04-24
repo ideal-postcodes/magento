@@ -50,7 +50,7 @@ This extension can be retrieved using the following methods:
 
 - [Composer](#composer)
 - [Manual](#manual)
-- [Magento Connect](#magento-connect)
+- [Magento Marketplace](#magento-marketplace)
 
 Once the extension is copied, you will need to:
 
@@ -75,7 +75,7 @@ Inside of `app/code/Idealpostcodes/Ukaddressessearch` you can retrieve the exten
 - Git clone this project `git clone --depth=1 https://github.com/ideal-postcodes/magento.git`
 - Git clone a specific version `git clone --branch <tag> -depth=1 https://github.com/ideal-postcodes/magento.git` where `<tag>` is the specific release (e.g. `1.0.2`)
 
-### Magento Connect
+### Magento Marketplace
 
 Currently not available
 

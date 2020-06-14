@@ -74,8 +74,8 @@ cache-flush:
 ## Set base URL as 127.0.0.1 instead of localhost - fixes session expirey issue
 .PHONY: set-base-url
 set-base-url:
-	docker-compose exec db mysql -u magento -pmagento -D magento -e 'UPDATE `core_config_data` SET `value`="http://127.0.0.1:3000/" WHERE path="web/secure/base_url"'
-	docker-compose exec db mysql -u magento -pmagento -D magento -e 'UPDATE `core_config_data` SET `value`="http://127.0.0.1:3000/" WHERE path="web/unsecure/base_url"'
+	docker-compose exec -T db mysql -u magento -pmagento -D magento -e 'UPDATE `core_config_data` SET `value`="http://127.0.0.1:3000/" WHERE path="web/secure/base_url"'
+	docker-compose exec -T db mysql -u magento -pmagento -D magento -e 'UPDATE `core_config_data` SET `value`="http://127.0.0.1:3000/" WHERE path="web/unsecure/base_url"'
 
 ## Fix for session expired error in development
 .PHONY: fix-session-expire

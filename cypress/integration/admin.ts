@@ -21,6 +21,8 @@ describe("Admin", () => {
       .contains("Sign in")
       .click();
     cy.url().should("include", "/index.php/admin/admin/dashboard");
+
+    // Visit Ideal Postcodes settings
     cy.visit(
       "/index.php/admin/admin/system_config/edit/section/idealpostcodes"
     );
@@ -28,10 +30,9 @@ describe("Admin", () => {
       "include",
       "/index.php/admin/admin/system_config/edit/section/idealpostcodes"
     );
-    cy.get("#idealpostcodes_required-head").click();
     cy.get("#idealpostcodes_required_api_key")
-      .clear()
-      .type(apiKey);
+      .clear({ force: true })
+      .type(apiKey, { force: true });
 
     cy.contains("Save Config").click();
     cy.get('div[data-ui-id="messages-message-success"]').should($div => {

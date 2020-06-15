@@ -69,7 +69,7 @@ cache-disable:
 ## Flush cache
 .PHONY: cache-flush
 cache-flush:
-	docker-compose exec web /var/www/html/bin/magento cache:flush
+	docker-compose exec web -T /var/www/html/bin/magento cache:flush
 
 ## Set base URL as 127.0.0.1 instead of localhost - fixes session expirey issue
 .PHONY: set-base-url

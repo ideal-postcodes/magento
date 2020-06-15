@@ -9,11 +9,13 @@ import { address as addresses } from "@ideal-postcodes/api-fixtures";
 const address = addresses.england;
 
 describe("Checkout", () => {
-  let address;
-
   before(() => {
     cy.visit("/index.php/simple-product-113.html");
     cy.contains("Add to Cart").click();
+    cy.get(".message-success > div").should(
+      "contain.text",
+      "You added Simple Product 113"
+    );
     cy.visit("/index.php/checkout/");
   });
 
@@ -27,8 +29,8 @@ describe("Checkout", () => {
     cy.get("#idpc_input").type(address.postcode);
     cy.get("#idpc_button").click();
     cy.get("#idpc_dropdown").select("0");
-    cy.get('input[name="street[0]"]').should("have.value", address.street);
-    cy.get('input[name="city"]').should("have.value", address.city);
+    cy.get('input[name="street[0]"]').should("have.value", address.line_1);
+    cy.get('input[name="city"]').should("have.value", address.post_town);
     cy.get('input[name="postcode"]').should("have.value", address.postcode);
   });
 
@@ -38,7 +40,7 @@ describe("Checkout", () => {
     cy.get(".idpc_ul li")
       .first()
       .click();
-    cy.get('input[name="city"]').should("have.value", address.city);
+    cy.get('input[name="city"]').should("have.value", address.post_town);
     cy.get('input[name="postcode"]').should("have.value", address.postcode);
   });
 
@@ -49,11 +51,17 @@ describe("Checkout", () => {
       cy.get("#idpc_input").type(address.postcode);
       cy.get("#idpc_button").click();
       cy.get("#idpc_dropdown").select("0");
-      cy.get("#customer-email").type(address.email);
-      cy.get('input[name="firstname"]').type(address.firstname);
-      cy.get('input[name="lastname"]').type(address.lastname);
-      cy.get('input[name="telephone"]').type(address.phone);
-      cy.get(".button.action.continue.primary").click();
+      cy.get("#customer-email").type("joe@email.com");
+      cy.get('input[name="firstname"]').type("Joe");
+      cy.get('input[name="lastname"]').type("Address");
+      cy.get('input[name="telephone"]').type("07777777777");
+      cy.get(".button")
+        .contains("Next")
+        .click();
+      cy.get(".button")
+        .contains("Next")
+        .click();
+
       cy.get("#billing-address-same-as-shipping-checkmo").uncheck();
     });
 
@@ -66,8 +74,8 @@ describe("Checkout", () => {
         cy.get("#idpc_input").type(address.postcode);
         cy.get("#idpc_button").click();
         cy.get("#idpc_dropdown").select("0");
-        cy.get('input[name="street[0]"]').should("have.value", address.street);
-        cy.get('input[name="city"]').should("have.value", address.city);
+        cy.get('input[name="street[0]"]').should("have.value", address.line_1);
+        cy.get('input[name="city"]').should("have.value", address.post_town);
         cy.get('input[name="postcode"]').should("have.value", address.postcode);
       });
     });
@@ -78,7 +86,7 @@ describe("Checkout", () => {
         cy.get(".idpc_ul li")
           .first()
           .click();
-        cy.get('input[name="city"]').should("have.value", address.city);
+        cy.get('input[name="city"]').should("have.value", address.post_town);
         cy.get('input[name="postcode"]').should("have.value", address.postcode);
       });
     });

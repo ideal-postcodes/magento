@@ -20,7 +20,7 @@ jobs:
           COMPOSE_INTERACTIVE_NO_CLI: "1"
 
       - name: Set Base URL
-        run: make set-base-url
+        run: make fix-session-expire
 
       # - name: Disable cache
       #   run: make cache-disable

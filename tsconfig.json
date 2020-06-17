@@ -2,7 +2,7 @@
   "extends": "@cablanchard/tsconfig",
   "compilerOptions": {
     "strict": true,
-    "target": "ESNext",
+    "target": "ES5",
     "declaration": false,
     "lib": ["es6", "dom"]
   },

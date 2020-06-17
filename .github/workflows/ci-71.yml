@@ -12,7 +12,6 @@ jobs:
       - name: Launch Magento test environment
         run: make up-71
 
-        # Note: -T option required to avoid creating pseudo-TTY.
       - name: Run install script
         run: >-
           docker-compose exec -T web bash -c 'dockerize -wait tcp://db:3306 -timeout 60m /usr/local/bin/install-magento'
@@ -22,14 +21,8 @@ jobs:
       - name: Set Base URL
         run: make fix-session-expire
 
-      # - name: Disable cache
-      #   run: make cache-disable
-      #   env:
-      #     COMPOSE_INTERACTIVE_NO_CLI: "1"
-
       - uses: cypress-io/github-action@v1
+        with:
+          project: ./test/e2e
         env:
           CYPRESS_API_KEY: ${{ secrets.API_KEY }}
-        # with:
-        #   browser: firefox
-        #   headless: true

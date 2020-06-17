@@ -1,0 +1,14 @@
+<?php
+
+$helper = $this->helper('Idealpostcodes\Ukaddresssearch\Helper\Data');;
+
+?>
+
+<script>
+    requirejs(['jquery'], function(jQuery) {
+        jQuery(function() {
+            var ideal_config = <?php echo $helper->toConfiguration(); ?>;
+        });
+        console.log('CONFIG ADDED');
+    });
+</script>

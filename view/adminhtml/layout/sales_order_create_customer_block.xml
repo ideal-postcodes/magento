@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <script src="Idealpostcodes_Ukaddresssearch::integrations/admin_order_customer.js"/>
+        <script src="Idealpostcodes_Ukaddresssearch::ideal-postcodes-autocomplete.min.js"/>
+        <css src="Idealpostcodes_Ukaddresssearch::ideal-postcodes-autocomplete.css"/>
+    </head>
+    <body>
+        <referenceContainer name="header">
+            <block class="Magento\Framework\View\Element\Template"
+                   name="idealpostcodes.passconfig"
+                   template="Idealpostcodes_Ukaddresssearch::config.phtml">
+            </block>
+        </referenceContainer>
+    </body>
+</page>

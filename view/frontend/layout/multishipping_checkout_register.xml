@@ -9,7 +9,7 @@
 	</head>
 	<body>
 		<referenceBlock name="head.additional">
-			<block class="Magento\Framework\View\Element\Template" name="idealpostcodes.ukaddresssearch.multishipping_checkout_register" template="Idealpostcodes_Ukaddresssearch::multishipping_checkout_register.phtml" />
+			<block class="Magento\Framework\View\Element\Template" name="idealpostcodes.ukaddresssearch.store" template="Idealpostcodes_Ukaddresssearch::store.phtml" />
 		</referenceBlock>
 	</body>
 </page>

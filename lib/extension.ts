@@ -2,6 +2,7 @@ declare global {
   interface Window {
     IdealPostcodes: any;
     jQuery: any;
+    idpcStart: any;
   }
 }
 
@@ -135,16 +136,20 @@ export const addLookupLabel = (
   return elem;
 };
 
+const NOOP = () => {};
+
 export const watchCountry = (
   { country }: Targets,
   activate: any,
   deactivate: any
 ) => {
-  if (!country) return;
-  country.addEventListener("change", () => {
+  if (!country) return NOOP;
+  const checkCountry = () => {
     if (countryIsSupported(country as HTMLSelectElement)) return activate();
     deactivate();
-  });
+  };
+  country.addEventListener("change", checkCountry);
+  return checkCountry;
 };
 
 export const setupPostcodeLookup = (
@@ -171,7 +176,7 @@ export const setupPostcodeLookup = (
           label.hidden = true;
           controller.hide();
         }
-      );
+      )();
     },
     onAddressSelected: addressRetrieval({ config, targets })
   });
@@ -188,7 +193,7 @@ export const setupAutocomplete = (config: Config, targets: Targets) => {
         targets,
         () => attachAutocomplete(controller),
         () => detachAutocomplete(controller)
-      );
+      )();
     },
     // Need to better uniquely identify line 1
     inputField: targets.line_1,

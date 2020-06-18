@@ -1,5 +1,7 @@
 import { setup } from "@ideal-postcodes/jsutil";
 
-import { bindings } from "./bindings";
+import { bindings as shipping } from "./shipping";
+import { bindings as billing } from "./billing";
+import { bindings as multiAndCustomer } from "./multishipping-and-customer";
 
-setup({ bindings, window });
+setup({ bindings: [shipping, billing, multiAndCustomer], window });

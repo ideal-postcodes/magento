@@ -25,7 +25,6 @@ const linesIdentifier = {
 };
 
 const bind = (config: Config) => {
-  console.log("Calling bind");
   setupBind({
     selectors,
     parentTest: e => e.getAttribute("id") === "form-validate"
@@ -36,6 +35,6 @@ const bind = (config: Config) => {
   });
 };
 
-const pageTest = () => true;
+const pageTest = () => window.location.pathname.includes("/multishipping");
 
 export const bindings = { bind, pageTest };

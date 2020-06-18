@@ -30,6 +30,6 @@ const bind = (config: Config) => {
   });
 };
 
-const pageTest = () => true;
+const pageTest = () => window.location.pathname.includes("/checkout");
 
 export const bindings = { bind, pageTest };

@@ -20,11 +20,12 @@
   },
   "scripts": {
     "semantic-release": "semantic-release",
-    "start": "rollup -c",
+    "start": "make bootstrap && make set-base-url",
+    "build": "rollup -c",
     "watch": "rollup -cw",
     "lint": "eslint lib/**/*.ts",
     "test:e2e": "cypress run --project test/e2e",
-    "test:all": "make bootstrap && make set-base-url && npm run test:e2e && make down",
+    "test:all": "npm start && npm run test:e2e && make down",
     "test:snapshot": "cypress run --project test/snapshot",
     "test:watch": "rollup -c test/snapshot/rollup.config.js -w",
     "test": "npm run test:snapshot"

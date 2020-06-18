@@ -56,14 +56,60 @@
         </field>
       </group>
       <group
-        id="options"
+              id="data-configuration"
+              translate="label"
+              sortOrder="20"
+              showInDefault="1"
+              showInWebsite="1"
+              showInStore="1"
+      >
+        <label>Data</label>
+        <field
+                id="populate_organisation"
+                type="select"
+                translate="label,comment"
+                sortOrder="60"
+                showInDefault="1"
+                showInWebsite="1"
+                showInStore="1"
+        >
+          <label>Enable Populate Organisation</label>
+          <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+          <config_path>idealpostcodes/settings/populate_organisation</config_path>
+          <comment>Fill the Company field based on selected address.</comment>
+          <depends>
+            <field id="enabled">1</field>
+          </depends>
+        </field>
+        <field
+                id="require_county"
+                type="select"
+                translate="label,comment"
+                sortOrder="70"
+                showInDefault="1"
+                showInWebsite="1"
+                showInStore="1"
+        >
+          <label>Enable County</label>
+          <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+          <comment>
+            This will populate the region field with the county name. County data is no longer used in the UK to identify a premise, however this can be enabled if you prefer.
+          </comment>
+          <config_path>idealpostcodes/settings/require_county</config_path>
+          <depends>
+            <field id="enabled">1</field>
+          </depends>
+        </field>
+      </group>
+      <group
+        id="store-configuration"
         translate="label"
         sortOrder="20"
         showInDefault="1"
         showInWebsite="1"
         showInStore="1"
       >
-        <label>Options</label>
+        <label>Store Configuration</label>
         <field
           id="postcode_lookup"
           type="select"
@@ -103,42 +149,6 @@
           </depends>
         </field>
         <field
-          id="populate_organisation"
-          type="select"
-          translate="label,comment"
-          sortOrder="60"
-          showInDefault="1"
-          showInWebsite="1"
-          showInStore="1"
-        >
-          <label>Enable Populate Organisation</label>
-          <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-          <config_path>idealpostcodes/settings/populate_organisation</config_path>
-          <comment>Fill the Company field based on selected address.</comment>
-          <depends>
-            <field id="enabled">1</field>
-          </depends>
-        </field>
-        <field
-          id="require_county"
-          type="select"
-          translate="label,comment"
-          sortOrder="70"
-          showInDefault="1"
-          showInWebsite="1"
-          showInStore="1"
-        >
-          <label>Enable County</label>
-          <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-          <comment>
-            This will populate the region field with the county name. County data is no longer used in the UK to identify a premise, however this can be enabled if you prefer.
-          </comment>
-          <config_path>idealpostcodes/settings/require_county</config_path>
-          <depends>
-            <field id="enabled">1</field>
-          </depends>
-        </field>
-        <field
           id="hoist_country"
           type="select"
           translate="label,comment"
@@ -159,82 +169,29 @@
         </field>
       </group>
       <group
-        id="customise"
-        translate="label"
-        sortOrder="40"
-        showInDefault="1"
-        showInWebsite="1"
-        showInStore="1"
+              id="store-admin-configuration"
+              translate="label"
+              sortOrder="20"
+              showInDefault="1"
+              showInWebsite="1"
+              showInStore="1"
       >
-        <label>Advanced Configuration</label>
+      <label>Store Admin Configuration</label>
         <field
-          id="checkout_targets"
-          type="text"
-          translate="label,comment"
-          sortOrder="30"
-          showInDefault="1"
-          showInWebsite="1"
-          showInStore="1"
+                id="enable_admin_integration"
+                type="select"
+                translate="label,comment"
+                sortOrder="80"
+                showInDefault="1"
+                showInWebsite="1"
+                showInStore="1"
         >
-          <label>Checkout Targets</label>
+          <label>Enable Autocomplete</label>
+          <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
           <comment>
-            Customer Checkout Page. Update the target address form which the plugin should attach to. The target should be a DOM element which encompasses your address fields. Use CSS selectors, e.g. "#shipping-address,#billing-addresss"
+            \\ TODO
           </comment>
-          <config_path>idealpostcodes/settings/checkout_targets</config_path>
-          <depends>
-            <field id="enabled">1</field>
-          </depends>
-        </field>
-        <field
-          id="customer_address_target"
-          type="text"
-          translate="label,comment"
-          sortOrder="30"
-          showInDefault="1"
-          showInWebsite="1"
-          showInStore="1"
-        >
-          <label>Customer Address Edit Targets</label>
-          <comment>
-            Customer Address Edit Pages. Update the target address form which the plugin should attach to. The target should be a DOM element which encompasses your address fields. Use CSS selectors, e.g. "#shipping-address,#billing-addresss"
-          </comment>
-          <config_path>idealpostcodes/settings/customer_address_target</config_path>
-          <depends>
-            <field id="enabled">1</field>
-          </depends>
-        </field>
-        <field
-          id="multishipping_checkout_targets"
-          type="text"
-          translate="label,comment"
-          sortOrder="30"
-          showInDefault="1"
-          showInWebsite="1"
-          showInStore="1"
-        >
-          <label>Multi Shipping Checkout Targets</label>
-          <comment>
-            Multi Shipping Checkout Pages. Update the target address form which the plugin should attach to. The target should be a DOM element which encompasses your address fields. Use CSS selectors, e.g. "#shipping-address,#billing-addresss"
-          </comment>
-          <config_path>idealpostcodes/settings/multishipping_checkout_targets</config_path>
-          <depends>
-            <field id="enabled">1</field>
-          </depends>
-        </field>
-        <field
-          id="multishipping_checkout_register_target"
-          type="text"
-          translate="label,comment"
-          sortOrder="30"
-          showInDefault="1"
-          showInWebsite="1"
-          showInStore="1"
-        >
-          <label>Multi Shipping Checkout Register Target</label>
-          <comment>
-            Mutli Shipping Register Pages. Update the target address form which the plugin should attach to. The target should be a DOM element which encompasses your address fields. Use CSS selectors, e.g. "#shipping-address,#billing-addresss"
-          </comment>
-          <config_path>idealpostcodes/settings/multishipping_checkout_register_target</config_path>
+          <config_path>idealpostcodes/settings/admin_autocomplete</config_path>
           <depends>
             <field id="enabled">1</field>
           </depends>
@@ -248,7 +205,7 @@
         showInWebsite="1"
         showInStore="1"
       >
-        <label>Administration</label>
+        <label>Advanced</label>
         <field
           id="user_token"
           type="text"

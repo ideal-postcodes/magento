@@ -1,0 +1,15 @@
+<?php /** @var Magento\Framework\View\TemplateEngine\Php $this */
+
+$myHelper = $this->helper('Idealpostcodes\Ukaddresssearch\Helper\Data');
+
+?>
+
+<script type="text/javascript">
+    console.log("Config script");
+    requirejs(['jquery'], function(jQuery) {
+        jQuery(function() {
+            var ideal_config = <?php echo json_encode($myHelper->toConfiguration()); ?>;
+            console.log(ideal_config);
+        });
+    });
+</script>

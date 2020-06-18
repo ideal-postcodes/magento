@@ -24,6 +24,14 @@ class Data extends AbstractHelper /** * @var EncryptorInterface */
         );
     }
 
+    public function isEnabledAdminAutocomplete($scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT)
+    {
+        return $this->scopeConfig->isSetFlag(
+            'idealpostcodes/settings/admin_autocomplete',
+            $scope
+        );
+    }
+
     public function getApiKey($scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT)
     {
         $apiKey = $this->scopeConfig->getValue(
@@ -134,17 +142,32 @@ class Data extends AbstractHelper /** * @var EncryptorInterface */
             'addressAutocomplete' => $this->usesAutocomplete($scope),
             'populateOrganisation' => $this->populateOrganisation($scope),
             'hoistCountryField' => $this->hoistCountry($scope),
-            'requireCounty' => $this->requireCounty($scope),
-            'checkout_targets' => $this->getCheckoutTargets($scope),
-            'customer_address_target' => $this->getCustomerAddressTarget($scope),
-            'multishipping_checkout_targets' => $this->getMultishippingCheckoutTargets($scope),
-            'multishipping_checkout_register_target' => $this->getMultishippingCheckoutRegisterTarget($scope)
+            'requireCounty' => $this->requireCounty($scope)
+        );
+        return $config;
+    }
+
+    public function toAdminConfiguration(
+        $scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT
+    ) {
+        $config = array(
+            'enabled' => $this->isEnabled($scope),
+            'api_key' => $this->getApiKey($scope),
+            'addressAutocomplete' => $this->isEnabledAdminAutocomplete($scope),
+            'populateOrganisation' => $this->populateOrganisation($scope),
+            'hoistCountryField' => $this->hoistCountry($scope),
+            'requireCounty' => $this->requireCounty($scope)
         );
         return $config;
     }
 
     public function getConfig($field) {
         $config = $this->toConfiguration();
+        return is_bool($config[$field]) ? ($config[$field] ? 'true' : 'false') : $config[$field];
+    }
+
+    public function getAdminConfig($field) {
+        $config = $this->toAdminConfiguration();
         return is_bool($config[$field]) ? ($config[$field] ? 'true' : 'false') : $config[$field];
     }
 }

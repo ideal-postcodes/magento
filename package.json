@@ -21,7 +21,7 @@
   "scripts": {
     "semantic-release": "semantic-release",
     "start": "make bootstrap && make set-base-url",
-    "build": "rollup -c",
+    "build": "NODE_ENV=production rollup -c",
     "watch": "rollup -cw",
     "lint": "eslint lib/**/*.ts",
     "test:e2e": "cypress run --project test/e2e",

@@ -1,0 +1,32 @@
+<?php /** @var Magento\Framework\View\TemplateEngine\Php $this */
+
+$helper = $this->helper('Idealpostcodes\Ukaddresssearch\Helper\Data'); ?>
+
+<script type="text/javascript">
+    requirejs(['jquery'], function(jQuery) {
+        jQuery(function() {
+    var apiKey = "<?php echo $helper->getConfig('api_key'); ?>";
+    var autocomplete = <?php echo $helper->getAdminConfig(
+        'addressAutocomplete'
+    ); ?>;
+    var populateOrganisation = <?php echo $helper->getConfig(
+        'populateOrganisation'
+    ); ?>;
+    var populateCounty = <?php echo $helper->getConfig('requireCounty'); ?>;
+    var enabled = <?php echo $helper->getConfig('enabled'); ?>;
+
+    // Exit early if disabled
+    if (enabled === false) return;
+    window.idpcConfig = {
+      apiKey: apiKey,
+      postcodeLookup: false,
+      autocomplete: autocomplete,
+      populateCounty: populateCounty,
+      populateOrganisation: populateOrganisation,
+      hoistCountry: false
+    };
+
+    if (window.idpcStart) window.idpcStart();
+  });
+});
+</script>

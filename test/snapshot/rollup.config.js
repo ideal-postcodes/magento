@@ -1,7 +1,8 @@
 import config from "../../rollup.config.js";
 
-const [bindingConfig] = config;
+const [storeConfig, adminConfig] = config;
 
-bindingConfig.output.file = "./test/snapshot/fixtures/binding.js";
+storeConfig.output.file = "./test/snapshot/fixtures/store.js";
+adminConfig.output.file = "./test/snapshot/fixtures/admin.js";
 
-export default [bindingConfig];
+export default [storeConfig, adminConfig];

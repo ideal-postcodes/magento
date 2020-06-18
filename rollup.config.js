@@ -15,21 +15,20 @@ const terserConfig = {
   output: {
     comments: (_, { value, type }) => {
       if (type === "comment2") return /@license/i.test(value);
-    },
-  },
+    }
+  }
 };
 
 const targets = "ie 11";
 
-export default [
-  {
-    input: "lib/index.ts",
+const config = file => {
+  return {
     output: {
-      file: "./view/base/web/binding.js",
+      file,
       banner,
-      format: "umd",
+      format: "iife",
       name: "IdealPostcodes",
-      exports: "named",
+      exports: "named"
     },
     plugins: [
       resolve({ extensions: [".js", ".ts"] }),
@@ -44,13 +43,24 @@ export default [
               {
                 targets,
                 useBuiltIns: "usage",
-                corejs: 3,
-              },
-            ],
-          ],
-        },
+                corejs: 3
+              }
+            ]
+          ]
+        }
       }),
-      terser(terserConfig),
-    ],
+      terser(terserConfig)
+    ]
+  };
+};
+
+export default [
+  {
+    ...config("./view/base/web/binding.js"),
+    input: "./lib/store.ts"
   },
+  {
+    ...config("./view/base/web/admin.js"),
+    input: "./lib/admin.ts"
+  }
 ];

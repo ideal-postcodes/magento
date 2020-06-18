@@ -66,3 +66,5 @@ docs
 # cypress videos and screenshots
 cypress/screenshots/
 cypress/videos/
+
+test/snapshot/fixtures/binding.js

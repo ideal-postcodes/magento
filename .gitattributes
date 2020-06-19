@@ -1,0 +1,7 @@
+/test               export-ignore
+/.gitattributes     export-ignore
+/.gitignore         export-ignore
+/.dockerignore      export-ignore
+/.github            export-ignore
+/docker             export-ignore
+/lib                export-ignore

@@ -42,3 +42,4 @@ jobs:
           project: ./test/snapshot
         env:
           CYPRESS_API_KEY: ${{ secrets.API_KEY }}
+          CYPRESS_MAGENTO_VERSION: "2.3"

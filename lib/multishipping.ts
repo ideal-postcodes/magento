@@ -7,7 +7,7 @@ import {
   hoistCountry
 } from "./extension";
 
-const selectors = {
+export const selectors = {
   line_1: "#street_1",
   line_2: "#street_2",
   line_3: "#street_3",

@@ -4,6 +4,8 @@ import { Config, setupAutocomplete } from "./extension";
 
 import { selectors } from "./billing";
 
+export { selectors };
+
 const parentScope = "fieldset";
 const parentTest = (e: HTMLElement) => e.className === "admin__fieldset";
 

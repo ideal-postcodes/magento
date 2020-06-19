@@ -1,0 +1,44 @@
+name: CI (Bindings)
+
+on:
+  - push
+
+jobs:
+  ci-bindings:
+    runs-on: ubuntu-18.04
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Cache node modules
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}-${{ matrix.node-version }}
+
+      - name: Install
+        run: npm install
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build
+
+      - name: Build test bundles
+        run: npm run test:build
+
+      - uses: cypress-io/github-action@v1
+        with:
+          project: ./test/snapshot
+        env:
+          CYPRESS_API_KEY: ${{ secrets.API_KEY }}

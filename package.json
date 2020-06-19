@@ -27,7 +27,9 @@
     "test:e2e": "cypress run --project test/e2e",
     "test:all": "npm start && npm run test:e2e && make down",
     "test:snapshot": "cypress run --project test/snapshot",
+    "test:build": "rollup -c test/snapshot/rollup.config.js",
     "test:watch": "rollup -c test/snapshot/rollup.config.js -w",
+    "test:build": "rollup -c test/snapshot/rollup.config.js",
     "test": "npm run test:snapshot"
   },
   "release": {
@@ -36,6 +38,7 @@
   "license": "MIT",
   "devDependencies": {
     "@babel/preset-env": "~7.10.2",
+    "@cablanchard/eslint-config": "~2.0.2",
     "@cablanchard/semantic-release": "~1.3.1",
     "@cablanchard/tsconfig": "~1.0.0",
     "@ideal-postcodes/api-fixtures": "~1.1.0",
@@ -51,7 +54,7 @@
     "@typescript-eslint/parser": "~3.2.0",
     "@wessberg/rollup-plugin-ts": "~1.2.25",
     "core-js": "~3.6.5",
-    "cypress": "~4.6.0",
+    "cypress": "~4.8.0",
     "eslint": "~7.2.0",
     "prettier": "~1.19.1",
     "rollup": "~2.16.1",

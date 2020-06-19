@@ -4,6 +4,8 @@ import { Config, setupAutocomplete } from "./extension";
 
 import { selectors } from "./billing";
 
+export { selectors };
+
 const bind = (config: Config) => {
   setupBind({ selectors }).forEach(({ targets }) => {
     setupAutocomplete(config, targets);

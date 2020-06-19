@@ -1,10 +1,10 @@
-name: Integration Tests (PHP 7.1, Magento 2.2)
+name: Magento 2.1 CI
 
 on:
   - push
 
 jobs:
-  integration:
+  ci:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v1

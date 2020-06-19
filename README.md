@@ -77,7 +77,7 @@ Inside of `app/code/Idealpostcodes/Ukaddressessearch` you can retrieve the exten
 
 ### Magento Marketplace
 
-Currently not available
+View our Magento Extension in the [Magento Marketplace](https://marketplace.magento.com/idealpostcodes-module-ukaddresssearch.html)
 
 ### Final Install Steps
 
@@ -98,7 +98,7 @@ Apply your API Key via the Configuration dashboard.
 
 You can find this on your administration page under Stores Menu -> Configuration -> Services Tab -> Ideal Postcodes.
 
-![Configuration](http://img.ideal-postcodes.co.uk/idpc-options-cropped.png)
+![Configuration](http://img.ideal-postcodes.co.uk/magento-configuration-stores-1.png)
 
 ## Run Locally
 
@@ -114,9 +114,9 @@ The `Makefile` contains a number of helper methods to launch and bootstrap Magen
 
 ## Screenshots
 
-![Postcode Lookup](https://img.ideal-postcodes.co.uk/billing-page-select-address.png)
-![Address Autocomplete](https://img.ideal-postcodes.co.uk/billing-page-autocomplete.png)
-![Configuration](https://img.ideal-postcodes.co.uk/idpc-options.png)
+![Postcode Lookup](https://img.ideal-postcodes.co.uk/magento-postcode-lookup-checkout.png)
+![Address Autocomplete](https://img.ideal-postcodes.co.uk/magento-address-autocomplete-shipping.png)
+![Configuration](https://img.ideal-postcodes.co.uk/magento-configuration-stores-3.png)
 
 ## Licence
 

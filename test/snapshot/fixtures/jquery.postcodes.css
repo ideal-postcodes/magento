@@ -1,0 +1,16 @@
+.idpc_lookup {
+  position: relative;
+}
+
+.idpc_lookup > input {
+}
+
+.idpc_lookup > button {
+  position: absolute;
+  right: 0;
+}
+
+.idpc_lookup > select {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}

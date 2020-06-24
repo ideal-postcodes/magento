@@ -27,6 +27,7 @@
     "test:e2e": "cypress run --project test/e2e",
     "test:all": "npm start && npm run test:e2e && make down",
     "test:snapshot": "cypress run --project test/snapshot",
+    "test:build": "rollup -c test/snapshot/rollup.config.js",
     "test:watch": "rollup -c test/snapshot/rollup.config.js -w",
     "test": "npm run test:snapshot"
   },

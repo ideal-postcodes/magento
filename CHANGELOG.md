@@ -1,3 +1,18 @@
+# [2.0.0](https://github.com/ideal-postcodes/magento/compare/1.2.0...2.0.0) (2020-06-26)
+
+
+### Features
+
+* **Admin:** Add address validation to admin pages ([2c01488](https://github.com/ideal-postcodes/magento/commit/2c01488ab5d0fee1c7d00be3bec9d9d851c2b8a0))
+* **Admin:** Update configuration page ([ae71716](https://github.com/ideal-postcodes/magento/commit/ae7171638023a625383c73cda59347e713332aa6))
+
+
+### BREAKING CHANGES
+
+* **Admin:** HTML targets for the store integration has been removed
+
+HTML targets have been replaced by a more robust field detection method
+
 # [1.2.0](https://github.com/ideal-postcodes/magento/compare/1.1.1...1.2.0) (2020-04-02)
 
 

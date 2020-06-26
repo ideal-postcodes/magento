@@ -26,4 +26,4 @@ jobs:
           project: ./test/e2e
         env:
           CYPRESS_API_KEY: ${{ secrets.API_KEY }}
-          MAGENTO_VERSION: "2.3"
+          CYPRESS_MAGENTO_VERSION: "2.3"

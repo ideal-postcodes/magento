@@ -24,7 +24,8 @@ describe("Checkout", () => {
   before(() => {
     // Add product and visit checkout
     cy.visit("/index.php/simple-product-113.html");
-    cy.contains("Add to Cart").click();
+    cy.wait(5000);
+    cy.get("#product-addtocart-button").click();
     cy.get(".message-success > div").should(
       "contain.text",
       "You added Simple Product 113"
@@ -32,7 +33,6 @@ describe("Checkout", () => {
     cy.visit("/index.php/checkout/");
   });
 
-  setupSuite(suite, true);
   postcodeLookupSuite(suite);
   autocompleteSuite(suite);
 });

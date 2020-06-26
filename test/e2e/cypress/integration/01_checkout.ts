@@ -1,13 +1,12 @@
 /// <reference types="cypress" />;
 
-Cypress.on("uncaught:exception", (err, runnable) => {
+Cypress.on("uncaught:exception", err => {
   console.log(err);
   return false;
 });
 
 import { address as addresses } from "@ideal-postcodes/api-fixtures";
 import {
-  setupSuite,
   autocompleteSuite,
   postcodeLookupSuite
 } from "../../../snapshot/cypress/support/suite";
@@ -24,7 +23,7 @@ describe("Checkout", () => {
   before(() => {
     // Add product and visit checkout
     cy.visit("/index.php/simple-product-113.html");
-    cy.wait(5000);
+    cy.wait(1000);
     cy.get("#product-addtocart-button").click();
     cy.get(".message-success > div").should(
       "contain.text",

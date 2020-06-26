@@ -40,7 +40,7 @@ const navigateToSettings = () => {
   }
   cy.visit("/index.php/admin/admin/system_config/edit/section/idealpostcodes");
 };
-Cypress.on("uncaught:exception", (err, runnable) => {
+Cypress.on("uncaught:exception", err => {
   console.log(err);
   return false;
 });

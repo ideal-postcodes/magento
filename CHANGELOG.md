@@ -1,3 +1,10 @@
+## [2.0.1](https://github.com/ideal-postcodes/magento/compare/2.0.0...2.0.1) (2020-06-26)
+
+
+### Bug Fixes
+
+* **Test:** Remove test artefacts ([717b0f3](https://github.com/ideal-postcodes/magento/commit/717b0f3420bcda166cef46d7cba6badcd89f4106))
+
 # [2.0.0](https://github.com/ideal-postcodes/magento/compare/1.2.0...2.0.0) (2020-06-26)
 
 

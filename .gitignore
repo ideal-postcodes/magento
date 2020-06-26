@@ -67,4 +67,10 @@ docs
 cypress/screenshots/
 cypress/videos/
 
+test/e2e/cypress/screenshots/
+test/e2e/cypress/videos/
+
+test/snapshot/cypress/screenshots/
+test/snapshot/cypress/videos/
+
 test/snapshot/fixtures/binding.js

@@ -1,4 +1,5 @@
 {
   "port": 60154,
+  "video": false,
   "browser": "electron"
 }

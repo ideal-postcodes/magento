@@ -67,6 +67,7 @@ docs
 cypress/screenshots/
 cypress/videos/
 
+# cypress videos and screenshots
 test/e2e/cypress/screenshots/
 test/e2e/cypress/videos/
 

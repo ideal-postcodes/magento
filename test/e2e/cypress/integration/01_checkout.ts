@@ -31,7 +31,7 @@ describe("Checkout", () => {
       "You added Simple Product 113"
     );
     cy.visit("/index.php/checkout/");
-    cy.wait(2000);
+    cy.wait(5000);
   });
 
   postcodeLookupSuite(suite);

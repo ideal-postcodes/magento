@@ -68,3 +68,4 @@ cypress/screenshots/
 cypress/videos/
 
 test/snapshot/fixtures/binding.js
+*.mp4

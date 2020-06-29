@@ -27,8 +27,3 @@ jobs:
         env:
           CYPRESS_API_KEY: ${{ secrets.API_KEY }}
           CYPRESS_MAGENTO_VERSION: "2.2"
-      - uses: actions/upload-artifact@v1
-        if: always()
-        with:
-          name: cypress-videos
-          path: test/e2e/cypress/videos

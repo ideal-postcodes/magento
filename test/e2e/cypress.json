@@ -1,6 +1,6 @@
 {
   "baseUrl": "http://127.0.0.1:3000",
   "browser": "electron",
-  "defaultCommandTimeout": 30000,
+  "defaultCommandTimeout": 60000,
   "requestTimeout": 60000
 }

@@ -23,9 +23,9 @@ describe("Checkout", () => {
   before(() => {
     // Add product and visit checkout
     cy.visit("/index.php/simple-product-113.html");
-    cy.wait(1000);
+    cy.wait(10000);
     cy.get("#product-addtocart-button").click();
-    cy.wait(1000);
+    cy.wait(2000);
     cy.get(".message-success > div").should(
       "contain.text",
       "You added Simple Product 113"

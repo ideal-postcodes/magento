@@ -7,6 +7,11 @@
 [![Packagist Version](https://img.shields.io/packagist/v/idealpostcodes/module-ukaddresssearch)](https://packagist.org/packages/idealpostcodes/module-ukaddresssearch)
 ![PHP from Packagist](https://img.shields.io/packagist/php-v/idealpostcodes/module-ukaddresssearch)
 
+![CI (Bindings)](https://github.com/ideal-postcodes/magento/workflows/CI%20(Bindings)/badge.svg)
+![Magento 2.1 CI](https://github.com/ideal-postcodes/magento/workflows/Magento%202.1%20CI/badge.svg)
+![Magento 2.2 CI](https://github.com/ideal-postcodes/magento/workflows/Magento%202.2%20CI/badge.svg)
+![Magento 2.3 CI](https://github.com/ideal-postcodes/magento/workflows/Magento%202.3%20CI/badge.svg)
+
 This extension enables [Ideal-Postcodes.co.uk](https://ideal-postcodes.co.uk) address validation for UK addresses on a magento store
 
 [Get in contact](https://ideal-postcodes.co.uk/support) if you need assistance or have questions. Raise an issue for bugs or feature requests

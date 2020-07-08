@@ -56,7 +56,7 @@
     "cypress": "~4.9.0",
     "eslint": "~7.4.0",
     "prettier": "~2.0.5",
-    "rollup": "~2.19.0",
+    "rollup": "~2.21.0",
     "rollup-plugin-terser": "~6.1.0",
     "semantic-release": "~17.1.1",
     "typescript": "~3.9.6"

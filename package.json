@@ -44,7 +44,7 @@
     "@ideal-postcodes/api-typings": "~2.0.0",
     "@ideal-postcodes/jsutil": "~3.0.1",
     "@prettier/plugin-php": "~0.14.0",
-    "@prettier/plugin-xml": "~0.9.0",
+    "@prettier/plugin-xml": "~0.10.0",
     "@rollup/plugin-commonjs": "~14.0.0",
     "@rollup/plugin-node-resolve": "~8.4.0",
     "@types/cypress": "~1.1.3",

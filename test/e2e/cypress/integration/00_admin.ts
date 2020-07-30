@@ -6,9 +6,7 @@ const logout = () => {
     cy.get('a[title="My Account"]').click();
     cy.wait(500);
     cy.get(".admin__action-dropdown-menu").within(() => {
-      cy.get("a")
-        .contains("Sign Out")
-        .click();
+      cy.get("a").contains("Sign Out").click();
     });
     return;
   }
@@ -21,9 +19,7 @@ const navigateToSettings = () => {
     cy.get("#menu-magento-backend-stores").click();
     cy.wait(500);
     cy.get("li#menu-magento-backend-stores .submenu").within(() => {
-      cy.get("a")
-        .contains("Configuration")
-        .click();
+      cy.get("a").contains("Configuration").click();
     });
     cy.wait(500);
     cy.get(".admin__page-nav-title.title._collapsible")
@@ -40,7 +36,7 @@ const navigateToSettings = () => {
   }
   cy.visit("/index.php/admin/admin/system_config/edit/section/idealpostcodes");
 };
-Cypress.on("uncaught:exception", err => {
+Cypress.on("uncaught:exception", (err) => {
   console.log(err);
   return false;
 });
@@ -57,9 +53,7 @@ describe("Admin", () => {
     cy.visit("/admin");
     cy.get("#username").type("admin");
     cy.get("#login").type("foobar21");
-    cy.get("form")
-      .contains("Sign in")
-      .click();
+    cy.get("form").contains("Sign in").click();
     cy.url().should("include", "/index.php/admin/admin/dashboard");
 
     // Visit Ideal Postcodes settings
@@ -75,7 +69,7 @@ describe("Admin", () => {
     cy.wait(500);
     cy.contains("Save Config").click();
     cy.wait(1000);
-    cy.get('div[data-ui-id="messages-message-success"]').should($div => {
+    cy.get('div[data-ui-id="messages-message-success"]').should(($div) => {
       expect($div.text(), "ID").to.equal("You saved the configuration.");
     });
   });

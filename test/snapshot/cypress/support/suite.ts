@@ -24,20 +24,20 @@ export const setupSuite = (suite: Suite, country?: boolean): void => {
       cy.get("#idpc_input").should("be.not.visible");
       cy.get(selectors.line_1)
         .clear({
-          force: true
+          force: true,
         })
         .type(address.line_1, {
-          force: true
+          force: true,
         });
       cy.get(".idpc_ul li").should("have.length", 0);
       cy.get(selectors.country).select("GB");
       cy.wait(2000);
       cy.get(selectors.line_1)
         .clear({
-          force: true
+          force: true,
         })
         .type(address.line_1, {
-          force: true
+          force: true,
         });
       cy.wait(2000);
       cy.get(".idpc_ul li").should("not.have.length", 0);
@@ -45,12 +45,24 @@ export const setupSuite = (suite: Suite, country?: boolean): void => {
   });
 };
 
-const assertions = (selectors: Selectors, address: Address) => {
+const assertions = (
+  scope: JQuery<HTMLElement>,
+  selectors: Selectors,
+  address: Address
+) => {
   cy.get(selectors.line_1).should("have.value", address.line_1);
-  selectors.line_2 &&
-    cy
-      .get(selectors.line_2)
-      .should("have.value", `${address.line_2}, ${address.line_3}`);
+  if (selectors.line_3 && scope.find(selectors.line_3).length > 0) {
+    selectors.line_2 &&
+      cy.get(selectors.line_2).should("have.value", `${address.line_2}`);
+    selectors.line_3 &&
+      cy.get(selectors.line_3).should("have.value", `${address.line_3}`);
+  } else {
+    selectors.line_2 &&
+      cy
+        .get(selectors.line_2)
+        .should("have.value", `${address.line_2}, ${address.line_3}`);
+  }
+
   selectors.organisation &&
     cy
       .get(selectors.organisation)
@@ -66,20 +78,18 @@ export const autocompleteSuite = (suite: Suite) => {
   const address = suite.address;
 
   it("Autocomplete", () => {
-    cy.get(scope).within(() => {
+    cy.get(scope).within((scope) => {
       cy.get(selectors.country).select("GB");
       cy.get(selectors.line_1)
         .clear({
-          force: true
+          force: true,
         })
         .type(address.line_1, {
-          force: true
+          force: true,
         });
       cy.wait(2000);
-      cy.get(".idpc_ul li")
-        .first()
-        .click();
-      assertions(selectors, address);
+      cy.get(".idpc_ul li").first().click({ force: true });
+      assertions(scope, selectors, address);
     });
   });
 };
@@ -90,19 +100,19 @@ export const postcodeLookupSuite = (suite: Suite) => {
   const address = suite.address;
 
   it("Postcode Lookup", () => {
-    cy.get(scope).within(() => {
+    cy.get(scope).within((scope) => {
       cy.get(selectors.country).select("GB");
       cy.get("#idpc_input")
         .clear({
-          force: true
+          force: true,
         })
         .type(address.postcode, {
-          force: true
+          force: true,
         });
-      cy.get("#idpc_button").click();
+      cy.get("#idpc_button").click({ force: true });
       cy.wait(1000);
       cy.get("#idpc_dropdown").select("0");
-      assertions(selectors, address);
+      assertions(scope, selectors, address);
     });
   });
 };

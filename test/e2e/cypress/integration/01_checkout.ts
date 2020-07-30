@@ -1,7 +1,7 @@
 /// <reference types="cypress" />;
 const version = Cypress.env("MAGENTO_VERSION");
 
-Cypress.on("uncaught:exception", err => {
+Cypress.on("uncaught:exception", (err) => {
   console.log(err);
   return false;
 });
@@ -9,7 +9,7 @@ Cypress.on("uncaught:exception", err => {
 import { address as addresses } from "@ideal-postcodes/api-fixtures";
 import {
   autocompleteSuite,
-  postcodeLookupSuite
+  postcodeLookupSuite,
 } from "../../../snapshot/cypress/support/suite";
 import { selectors } from "../../../../lib/billing";
 
@@ -17,7 +17,7 @@ const address = addresses.jersey;
 const suite = {
   scope: ".checkout-shipping-address",
   selectors,
-  address
+  address,
 };
 
 const waitPerVersion = (time: number) => {

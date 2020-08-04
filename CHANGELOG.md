@@ -1,3 +1,10 @@
+## [2.0.3](https://github.com/ideal-postcodes/magento/compare/2.0.2...2.0.3) (2020-08-04)
+
+
+### Bug Fixes
+
+* **README:** Add link to marketplace ([3157f47](https://github.com/ideal-postcodes/magento/commit/3157f4730f35994d683ee5efb835ba6340b772b6))
+
 ## [2.0.2](https://github.com/ideal-postcodes/magento/compare/2.0.1...2.0.2) (2020-08-04)
 
 

@@ -76,3 +76,4 @@ test/snapshot/cypress/videos/
 
 test/snapshot/fixtures/binding.js
 *.mp4
+idealpostcodes*.zip

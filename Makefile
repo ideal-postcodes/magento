@@ -1,11 +1,11 @@
 .DEFAULT_GOAL := help
+TAG=${git describe --tags}
 
 ## -- Container Launch --
 
 ## Bootstrap containers and compile magento internals
 .PHONY: bootstrap
 bootstrap: up init
-
 
 ## Initialise repository - run install-magento
 .PHONY: init
@@ -92,6 +92,11 @@ logs-magento:
 	docker-compose logs -f web
 
 ## -- Misc --
+
+## Prepare a bundle for submission to Magento marketplace
+.PHONY: bundle
+bundle:
+	zip -r idealpostcodes_magento-$$(git describe --tags).zip . -x '.git/*' -x '.github/*' -x 'test/*' -x 'lib/*' -x 'node_modules/*' -x 'docker/*' -x '*.zip'
 
 ## Update repository against origin/master
 .PHONY: update

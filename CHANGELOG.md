@@ -1,3 +1,10 @@
+## [2.0.2](https://github.com/ideal-postcodes/magento/compare/2.0.1...2.0.2) (2020-08-04)
+
+
+### Bug Fixes
+
+* **Account:** Fix template on accounts page ([5e03fa5](https://github.com/ideal-postcodes/magento/commit/5e03fa5673d67465d1f4e588b35ffcbabe191cdb))
+
 ## [2.0.1](https://github.com/ideal-postcodes/magento/compare/2.0.0...2.0.1) (2020-06-26)
 
 

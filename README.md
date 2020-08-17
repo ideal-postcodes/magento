@@ -23,7 +23,7 @@ See our [guide](https://ideal-postcodes.co.uk/guides/magento) for installation a
 ## Links
 
 - [Guide](https://ideal-postcodes.co.uk/guides/magento)
-- [Magento Marketplace](https://developer.magento.com/extensions/versions/idealpostcodes-module-ukaddresssearch)
+- [Magento Marketplace](https://marketplace.magento.com/idealpostcodes-module-ukaddresssearch.html)
 - [Ideal Postcodes](https://ideal-postcodes.co.uk/magento)
 - [Repository](https://github.com/ideal-postcodes/magento)
 - [Packagist](https://packagist.org/packages/idealpostcodes/module-ukaddresssearch)

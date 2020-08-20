@@ -1,3 +1,10 @@
+## [2.0.4](https://github.com/ideal-postcodes/magento/compare/2.0.3...2.0.4) (2020-08-20)
+
+
+### Bug Fixes
+
+* **System.xml:** Drop hyphen for underscore ([41bf894](https://github.com/ideal-postcodes/magento/commit/41bf8941b642d13c0af684607f77b6cb7458b3c2))
+
 ## [2.0.3](https://github.com/ideal-postcodes/magento/compare/2.0.2...2.0.3) (2020-08-04)
 
 

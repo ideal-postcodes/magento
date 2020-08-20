@@ -96,7 +96,7 @@ logs-magento:
 ## Prepare a bundle for submission to Magento marketplace
 .PHONY: bundle
 bundle:
-	zip -r idealpostcodes_magento-$$(git describe --tags).zip . -x '.git/*' -x '.github/*' -x 'test/*' -x 'lib/*' -x 'node_modules/*' -x 'docker/*' -x '*.zip'
+	zip -r idealpostcodes_magento-$$(git describe --tags --abbrev=0).zip . -x '.git/*' -x '.github/*' -x 'test/*' -x 'lib/*' -x 'node_modules/*' -x 'docker/*' -x '*.zip' -x '.gitignore' -x ".gitattributes"
 
 ## Update repository against origin/master
 .PHONY: update

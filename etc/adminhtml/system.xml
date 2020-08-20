@@ -56,7 +56,7 @@
         </field>
       </group>
       <group
-              id="data-configuration"
+              id="data_configuration"
               translate="label"
               sortOrder="20"
               showInDefault="1"
@@ -102,7 +102,7 @@
         </field>
       </group>
       <group
-        id="store-configuration"
+        id="store_configuration"
         translate="label"
         sortOrder="20"
         showInDefault="1"
@@ -169,7 +169,7 @@
         </field>
       </group>
       <group
-              id="store-admin-configuration"
+              id="store_admin_configuration"
               translate="label"
               sortOrder="20"
               showInDefault="1"

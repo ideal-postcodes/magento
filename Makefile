@@ -39,6 +39,11 @@ up-72:
 up-73:
 	docker-compose -f docker-compose.yml -f docker/73.yml up -d
 
+## Start up PHP 7.3 Magento 2.4
+.PHONY: up-73-m24
+up-73-m24:
+	docker-compose -f docker-compose.yml -f docker/73.yml up -d
+
 ## -- Development Methods --
 
 ## Run magento upgrade

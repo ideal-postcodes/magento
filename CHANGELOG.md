@@ -1,3 +1,10 @@
+## [2.0.5](https://github.com/ideal-postcodes/magento/compare/2.0.4...2.0.5) (2020-09-21)
+
+
+### Bug Fixes
+
+* **Magento 2.4:** Bump patch number ([294a6ca](https://github.com/ideal-postcodes/magento/commit/294a6ca1dd1f334fcb4f20eeaaac048501cab4ad))
+
 ## [2.0.4](https://github.com/ideal-postcodes/magento/compare/2.0.3...2.0.4) (2020-08-20)
 
 

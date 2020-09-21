@@ -45,7 +45,7 @@
     "@ideal-postcodes/jsutil": "~3.0.1",
     "@prettier/plugin-php": "~0.14.3",
     "@prettier/plugin-xml": "~0.12.0",
-    "@rollup/plugin-commonjs": "~15.0.0",
+    "@rollup/plugin-commonjs": "~15.1.0",
     "@rollup/plugin-node-resolve": "~9.0.0",
     "@types/cypress": "~1.1.3",
     "@types/mocha": "~8.0.3",

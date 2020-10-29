@@ -42,7 +42,7 @@ const config = file => {
               "@babel/preset-env",
               {
                 targets,
-                useBuiltIns: "usage",
+                useBuiltIns: "entry",
                 corejs: 3
               }
             ]

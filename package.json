@@ -45,20 +45,19 @@
     "@ideal-postcodes/jsutil": "~3.0.1",
     "@prettier/plugin-php": "~0.15.1",
     "@prettier/plugin-xml": "~0.12.0",
-    "@rollup/plugin-commonjs": "~15.1.0",
-    "@rollup/plugin-node-resolve": "~9.0.0",
-    "@types/cypress": "~1.1.3",
+    "@rollup/plugin-commonjs": "~16.0.0",
+    "@rollup/plugin-node-resolve": "~10.0.0",
     "@types/mocha": "~8.0.3",
-    "@typescript-eslint/eslint-plugin": "~4.0.0",
-    "@typescript-eslint/parser": "~3.10.1",
+    "@typescript-eslint/eslint-plugin": "~4.6.0",
+    "@typescript-eslint/parser": "~4.6.0",
     "@wessberg/rollup-plugin-ts": "~1.3.7",
     "core-js": "~3.6.5",
-    "cypress": "~5.4.0",
+    "cypress": "~5.5.0",
     "eslint": "~7.11.0",
     "prettier": "~2.1.2",
     "rollup": "~2.32.1",
     "rollup-plugin-terser": "~7.0.2",
     "semantic-release": "~17.2.1",
-    "typescript": "~4.0.3"
+    "typescript": "~4.0.5"
   }
 }

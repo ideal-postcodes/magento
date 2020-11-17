@@ -37,9 +37,7 @@ jobs:
       - name: Build test bundles
         run: npm run test:build
 
-      - uses: cypress-io/github-action@v1
+      - uses: cypress-io/github-action@v2
         with:
           project: ./test/snapshot
-        env:
-          CYPRESS_API_KEY: ${{ secrets.API_KEY }}
-          CYPRESS_MAGENTO_VERSION: "2.3"
+          env: CYPRESS_API_KEY=${{ secrets.API_KEY }},CYPRESS_MAGENTO_VERSION=2.3

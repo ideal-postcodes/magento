@@ -21,9 +21,7 @@ jobs:
       - name: Set Base URL
         run: make fix-session-expire
 
-      - uses: cypress-io/github-action@v1
+      - uses: cypress-io/github-action@v2
         with:
           project: ./test/e2e
-        env:
-          CYPRESS_API_KEY: ${{ secrets.API_KEY }}
-          CYPRESS_MAGENTO_VERSION: "2.2"
+          env: CYPRESS_API_KEY=${{ secrets.API_KEY }},CYPRESS_MAGENTO_VERSION=2.2

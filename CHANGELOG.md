@@ -1,3 +1,10 @@
+## [2.0.6](https://github.com/ideal-postcodes/magento/compare/2.0.5...2.0.6) (2021-03-18)
+
+
+### Bug Fixes
+
+* **Content Security Policy:** Add ideal-postcodes.co.uk to CSP list ([1dfce1a](https://github.com/ideal-postcodes/magento/commit/1dfce1a953e872a6417fd44edddae6d344da49a4))
+
 ## [2.0.5](https://github.com/ideal-postcodes/magento/compare/2.0.4...2.0.5) (2020-09-21)
 
 

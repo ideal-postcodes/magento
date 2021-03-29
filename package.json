@@ -51,7 +51,7 @@
     "@types/mocha": "~8.2.1",
     "@typescript-eslint/eslint-plugin": "~4.0.0",
     "@typescript-eslint/parser": "~3.10.1",
-    "@wessberg/rollup-plugin-ts": "~1.3.5",
+    "@wessberg/rollup-plugin-ts": "~1.3.11",
     "core-js": "~3.9.1",
     "cypress": "~5.4.0",
     "eslint": "~7.22.0",

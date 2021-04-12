@@ -15,20 +15,20 @@ const terserConfig = {
   output: {
     comments: (_, { value, type }) => {
       if (type === "comment2") return /@license/i.test(value);
-    }
-  }
+    },
+  },
 };
 
 const targets = "ie 11";
 
-const config = file => {
+const config = (file) => {
   return {
     output: {
       file,
       banner,
       format: "iife",
       name: "IdealPostcodes",
-      exports: "named"
+      exports: "named",
     },
     plugins: [
       resolve({ extensions: [".js", ".ts"] }),
@@ -37,30 +37,21 @@ const config = file => {
         transpiler: "babel",
         browserslist: [targets],
         babelConfig: {
-          presets: [
-            [
-              "@babel/preset-env",
-              {
-                targets,
-                useBuiltIns: "usage",
-                corejs: 3
-              }
-            ]
-          ]
-        }
+          presets: [["@babel/preset-env", { targets }]],
+        },
       }),
-      terser(terserConfig)
-    ]
+      terser(terserConfig),
+    ],
   };
 };
 
 export default [
   {
     ...config("./view/base/web/binding.js"),
-    input: "./lib/store.ts"
+    input: "./lib/store.ts",
   },
   {
     ...config("./view/base/web/admin.js"),
-    input: "./lib/admin.ts"
-  }
+    input: "./lib/admin.ts",
+  },
 ];

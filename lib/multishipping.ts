@@ -1,10 +1,10 @@
 import { setupBind } from "@ideal-postcodes/jsutil";
-
 import {
   Config,
+  includes,
   setupAutocomplete,
   setupPostcodeLookup,
-  hoistCountry
+  hoistCountry,
 } from "./extension";
 
 export const selectors = {
@@ -15,19 +15,19 @@ export const selectors = {
   post_town: "#city",
   county: "#region",
   country: "#country",
-  postcode: '[name="postcode"]'
+  postcode: '[name="postcode"]',
 };
 
 const linesIdentifier = {
   parentScope: "div",
   parentTest: (e: HTMLElement) =>
-    e.classList.contains("field") && e.classList.contains("street")
+    e.classList.contains("field") && e.classList.contains("street"),
 };
 
 const bind = (config: Config) => {
   setupBind({
     selectors,
-    parentTest: e => e.getAttribute("id") === "form-validate"
+    parentTest: (e) => e.getAttribute("id") === "form-validate",
   }).forEach(({ targets }) => {
     hoistCountry(config, targets, linesIdentifier);
     setupAutocomplete(config, targets);
@@ -35,6 +35,6 @@ const bind = (config: Config) => {
   });
 };
 
-const pageTest = () => window.location.pathname.includes("/multishipping");
+const pageTest = () => includes(window.location.pathname, "/multishipping");
 
 export const bindings = { bind, pageTest };

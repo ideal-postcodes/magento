@@ -1,10 +1,10 @@
 import { setupBind } from "@ideal-postcodes/jsutil";
-
 import {
   Config,
   setupAutocomplete,
+  includes,
   setupPostcodeLookup,
-  hoistCountry
+  hoistCountry,
 } from "./extension";
 
 export const selectors = {
@@ -15,14 +15,14 @@ export const selectors = {
   post_town: '[name="city"]',
   organisation: '[name="company"]',
   county: '[name="region"]',
-  country: '[name="country_id"]'
+  country: '[name="country_id"]',
 };
 
 const bind = (config: Config) => {
   setupBind({
     selectors,
     parentScope: "div",
-    parentTest: e => e.classList.contains("billing-address-form")
+    parentTest: (e) => e.classList.contains("billing-address-form"),
   }).forEach(({ targets }) => {
     hoistCountry(config, targets);
     setupAutocomplete(config, targets);
@@ -30,6 +30,6 @@ const bind = (config: Config) => {
   });
 };
 
-const pageTest = () => window.location.pathname.includes("/checkout");
+const pageTest = () => includes(window.location.pathname, "/checkout");
 
 export const bindings = { bind, pageTest };

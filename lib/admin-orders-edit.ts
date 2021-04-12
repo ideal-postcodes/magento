@@ -1,9 +1,6 @@
 import { setupBind } from "@ideal-postcodes/jsutil";
-
-import { Config, setupAutocomplete } from "./extension";
-
+import { Config, setupAutocomplete, includes } from "./extension";
 import { selectors } from "./billing";
-
 export { selectors };
 
 const bind = (config: Config) => {
@@ -12,6 +9,6 @@ const bind = (config: Config) => {
   });
 };
 
-const pageTest = () => window.location.pathname.includes("/sales/order");
+const pageTest = () => includes(window.location.pathname, "/sales/order");
 
 export const bindings = { bind, pageTest };

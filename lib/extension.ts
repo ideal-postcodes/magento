@@ -15,7 +15,7 @@ import {
   UkCountry,
   CountryIso,
   ParentTest,
-  Country
+  Country,
 } from "@ideal-postcodes/jsutil";
 
 export interface Config extends BaseConfig {
@@ -36,7 +36,7 @@ export const hoistCountry = (
   if (!targets.country) return;
   if (!targets.line_1) return;
 
-  const elem = getParent(targets.country, "div", e =>
+  const elem = getParent(targets.country, "div", (e) =>
     e.classList.contains("field")
   );
   if (!elem) return;
@@ -77,7 +77,7 @@ const SUPPORTED_COUNTRIES: SupportedCountry[] = [
   "GB",
   "IM",
   "JE",
-  "GG"
+  "GG",
 ];
 
 export const countryIsSupported = (
@@ -178,7 +178,7 @@ export const setupPostcodeLookup = (
         }
       )();
     },
-    onAddressSelected: addressRetrieval({ config, targets })
+    onAddressSelected: addressRetrieval({ config, targets }),
   });
 };
 
@@ -197,6 +197,9 @@ export const setupAutocomplete = (config: Config, targets: Targets) => {
     },
     // Need to better uniquely identify line 1
     inputField: targets.line_1,
-    onAddressRetrieved: addressRetrieval({ config, targets })
+    onAddressRetrieved: addressRetrieval({ config, targets }),
   });
 };
+
+export const includes = (haystack: string, needle: string): boolean =>
+  haystack.indexOf(needle) !== -1;

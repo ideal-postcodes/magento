@@ -7,5 +7,7 @@ import { bindings as customers } from "./admin-customers";
 window.idpcStart = () =>
   setup({
     bindings: [orders, customers, ordersEdit],
-    window
+    window,
   });
+
+console.log("Loaded 2");

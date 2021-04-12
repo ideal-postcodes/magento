@@ -1,9 +1,6 @@
 import { setupBind } from "@ideal-postcodes/jsutil";
-
-import { Config, setupAutocomplete } from "./extension";
-
+import { Config, setupAutocomplete, includes } from "./extension";
 import { selectors } from "./billing";
-
 export { selectors };
 
 const parentScope = "fieldset";
@@ -15,6 +12,6 @@ const bind = (config: Config) => {
   });
 };
 
-const pageTest = () => window.location.pathname.includes("/customer");
+const pageTest = () => includes(window.location.pathname, "/customer");
 
 export const bindings = { bind, pageTest };

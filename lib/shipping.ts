@@ -1,11 +1,11 @@
 import { setupBind, Binding } from "@ideal-postcodes/jsutil";
 import { selectors } from "./billing";
-
 import {
   Config,
   setupAutocomplete,
+  includes,
   setupPostcodeLookup,
-  hoistCountry
+  hoistCountry,
 } from "./extension";
 
 const bind = (config: Config) => {
@@ -16,6 +16,6 @@ const bind = (config: Config) => {
   });
 };
 
-const pageTest = () => window.location.pathname.includes("/checkout");
+const pageTest = () => includes(window.location.pathname, "/checkout");
 
 export const bindings: Binding = { bind, pageTest };

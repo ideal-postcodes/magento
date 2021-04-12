@@ -1,3 +1,10 @@
+## [2.0.7](https://github.com/ideal-postcodes/magento/compare/2.0.6...2.0.7) (2021-04-12)
+
+
+### Bug Fixes
+
+* **Admin Panel:** Fix county allocation ([cee422b](https://github.com/ideal-postcodes/magento/commit/cee422bee03075cdbb76ef4ff86507ca12fa7949))
+
 ## [2.0.6](https://github.com/ideal-postcodes/magento/compare/2.0.5...2.0.6) (2021-03-18)
 
 

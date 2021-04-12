@@ -9,5 +9,3 @@ window.idpcStart = () =>
     bindings: [orders, customers, ordersEdit],
     window,
   });
-
-console.log("Loaded 2");

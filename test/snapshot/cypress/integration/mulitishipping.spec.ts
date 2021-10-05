@@ -4,7 +4,7 @@ import { address as fixtures } from "@ideal-postcodes/api-fixtures";
 import {
   setupSuite,
   autocompleteSuite,
-  postcodeLookupSuite
+  postcodeLookupSuite,
 } from "../support/suite";
 import { selectors } from "../../../../lib/multishipping";
 const address = fixtures.jersey;
@@ -14,7 +14,7 @@ describe("Multishipping", () => {
     const suite = {
       scope: ".form-create-account",
       selectors,
-      address
+      address,
     };
     before(() => {
       cy.setup("./fixtures/multishipping/checkout-register.html", true);
@@ -29,7 +29,7 @@ describe("Multishipping", () => {
     const suite = {
       scope: ".form-address-edit",
       selectors,
-      address
+      address,
     };
 
     before(() => {

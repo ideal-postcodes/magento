@@ -13,7 +13,7 @@ requirejs(['jquery'], function(jQuery){
     var hoistCountry = <?php echo $helper->getConfig('hoistCountryField'); ?>;
     var populateCounty = <?php echo $helper->getConfig('requireCounty'); ?>;
     var enabled = <?php echo $helper->getConfig('enabled'); ?>;
-
+    console.log("enabled", enabled);
     // Exit early if disabled
     if (enabled === false) return;
     window.idpcConfig = {
@@ -24,8 +24,7 @@ requirejs(['jquery'], function(jQuery){
       populateOrganisation: populateOrganisation,
       hoistCountry: hoistCountry,
     }
-
-    if (window.idpcStart) window.idpcStart();
+    window.idpcStart();
   });
 });
 </script>

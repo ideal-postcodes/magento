@@ -1,12 +1,13 @@
-import { setup } from "@ideal-postcodes/jsutil";
+import { config } from "@ideal-postcodes/jsutil";
 
-import { bindings as shipping } from "./shipping";
-import { bindings as billing } from "./billing";
-import { bindings as customer } from "./customer";
-import { bindings as multishipping } from "./multishipping";
+import { bind as shipping } from "./shipping";
+import { bind as billing } from "./billing";
+import { bind as customer } from "./customer";
+import { bind as multishipping } from "./multishipping";
 
-window.idpcStart = () =>
-  setup({
-    bindings: [shipping, billing, customer, multishipping],
-    window
+window.idpcStart = () => {
+  [shipping, billing, customer, multishipping].forEach((bind) => {
+    const conf = config();
+    if (conf) bind(conf);
   });
+};

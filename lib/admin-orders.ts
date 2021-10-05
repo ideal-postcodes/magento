@@ -1,4 +1,4 @@
-import { setupBind } from "@ideal-postcodes/jsutil";
+import { getParent } from "@ideal-postcodes/jsutil";
 import { Config, setupAutocomplete, includes } from "./extension";
 
 export const billing = {
@@ -27,14 +27,13 @@ const selectorList = [billing, shipping];
 
 const parentScope = "fieldset";
 
-const bind = (config: Config) => {
+export const bind = (config: Config) => {
   selectorList.forEach((selectors) => {
-    setupBind({ selectors, parentScope }).forEach(({ targets }) => {
-      setupAutocomplete(config, targets);
+    setupAutocomplete(config, selectors, {
+      pageTest,
+      getScope: (anchor: HTMLElement) => getParent(anchor, parentScope),
     });
   });
 };
 
 const pageTest = () => includes(window.location.pathname, "/sales");
-
-export const bindings = { bind, pageTest };

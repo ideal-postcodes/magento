@@ -4,7 +4,7 @@ import { address as fixtures } from "@ideal-postcodes/api-fixtures";
 import {
   setupSuite,
   autocompleteSuite,
-  postcodeLookupSuite
+  postcodeLookupSuite,
 } from "../support/suite";
 import { selectors } from "../../../../lib/multishipping";
 
@@ -13,7 +13,7 @@ const address = fixtures.jersey;
 const suite = {
   scope: ".form-address-edit",
   selectors,
-  address
+  address,
 };
 
 describe("Customer", () => {

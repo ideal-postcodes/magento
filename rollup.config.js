@@ -1,7 +1,8 @@
 import commonjs from "@rollup/plugin-commonjs";
 import { terser } from "rollup-plugin-terser";
-import resolve from "@rollup/plugin-node-resolve";
+import { nodeResolve } from "@rollup/plugin-node-resolve";
 import ts from "@wessberg/rollup-plugin-ts";
+import json from 'rollup-plugin-json';
 
 const banner = `/**
  * @license
@@ -31,7 +32,8 @@ const config = (file) => {
       exports: "named",
     },
     plugins: [
-      resolve({ extensions: [".js", ".ts"] }),
+      json(),
+      nodeResolve({ extensions: [".js", ".ts"], browser: true }),
       commonjs(),
       ts({
         transpiler: "babel",
@@ -40,7 +42,7 @@ const config = (file) => {
           presets: [["@babel/preset-env", { targets }]],
         },
       }),
-      terser(terserConfig),
+      //terser(terserConfig)
     ],
   };
 };

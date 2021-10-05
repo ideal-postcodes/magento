@@ -39,55 +39,55 @@ declare global {
 const adminSourcesMap = [
   {
     type: "css",
-    url: "http://localhost:60154/fixtures/ideal-postcodes-autocomplete.css"
+    url: "http://localhost:60154/fixtures/ideal-postcodes-autocomplete.css",
   },
   {
     type: "js",
-    url: "http://localhost:60154/fixtures/ideal-postcodes-autocomplete.min.js"
+    url: "http://localhost:60154/fixtures/ideal-postcodes-autocomplete.min.js",
   },
   {
     type: "js",
-    url: "http://localhost:60154/fixtures/admin.js"
+    url: "http://localhost:60154/fixtures/admin.js",
   },
   {
     type: "js",
-    url: "http://localhost:60154/fixtures/start.js"
-  }
+    url: "http://localhost:60154/fixtures/start.js",
+  },
 ];
 
 const storeSourcesMap = [
   {
     type: "css",
-    url: "http://localhost:60154/fixtures/ideal-postcodes-autocomplete.css"
+    url: "http://localhost:60154/fixtures/ideal-postcodes-autocomplete.css",
   },
   {
     type: "css",
-    url: "http://localhost:60154/fixtures/jquery.postcodes.css"
+    url: "http://localhost:60154/fixtures/jquery.postcodes.css",
   },
   {
     type: "js",
-    url: "http://localhost:60154/fixtures/jquery.js"
+    url: "http://localhost:60154/fixtures/jquery.js",
   },
   {
     type: "js",
-    url: "http://localhost:60154/fixtures/require.min.js"
+    url: "http://localhost:60154/fixtures/require.min.js",
   },
   {
     type: "js",
-    url: "http://localhost:60154/fixtures/ideal-postcodes-autocomplete.min.js"
+    url: "http://localhost:60154/fixtures/ideal-postcodes-autocomplete.min.js",
   },
   {
     type: "js",
-    url: "http://localhost:60154/fixtures/jquery.postcodes.min.js"
+    url: "http://localhost:60154/fixtures/jquery.postcodes.min.js",
   },
   {
     type: "js",
-    url: "http://localhost:60154/fixtures/store.js"
+    url: "http://localhost:60154/fixtures/store.js",
   },
   {
     type: "js",
-    url: "http://localhost:60154/fixtures/start.js"
-  }
+    url: "http://localhost:60154/fixtures/start.js",
+  },
 ];
 
 const loadCss = (url: string, { document }: Window) => {
@@ -98,7 +98,7 @@ const loadCss = (url: string, { document }: Window) => {
 };
 
 const loadScript = async (url: string, { document }: Window) => {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     const script = document.createElement("script");
     script.setAttribute("type", "text/javascript");
     script.setAttribute("src", url);
@@ -109,7 +109,7 @@ const loadScript = async (url: string, { document }: Window) => {
 
 Cypress.Commands.add("setup", (url, postcodeLookup) => {
   cy.visit(url, {
-    onBeforeLoad: window => {
+    onBeforeLoad: (window) => {
       window.idpcConfig = {
         apiKey: Cypress.env("API_KEY"),
         populateOrganisation: true,
@@ -117,20 +117,20 @@ Cypress.Commands.add("setup", (url, postcodeLookup) => {
         autocomplete: true,
         postcodeLookup: postcodeLookup || false,
         postcodeLookupOverride: {
-          checkKey: false
+          checkKey: false,
         },
         autocompleteOverride: {
-          checkKey: false
-        }
+          checkKey: false,
+        },
       };
     },
-    onLoad: async window => {
+    onLoad: async (window) => {
       const resources = postcodeLookup ? storeSourcesMap : adminSourcesMap;
       for (const resource of resources) {
         if (resource.type === "js") await loadScript(resource.url, window);
         if (resource.type === "css") loadCss(resource.url, window);
       }
-    }
+    },
   });
   cy.wait(2000);
 });

@@ -1,10 +1,8 @@
-import { setupBind } from "@ideal-postcodes/jsutil";
 import {
   Config,
   setupAutocomplete,
   includes,
   setupPostcodeLookup,
-  hoistCountry,
 } from "./extension";
 
 export const selectors = {
@@ -18,7 +16,7 @@ export const selectors = {
   country: '[name="country_id"]',
 };
 
-const bind = (config: Config) => {
+/*const bind = (config: Config) => {
   setupBind({
     selectors,
     parentScope: "div",
@@ -28,8 +26,11 @@ const bind = (config: Config) => {
     setupAutocomplete(config, targets);
     setupPostcodeLookup(config, targets);
   });
+};*/
+
+export const pageTest = () => includes(window.location.pathname, "/checkout");
+
+export const bind = (config: Config) => {
+  setupAutocomplete(config, selectors, { pageTest });
+  setupPostcodeLookup(config, selectors, { pageTest });
 };
-
-const pageTest = () => includes(window.location.pathname, "/checkout");
-
-export const bindings = { bind, pageTest };

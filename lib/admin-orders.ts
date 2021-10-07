@@ -7,7 +7,7 @@ export const billing = {
   line_3: '[name="order[billing_address][street][2]"]',
   postcode: '[name="order[billing_address][postcode]"]',
   post_town: '[name="order[billing_address][city]"]',
-  organisation: '[name="order[billing_address][company]"]',
+  organisation_name: '[name="order[billing_address][company]"]',
   county: '[name="order[billing_address][region]"]',
   country: '[name="order[billing_address][country_id]"]',
 };
@@ -18,7 +18,7 @@ export const shipping = {
   line_3: '[name="order[shipping_address][street][2]"]',
   postcode: '[name="order[shipping_address][postcode]"]',
   post_town: '[name="order[shipping_address][city]"]',
-  organisation: '[name="order[shipping_address][company]"]',
+  organisation_name: '[name="order[shipping_address][company]"]',
   county: '[name="order[shipping_address][region]"]',
   country: '[name="order[shipping_address][country_id]"]',
 };

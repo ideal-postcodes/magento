@@ -9,7 +9,7 @@ export const selectors = {
   line_1: "#street_1",
   line_2: "#street_2",
   line_3: "#street_3",
-  organisation: "#company",
+  organisation_name: "#company",
   post_town: "#city",
   county: "#region",
   country: "#country",

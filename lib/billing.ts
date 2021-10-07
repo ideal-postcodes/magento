@@ -11,22 +11,10 @@ export const selectors = {
   line_3: '[name="street[2]"]',
   postcode: '[name="postcode"]',
   post_town: '[name="city"]',
-  organisation: '[name="company"]',
+  organisation_name: '[name="company"]',
   county: '[name="region"]',
   country: '[name="country_id"]',
 };
-
-/*const bind = (config: Config) => {
-  setupBind({
-    selectors,
-    parentScope: "div",
-    parentTest: (e) => e.classList.contains("billing-address-form"),
-  }).forEach(({ targets }) => {
-    hoistCountry(config, targets);
-    setupAutocomplete(config, targets);
-    setupPostcodeLookup(config, targets);
-  });
-};*/
 
 export const pageTest = () => includes(window.location.pathname, "/checkout");
 

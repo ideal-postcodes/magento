@@ -8183,8 +8183,7 @@
       var target = getLinesContainer(outputFields, linesIdentifier);
 
       if (target === null) {
-        resolve(null); //setTimeout(() => search(resolve), 1000);
-
+        resolve(null);
         return;
       }
 
@@ -8209,7 +8208,7 @@
     elem.setAttribute("for", "idpc_postcode_lookup");
     elem.appendChild(span);
     insertBefore({
-      target: postcodeField,
+      target: postcodeField.firstChild,
       elem: elem
     });
     return elem;
@@ -8237,28 +8236,44 @@
     if (config.postcodeLookup !== true) return;
     insertPostcodeField(outputFields, linesIdentifier).then(function (postcodeField) {
       if (postcodeField === null) return;
-      PostcodeLookup.watch({
+      PostcodeLookup.watch(_objectSpread({
         apiKey: config.apiKey,
         checkKey: true,
         context: "div.idpc_lookup",
+        outputFields: outputFields,
+        selectStyle: {
+          "margin-top": "5px",
+          "margin-bottom": "5px"
+        },
+        buttonStyle: {
+          "position": "absolute",
+          "right": 0
+        },
+        contextStyle: {
+          "position": "relative"
+        },
         onLoaded: function onLoaded() {
-          // Add search label
+          this.options.outputFields = function () {
+            var result = {};
+            Object.keys(outputFields).forEach(function (key) {
+              //@ts-expect-error
+              result[key] = toElem$2(outputFields[key], document);
+            });
+            return result;
+          }(); // Add search label
+
+
           var label = addLookupLabel(postcodeField);
           hoistCountry(config, outputFields);
           watchCountry(outputFields, function () {
-            label.hidden = true;
-            postcodeField.removeAttribute("style");
-          }, function () {
             label.hidden = false;
+            postcodeField.style.display = "block";
+          }, function () {
+            label.hidden = true;
             postcodeField.style.display = "none";
           })();
-        } //onAddressSelected: addressRetrieval({ config, targets }),
-
-      }, _objectSpread({
-        onBindAttempt: function onBindAttempt(options) {
-          return console.log(options);
         }
-      }, options));
+      }, config.postcodeLookupOverride), options);
     });
   };
   var setupAutocomplete = /*#__PURE__*/function () {
@@ -8288,11 +8303,20 @@
 
             case 5:
               _context.next = 7;
-              return AddressFinder.watch({
+              return AddressFinder.watch(_objectSpread({
                 apiKey: config.apiKey,
                 checkKey: true,
                 onLoaded: function onLoaded() {
                   var _this = this;
+
+                  this.options.outputFields = function () {
+                    var result = {};
+                    Object.keys(outputFields).forEach(function (key) {
+                      //@ts-expect-error
+                      result[key] = toElem$2(outputFields[key], document);
+                    });
+                    return result;
+                  }();
 
                   hoistCountry(config, outputFields);
                   watchCountry(outputFields, function () {
@@ -8302,7 +8326,7 @@
                   })();
                 },
                 outputFields: outputFields
-              }, options);
+              }, config.autocompleteOverride), options);
 
             case 7:
             case "end":
@@ -8326,22 +8350,10 @@
     line_3: '[name="street[2]"]',
     postcode: '[name="postcode"]',
     post_town: '[name="city"]',
-    organisation: '[name="company"]',
+    organisation_name: '[name="company"]',
     county: '[name="region"]',
     country: '[name="country_id"]'
   };
-  /*const bind = (config: Config) => {
-    setupBind({
-      selectors,
-      parentScope: "div",
-      parentTest: (e) => e.classList.contains("billing-address-form"),
-    }).forEach(({ targets }) => {
-      hoistCountry(config, targets);
-      setupAutocomplete(config, targets);
-      setupPostcodeLookup(config, targets);
-    });
-  };*/
-
   var pageTest$3 = function pageTest() {
     return includes(window.location.pathname, "/checkout");
   };
@@ -8371,7 +8383,7 @@
     line_1: "#street_1",
     line_2: "#street_2",
     line_3: "#street_3",
-    organisation: "#company",
+    organisation_name: "#company",
     post_town: "#city",
     county: "#region",
     country: "#country",

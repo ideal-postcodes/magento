@@ -14,7 +14,7 @@ import {
   ParentTest,
   Country,
   OutputFields,
-  toElem,
+  toElem
 } from "@ideal-postcodes/jsutil";
 
 import { AddressFinder } from "@ideal-postcodes/address-finder";
@@ -112,7 +112,6 @@ export const insertPostcodeField = (
     const target = getLinesContainer(outputFields, linesIdentifier);
     if (target === null) {
       resolve(null);
-      //setTimeout(() => search(resolve), 1000);
       return;
     }
     const postcodeField = document.createElement("div");
@@ -135,7 +134,7 @@ export const addLookupLabel = (
   elem.className = "label";
   elem.setAttribute("for", "idpc_postcode_lookup");
   elem.appendChild(span);
-  insertBefore({ target: postcodeField, elem });
+  insertBefore({ target: postcodeField.firstChild as HTMLElement, elem });
   return elem;
 };
 
@@ -170,19 +169,40 @@ export const setupPostcodeLookup = (
           apiKey: config.apiKey,
           checkKey: true,
           context: "div.idpc_lookup",
+          outputFields,
+          selectStyle:{
+            "margin-top": "5px",
+            "margin-bottom": "5px"
+          },
+          buttonStyle: {
+            "position": "absolute",
+            "right": 0
+          },
+          contextStyle: {
+            "position": "relative"
+          },
           onLoaded: function () {
+            this.options.outputFields = (() => {
+              const result:any = {};
+              Object.keys(outputFields).forEach((key) => {
+                //@ts-expect-error
+                result[key] = toElem(outputFields[key], document);
+              });
+              return result;
+            })();
             // Add search label
             const label = addLookupLabel(postcodeField);
             hoistCountry(config, outputFields);
             watchCountry(outputFields,() => {
-              label.hidden = true;
-              postcodeField.removeAttribute("style")
+              label.hidden = false;
+              postcodeField.style.display = "block";
             }, () =>
             {
-              label.hidden = false;
+              label.hidden = true;
               postcodeField.style.display = "none"
             })();
           },
+          ...config.postcodeLookupOverride
         },
         options
     );
@@ -201,10 +221,19 @@ export const setupAutocomplete = async (
       apiKey: config.apiKey,
       checkKey: true,
       onLoaded: function () {
+        this.options.outputFields = (() => {
+          const result:any = {};
+          Object.keys(outputFields).forEach((key) => {
+            //@ts-expect-error
+            result[key] = toElem(outputFields[key], document);
+          });
+          return result;
+        })();
         hoistCountry(config, outputFields);
         watchCountry(outputFields, () => this.view.attach(), () => this.view.detach())();
       },
       outputFields,
+      ...config.autocompleteOverride
     },
     options
   );

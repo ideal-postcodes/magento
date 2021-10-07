@@ -29,7 +29,8 @@
     "test:snapshot": "cypress run --project test/snapshot",
     "test:build": "rollup -c test/snapshot/rollup.config.js",
     "test:watch": "rollup -c test/snapshot/rollup.config.js -w",
-    "test": "npm run test:snapshot"
+    "test": "npm run test:snapshot",
+    "open:snapshot": "cypress open --project test/snapshot"
   },
   "release": {
     "extends": "@cablanchard/semantic-release"

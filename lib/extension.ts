@@ -181,7 +181,7 @@ export const setupPostcodeLookup = (
           contextStyle: {
             "position": "relative"
           },
-          onLoaded: function () {
+          onLoaded () {
             this.options.outputFields = (() => {
               const result:any = {};
               Object.keys(outputFields).forEach((key) => {
@@ -220,7 +220,7 @@ export const setupAutocomplete = async (
     {
       apiKey: config.apiKey,
       checkKey: true,
-      onLoaded: function () {
+      onLoaded () {
         this.options.outputFields = (() => {
           const result:any = {};
           Object.keys(outputFields).forEach((key) => {

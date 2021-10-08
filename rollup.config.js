@@ -42,7 +42,7 @@ const config = (file) => {
           presets: [["@babel/preset-env", { targets }]],
         },
       }),
-      //terser(terserConfig)
+      terser(terserConfig)
     ],
   };
 };

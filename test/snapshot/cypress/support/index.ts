@@ -38,14 +38,6 @@ declare global {
 
 const adminSourcesMap = [
   {
-    type: "css",
-    url: "http://localhost:60154/fixtures/ideal-postcodes-autocomplete.css",
-  },
-  {
-    type: "js",
-    url: "http://localhost:60154/fixtures/ideal-postcodes-autocomplete.min.js",
-  },
-  {
     type: "js",
     url: "http://localhost:60154/fixtures/admin.js",
   },
@@ -57,28 +49,12 @@ const adminSourcesMap = [
 
 const storeSourcesMap = [
   {
-    type: "css",
-    url: "http://localhost:60154/fixtures/ideal-postcodes-autocomplete.css",
-  },
-  {
-    type: "css",
-    url: "http://localhost:60154/fixtures/jquery.postcodes.css",
-  },
-  {
     type: "js",
     url: "http://localhost:60154/fixtures/jquery.js",
   },
   {
     type: "js",
     url: "http://localhost:60154/fixtures/require.min.js",
-  },
-  {
-    type: "js",
-    url: "http://localhost:60154/fixtures/ideal-postcodes-autocomplete.min.js",
-  },
-  {
-    type: "js",
-    url: "http://localhost:60154/fixtures/jquery.postcodes.min.js",
   },
   {
     type: "js",

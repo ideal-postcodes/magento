@@ -22,12 +22,21 @@
     return obj;
   }
 
-  var isString$4 = function isString(input) {
+  var isString$3 = function isString(input) {
     return typeof input === "string";
   };
 
-  var hasWindow$2 = function hasWindow() {
+  var hasWindow$1 = function hasWindow() {
     return typeof window !== "undefined";
+  };
+  var toArray$1 = function toArray(nodeList) {
+    return Array.prototype.slice.call(nodeList);
+  };
+  var loaded$1 = function loaded(elem) {
+    return elem.getAttribute("idpc") === "true";
+  };
+  var markLoaded$1 = function markLoaded(elem) {
+    return elem.setAttribute("idpc", "true");
   };
 
   var isTrue$3 = function isTrue() {
@@ -47,6 +56,9 @@
 
     return null;
   };
+  var toHtmlElem$1 = function toHtmlElem(parent, selector) {
+    return selector ? parent.querySelector(selector) : null;
+  };
   var insertBefore = function insertBefore(_ref) {
     var elem = _ref.elem,
         target = _ref.target;
@@ -55,12 +67,60 @@
     parent.insertBefore(elem, target);
     return elem;
   };
-  var toElem$2 = function toElem(elem, context) {
-    if (isString$4(elem)) return context.querySelector(elem);
+  var toElem$1 = function toElem(elem, context) {
+    if (isString$3(elem)) return context.querySelector(elem);
     return elem;
   };
 
-  function ownKeys$c(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+  var d$2 = function d() {
+    return window.document;
+  };
+
+  var getScope$2 = function getScope(scope) {
+    if (isString$3(scope)) return d$2().querySelector(scope);
+    if (scope === null) return d$2();
+    return scope;
+  };
+  var getDocument$1 = function getDocument(scope) {
+    if (scope instanceof Document) return scope;
+    if (scope.ownerDocument) return scope.ownerDocument;
+    return d$2();
+  };
+  var setStyle$1 = function setStyle(element, style) {
+    var currentRules = element.getAttribute("style");
+    Object.keys(style).forEach(function (key) {
+      return element.style[key] = style[key];
+    });
+    return currentRules;
+  };
+  var restoreStyle$1 = function restoreStyle(element, style) {
+    element.setAttribute("style", style || "");
+  };
+  var hide$1 = function hide(e) {
+    e.style.display = "none";
+    return e;
+  };
+  var show$1 = function show(e) {
+    e.style.display = "";
+    return e;
+  };
+  var remove$1 = function remove(elem) {
+    if (elem === null || elem.parentNode === null) return;
+    elem.parentNode.removeChild(elem);
+  };
+  var contains$1 = function contains(scope, selector, text) {
+    var elements = scope.querySelectorAll(selector);
+
+    for (var i = 0; i < elements.length; i++) {
+      var e = elements[i];
+      var content = e.innerText;
+      if (content && content.trim() === text) return e;
+    }
+
+    return null;
+  };
+
+  function ownKeys$c(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
   function _objectSpread$c(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$c(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$c(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
   var defaults$4 = {
@@ -78,14 +138,197 @@
     if (c === undefined) return;
     return _objectSpread$c(_objectSpread$c({}, defaults$4), c);
   };
+  var cssEscape$1 = function cssEscape(value) {
+    value = String(value);
+    var length = value.length;
+    var index = -1;
+    var codeUnit;
+    var result = "";
+    var firstCodeUnit = value.charCodeAt(0);
 
-  var g$2 = {};
+    while (++index < length) {
+      codeUnit = value.charCodeAt(index);
 
-  if (hasWindow$2()) {
+      if (codeUnit == 0x0000) {
+        result += "\uFFFD";
+        continue;
+      }
+
+      if (codeUnit >= 0x0001 && codeUnit <= 0x001f || codeUnit == 0x007f || index == 0 && codeUnit >= 0x0030 && codeUnit <= 0x0039 || index == 1 && codeUnit >= 0x0030 && codeUnit <= 0x0039 && firstCodeUnit == 0x002d) {
+        result += "\\" + codeUnit.toString(16) + " ";
+        continue;
+      }
+
+      if (index == 0 && length == 1 && codeUnit == 0x002d) {
+        result += "\\" + value.charAt(index);
+        continue;
+      }
+
+      if (codeUnit >= 0x0080 || codeUnit == 0x002d || codeUnit == 0x005f || codeUnit >= 0x0030 && codeUnit <= 0x0039 || codeUnit >= 0x0041 && codeUnit <= 0x005a || codeUnit >= 0x0061 && codeUnit <= 0x007a) {
+        result += value.charAt(index);
+        continue;
+      }
+
+      result += "\\" + value.charAt(index);
+    }
+
+    return result;
+  };
+
+  var newEvent$1 = function newEvent(_ref) {
+    var event = _ref.event,
+        _ref$bubbles = _ref.bubbles,
+        bubbles = _ref$bubbles === void 0 ? true : _ref$bubbles,
+        _ref$cancelable = _ref.cancelable,
+        cancelable = _ref$cancelable === void 0 ? true : _ref$cancelable;
+    if (typeof window.Event === "function") return new window.Event(event, {
+      bubbles: bubbles,
+      cancelable: cancelable
+    });
+    var e = document.createEvent("Event");
+    e.initEvent(event, bubbles, cancelable);
+    return e;
+  };
+  var trigger$1 = function trigger(e, event) {
+    return e.dispatchEvent(newEvent$1({
+      event: event
+    }));
+  };
+
+  var isSelect$1 = function isSelect(e) {
+    if (e === null) return false;
+    return e instanceof HTMLSelectElement;
+  };
+  var isInput$1 = function isInput(e) {
+    if (e === null) return false;
+    return e instanceof HTMLInputElement;
+  };
+  var isTextarea$1 = function isTextarea(e) {
+    if (e === null) return false;
+    return e instanceof HTMLTextAreaElement;
+  };
+  var update$2 = function update(input, value) {
+    var skipTrigger = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+    if (!input) return;
+    if (!isInput$1(input) && !isTextarea$1(input)) return;
+    change$1({
+      e: input,
+      value: value,
+      skipTrigger: skipTrigger
+    });
+  };
+  var hasValue$1 = function hasValue(select, value) {
+    if (value === null) return false;
+    return select.querySelector("[value=\"".concat(value, "\"]")) !== null;
+  };
+
+  var updateSelect$1 = function updateSelect(_ref) {
+    var e = _ref.e,
+        value = _ref.value,
+        skipTrigger = _ref.skipTrigger;
+    if (value === null) return;
+    if (!isSelect$1(e)) return;
+    setValue$1(e, value);
+    if (!skipTrigger) trigger$1(e, "select");
+    trigger$1(e, "change");
+  };
+
+  var setValue$1 = function setValue(e, value) {
+    var descriptor = Object.getOwnPropertyDescriptor(e.constructor.prototype, "value");
+    if (descriptor === undefined) return;
+    if (descriptor.set === undefined) return;
+    var setter = descriptor.set;
+    setter.call(e, value);
+  };
+
+  var updateInput$1 = function updateInput(_ref2) {
+    var e = _ref2.e,
+        value = _ref2.value,
+        skipTrigger = _ref2.skipTrigger;
+    if (value === null) return;
+    if (!isInput$1(e) && !isTextarea$1(e)) return;
+    setValue$1(e, value);
+    if (!skipTrigger) trigger$1(e, "input");
+    trigger$1(e, "change");
+  };
+
+  var change$1 = function change(options) {
+    if (options.value === null) return;
+    updateSelect$1(options);
+    updateInput$1(options);
+  };
+
+  var toCiIso$1 = function toCiIso(address) {
+    if (/^GY/.test(address.postcode)) return "GG";
+    if (/^JE/.test(address.postcode)) return "JE";
+    return null;
+  };
+  var UK$1 = "United Kingdom";
+  var IOM$1 = "Isle of Man";
+  var EN$1 = "England";
+  var SC$1 = "Scotland";
+  var WA$1 = "Wales";
+  var NI$1 = "Northern Ireland";
+  var CI$1 = "Channel Islands";
+  var toIso$1 = function toIso(address) {
+    var country = address.country;
+    if (country === EN$1) return "GB";
+    if (country === SC$1) return "GB";
+    if (country === WA$1) return "GB";
+    if (country === NI$1) return "GB";
+    if (country === IOM$1) return "IM";
+    if (country === CI$1) return toCiIso$1(address);
+    return null;
+  };
+  var toCountry$1 = function toCountry(address) {
+    var country = address.country;
+    if (country === EN$1) return UK$1;
+    if (country === SC$1) return UK$1;
+    if (country === WA$1) return UK$1;
+    if (country === NI$1) return UK$1;
+    if (country === IOM$1) return IOM$1;
+
+    if (country === CI$1) {
+      var iso = toCiIso$1(address);
+      if (iso === "GG") return "Guernsey";
+      if (iso === "JE") return "Jersey";
+    }
+
+    return null;
+  };
+  var updateCountry$1 = function updateCountry(select, address) {
+    if (!select) return;
+
+    if (isSelect$1(select)) {
+      var iso = toIso$1(address);
+      if (hasValue$1(select, iso)) change$1({
+        e: select,
+        value: iso
+      });
+      var bcc = toCountry$1(address);
+      if (hasValue$1(select, bcc)) change$1({
+        e: select,
+        value: bcc
+      });
+    }
+
+    if (isInput$1(select)) {
+      var _bcc = toCountry$1(address);
+
+      change$1({
+        e: select,
+        value: _bcc
+      });
+    }
+  };
+
+  var g$1 = {};
+
+  if (hasWindow$1()) {
     if (window.idpcGlobal) {
-      g$2 = window.idpcGlobal;
+      g$1 = window.idpcGlobal;
     } else {
-      window.idpcGlobal = g$2;
+      window.idpcGlobal = g$1;
     }
   }
 
@@ -94,14 +337,17 @@
   }
 
   function _iterableToArrayLimit(arr, i) {
-    if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;
+    var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"];
+
+    if (_i == null) return;
     var _arr = [];
     var _n = true;
     var _d = false;
-    var _e = undefined;
+
+    var _s, _e;
 
     try {
-      for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+      for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
         _arr.push(_s.value);
 
         if (i && _arr.length === i) break;
@@ -197,6 +443,169 @@
     exports.capitalisePostTown = capitalisePostTown;
   });
 
+  function ownKeys$b(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+  function _objectSpread$b(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$b(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$b(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+  var numberOfLines$1 = function numberOfLines(targets) {
+    var line_2 = targets.line_2,
+        line_3 = targets.line_3;
+    if (!line_2) return 1;
+    if (!line_3) return 2;
+    return 3;
+  };
+  var join$1 = function join(list) {
+    return list.filter(function (e) {
+      if (isString$3(e)) return !!e.trim();
+      return !!e;
+    }).join(", ");
+  };
+  var toAddressLines$1 = function toAddressLines(n, address) {
+    var line_1 = address.line_1,
+        line_2 = address.line_2,
+        line_3 = address.line_3;
+    if (n === 3) return [line_1, line_2, line_3];
+    if (n === 2) return [line_1, join$1([line_2, line_3]), ""];
+    return [join$1([line_1, line_2, line_3]), "", ""];
+  };
+  var extract$1 = function extract(a, attr) {
+    var result = a[attr];
+    if (typeof result === "number") return result.toString();
+    if (result === undefined) return "";
+    return result;
+  };
+  var notInAddress$1 = function notInAddress(o, attr) {
+    return o[attr] === undefined;
+  };
+  var getFields$2 = function getFields(o) {
+    return _objectSpread$b(_objectSpread$b(_objectSpread$b({}, o.outputFields), searchNames$1(o.names || {}, o.config.scope)), searchLabels$1(o.labels || {}, o.config.scope));
+  };
+
+  var updateLines$1 = function updateLines(fields, address, scope) {
+    var _toAddressLines3 = toAddressLines$1(numberOfLines$1(fields), address),
+        _toAddressLines4 = _slicedToArray(_toAddressLines3, 3),
+        line_1 = _toAddressLines4[0],
+        line_2 = _toAddressLines4[1],
+        line_3 = _toAddressLines4[2];
+
+    update$2(toElem$1(fields.line_1 || null, scope), line_1);
+    update$2(toElem$1(fields.line_2 || null, scope), line_2);
+    update$2(toElem$1(fields.line_3 || null, scope), line_3);
+  };
+
+  var searchNames$1 = function searchNames(names, scope) {
+    var result = {};
+    var key;
+
+    for (key in names) {
+      if (!names.hasOwnProperty(key)) continue;
+      var name = names[key];
+      var named = toElem$1("[name=\"".concat(name, "\"]"), scope);
+
+      if (named) {
+        result[key] = named;
+        continue;
+      }
+
+      var ariaNamed = toElem$1("[aria-name=\"".concat(name, "\"]"), scope);
+      if (ariaNamed) result[key] = ariaNamed;
+    }
+
+    return result;
+  };
+  var searchLabels$1 = function searchLabels(labels, scope) {
+    var result = {};
+    if (labels === undefined) return labels;
+    var key;
+
+    for (key in labels) {
+      if (!labels.hasOwnProperty(key)) continue;
+      var name = labels[key];
+      if (!name) continue;
+      var first = contains$1(scope, "label", name);
+      var label = toElem$1(first, scope);
+      if (!label) continue;
+      var forEl = label.getAttribute("for");
+
+      if (forEl) {
+        var byId = scope.querySelector("#".concat(cssEscape$1(forEl)));
+
+        if (byId) {
+          result[key] = byId;
+          continue;
+        }
+      }
+
+      var inner = label.querySelector("input");
+      if (inner) result[key] = inner;
+    }
+
+    return result;
+  };
+  var populateAddress$1 = function populateAddress(options) {
+    var config = options.config;
+
+    var address = _objectSpread$b({}, options.address);
+
+    var scope = config.scope,
+        titleizePostTown = config.titleizePostTown,
+        populateOrganisation = config.populateOrganisation,
+        populateCounty = config.populateCounty;
+    var fields = getFields$2(options);
+    if (config.removeOrganisation) removeOrganisation$1(address);
+    if (titleizePostTown) address.post_town = dist.capitalisePostTown(address.post_town);
+    updateLines$1(fields, address, scope);
+    delete address.line_1;
+    delete address.line_2;
+    delete address.line_3;
+    updateCountry$1(toElem$1(fields.country || null, scope), address);
+    delete address.country;
+    if (populateOrganisation === false) delete address.organisation_name;
+    if (populateCounty === false) delete address.county;
+    var e;
+
+    for (e in fields) {
+      if (notInAddress$1(address, e)) continue;
+
+      if (fields.hasOwnProperty(e)) {
+        var value = fields[e];
+        if (!value) continue;
+        update$2(toElem$1(value, scope), extract$1(address, e));
+      }
+    }
+  };
+  var removeOrganisation$1 = function removeOrganisation(address) {
+    if (address.organisation_name.length === 0) return address;
+    if (address.line_2.length === 0 && address.line_3.length === 0) return address;
+
+    if (address.line_1 === address.organisation_name) {
+      address.line_1 = address.line_2;
+      address.line_2 = address.line_3;
+      address.line_3 = "";
+    }
+
+    return address;
+  };
+
+  var keyCodeMapping$1 = {
+    13: "Enter",
+    38: "ArrowUp",
+    40: "ArrowDown",
+    36: "Home",
+    35: "End",
+    27: "Escape",
+    8: "Backspace"
+  };
+  var supportedKeys$1 = ["Enter", "ArrowUp", "ArrowDown", "Home", "End", "Escape", "Backspace"];
+
+  var supported$1 = function supported(k) {
+    return supportedKeys$1.indexOf(k) !== -1;
+  };
+
+  var toKey$1 = function toKey(event) {
+    if (event.keyCode) return keyCodeMapping$1[event.keyCode] || null;
+    return supported$1(event.key) ? event.key : null;
+  };
+
   function _typeof(obj) {
     "@babel/helpers - typeof";
 
@@ -212,6 +621,197 @@
 
     return _typeof(obj);
   }
+
+  var isObject$3 = function isObject(value) {
+    var type = _typeof(value);
+
+    return !!value && (type == "object" || type == "function");
+  };
+  var debounce$1 = function debounce(func, wait, options) {
+    var lastArgs, lastThis, maxWait, result, timerId, lastCallTime;
+    var lastInvokeTime = 0;
+    var leading = false;
+    var maxing = false;
+    var trailing = true;
+
+    if (typeof func !== "function") {
+      throw new TypeError("Expected a function");
+    }
+
+    wait = +wait || 0;
+
+    if (isObject$3(options)) {
+      leading = !!options.leading;
+      maxing = "maxWait" in options;
+      maxWait = maxing ? Math.max(+options.maxWait || 0, wait) : maxWait;
+      trailing = "trailing" in options ? !!options.trailing : trailing;
+    }
+
+    function invokeFunc(time) {
+      var args = lastArgs;
+      var thisArg = lastThis;
+      lastArgs = lastThis = undefined;
+      lastInvokeTime = time;
+      result = func.apply(thisArg, args);
+      return result;
+    }
+
+    function leadingEdge(time) {
+      lastInvokeTime = time;
+      timerId = setTimeout(timerExpired, wait);
+      return leading ? invokeFunc(time) : result;
+    }
+
+    function remainingWait(time) {
+      var timeSinceLastCall = time - lastCallTime;
+      var timeSinceLastInvoke = time - lastInvokeTime;
+      var timeWaiting = wait - timeSinceLastCall;
+      return maxing ? Math.min(timeWaiting, maxWait - timeSinceLastInvoke) : timeWaiting;
+    }
+
+    function shouldInvoke(time) {
+      var timeSinceLastCall = time - lastCallTime;
+      var timeSinceLastInvoke = time - lastInvokeTime;
+      return lastCallTime === undefined || timeSinceLastCall >= wait || timeSinceLastCall < 0 || maxing && timeSinceLastInvoke >= maxWait;
+    }
+
+    function timerExpired() {
+      var time = Date.now();
+
+      if (shouldInvoke(time)) {
+        return trailingEdge(time);
+      }
+
+      timerId = setTimeout(timerExpired, remainingWait(time));
+    }
+
+    function trailingEdge(time) {
+      timerId = undefined;
+
+      if (trailing && lastArgs) {
+        return invokeFunc(time);
+      }
+
+      lastArgs = lastThis = undefined;
+      return result;
+    }
+
+    function cancel() {
+      if (timerId !== undefined) {
+        clearTimeout(timerId);
+      }
+
+      lastInvokeTime = 0;
+      lastArgs = lastCallTime = lastThis = timerId = undefined;
+    }
+
+    function pending() {
+      return timerId !== undefined;
+    }
+
+    function debounced() {
+      var time = Date.now();
+      var isInvoking = shouldInvoke(time);
+
+      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+
+      lastArgs = args;
+      lastThis = this;
+      lastCallTime = time;
+
+      if (isInvoking) {
+        if (timerId === undefined) {
+          return leadingEdge(lastCallTime);
+        }
+
+        if (maxing) {
+          timerId = setTimeout(timerExpired, wait);
+          return invokeFunc(lastCallTime);
+        }
+      }
+
+      if (timerId === undefined) {
+        timerId = setTimeout(timerExpired, wait);
+      }
+
+      return result;
+    }
+
+    debounced.cancel = cancel;
+    debounced.pending = pending;
+    return debounced;
+  };
+
+  var watchTimer = function watchTimer(_ref) {
+    var bind = _ref.bind,
+        _ref$interval = _ref.interval,
+        interval = _ref$interval === void 0 ? 1000 : _ref$interval;
+    var timer = null;
+
+    var start = function start() {
+      timer = window.setInterval(function () {
+        try {
+          bind();
+        } catch (e) {
+          stop();
+        }
+      }, interval);
+      return timer;
+    };
+
+    var stop = function stop() {
+      if (timer === null) return;
+      window.clearInterval(timer);
+      timer = null;
+    };
+
+    return {
+      start: start,
+      stop: stop
+    };
+  };
+  var watchMutation = function watchMutation(_ref2) {
+    var bind = _ref2.bind,
+        _ref2$interval = _ref2.interval,
+        interval = _ref2$interval === void 0 ? 1000 : _ref2$interval,
+        _ref2$target = _ref2.target,
+        target = _ref2$target === void 0 ? window.document : _ref2$target,
+        _ref2$observerConfig = _ref2.observerConfig,
+        observerConfig = _ref2$observerConfig === void 0 ? {
+      subtree: true,
+      childList: true,
+      attributes: true
+    } : _ref2$observerConfig;
+    var observer = new MutationObserver(debounce$1(function () {
+      try {
+        bind();
+      } catch (e) {
+        stop();
+      }
+    }, interval));
+
+    var start = function start() {
+      observer.observe(target, observerConfig);
+      return null;
+    };
+
+    var stop = function stop() {
+      return observer.disconnect();
+    };
+
+    return {
+      start: start,
+      stop: stop
+    };
+  };
+  var watchChange = function watchChange(options) {
+    if (!window) return watchTimer(options);
+    if (!window.MutationObserver) return watchTimer(options);
+    if (options.mutationObserver) return watchMutation(options);
+    return watchTimer(options);
+  };
 
   function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
     try {
@@ -956,9 +1556,9 @@
     return Constructor;
   }
 
-  function ownKeys$b(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+  function ownKeys$a(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-  function _objectSpread$b(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$b(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$b(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+  function _objectSpread$a(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$a(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$a(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
   /**
    * @module Client
@@ -991,8 +1591,8 @@
     function Client(config) {
       _classCallCheck(this, Client);
 
-      this.config = _objectSpread$b(_objectSpread$b({}, defaults$3), config);
-      this.config.header = _objectSpread$b(_objectSpread$b({}, defaults$3.header), config.header && config.header);
+      this.config = _objectSpread$a(_objectSpread$a({}, defaults$3), config);
+      this.config.header = _objectSpread$a(_objectSpread$a({}, defaults$3.header), config.header && config.header);
     }
     /**
      * Return base URL for API requests
@@ -1017,9 +1617,9 @@
     return Client;
   }();
 
-  function ownKeys$a(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+  function ownKeys$9(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-  function _objectSpread$a(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$a(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$a(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+  function _objectSpread$9(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$9(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$9(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
   /**
    * @module Utils
@@ -1040,7 +1640,7 @@
     }, {});
   };
 
-  var isString$3 = function isString(i) {
+  var isString$2 = function isString(i) {
     return typeof i === "string";
   };
 
@@ -1054,13 +1654,13 @@
     if (isArray$1(value)) {
       value.forEach(function (val) {
         if (isNumber$1(val)) result.push(val.toString());
-        if (isString$3(val)) result.push(val);
+        if (isString$2(val)) result.push(val);
       });
       return result.join(",");
     }
 
     if (isNumber$1(value)) return value.toString();
-    if (isString$3(value)) return value;
+    if (isString$2(value)) return value;
     return "";
   };
 
@@ -1091,7 +1691,7 @@
   var toHeader$1 = function toHeader(_ref2, client) {
     var _ref2$header = _ref2.header,
         header = _ref2$header === void 0 ? {} : _ref2$header;
-    return _objectSpread$a(_objectSpread$a({}, client.config.header), toStringMap(header));
+    return _objectSpread$9(_objectSpread$9({}, client.config.header), toStringMap(header));
   };
   /**
    * toAuthHeader
@@ -1209,6 +1809,8 @@
   function _possibleConstructorReturn(self, call) {
     if (call && (_typeof(call) === "object" || typeof call === "function")) {
       return call;
+    } else if (call !== void 0) {
+      throw new TypeError("Derived constructors may only return object or undefined");
     }
 
     return _assertThisInitialized(self);
@@ -1231,7 +1833,7 @@
     if (typeof Proxy === "function") return true;
 
     try {
-      Date.prototype.toString.call(Reflect.construct(Date, [], function () {}));
+      Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {}));
       return true;
     } catch (e) {
       return false;
@@ -1649,14 +2251,14 @@
     return true;
   };
 
-  var isObject$3 = function isObject(o) {
+  var isObject$2 = function isObject(o) {
     if (o === null) return false;
     if (_typeof(o) !== "object") return false;
     return true;
   };
 
   var isErrorResponse = function isErrorResponse(body) {
-    if (!isObject$3(body)) return false;
+    if (!isObject$2(body)) return false;
     if (typeof body.message !== "string") return false;
     if (typeof body.code !== "number") return false;
     return true;
@@ -2060,7 +2662,7 @@
    */
 
 
-  function isString$2(val) {
+  function isString$1(val) {
     return typeof val === 'string';
   }
   /**
@@ -2082,7 +2684,7 @@
    */
 
 
-  function isObject$2(val) {
+  function isObject$1(val) {
     return val !== null && _typeof(val) === 'object';
   }
   /**
@@ -2154,7 +2756,7 @@
 
 
   function isStream(val) {
-    return isObject$2(val) && isFunction(val.pipe);
+    return isObject$1(val) && isFunction(val.pipe);
   }
   /**
    * Determine if a value is a URLSearchParams object
@@ -2261,9 +2863,7 @@
    */
 
 
-  function merge()
-  /* obj1, obj2, obj3, ... */
-  {
+  function merge() {
     var result = {};
 
     function assignValue(val, key) {
@@ -2326,9 +2926,9 @@
     isBuffer: isBuffer,
     isFormData: isFormData,
     isArrayBufferView: isArrayBufferView,
-    isString: isString$2,
+    isString: isString$1,
     isNumber: isNumber,
-    isObject: isObject$2,
+    isObject: isObject$1,
     isPlainObject: isPlainObject,
     isUndefined: isUndefined,
     isDate: isDate,
@@ -3170,27 +3770,27 @@
     return config;
   };
 
-  var _args = [["axios@0.21.4", "/e/IDDQD/magento"]];
-  var _from = "axios@0.21.4";
+  var _from = "axios@~0.21.4";
   var _id = "axios@0.21.4";
   var _inBundle = false;
   var _integrity = "sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==";
   var _location = "/axios";
   var _phantomChildren = {};
   var _requested = {
-    type: "version",
+    type: "range",
     registry: true,
-    raw: "axios@0.21.4",
+    raw: "axios@~0.21.4",
     name: "axios",
     escapedName: "axios",
-    rawSpec: "0.21.4",
+    rawSpec: "~0.21.4",
     saveSpec: null,
-    fetchSpec: "0.21.4"
+    fetchSpec: "~0.21.4"
   };
-  var _requiredBy = ["/@ideal-postcodes/core-axios"];
+  var _requiredBy = ["/", "/@ideal-postcodes/core-axios"];
   var _resolved = "https://registry.npmjs.org/axios/-/axios-0.21.4.tgz";
-  var _spec = "0.21.4";
-  var _where = "/e/IDDQD/magento";
+  var _shasum = "c67b90dc0568e5c1cf2b0b858c43ba28e2eda575";
+  var _spec = "axios@~0.21.4";
+  var _where = "E:\\IDDQD\\magento";
   var author = {
     name: "Matt Zabriskie"
   };
@@ -3200,6 +3800,7 @@
   var bugs = {
     url: "https://github.com/axios/axios/issues"
   };
+  var bundleDependencies = false;
   var bundlesize = [{
     path: "./dist/axios.min.js",
     threshold: "5kB"
@@ -3207,6 +3808,7 @@
   var dependencies = {
     "follow-redirects": "^1.14.0"
   };
+  var deprecated = false;
   var description = "Promise based HTTP client for the browser and node.js";
   var devDependencies = {
     coveralls: "^3.0.0",
@@ -3268,7 +3870,6 @@
   var unpkg = "dist/axios.min.js";
   var version = "0.21.4";
   var pkg = {
-    _args: _args,
     _from: _from,
     _id: _id,
     _inBundle: _inBundle,
@@ -3278,13 +3879,16 @@
     _requested: _requested,
     _requiredBy: _requiredBy,
     _resolved: _resolved,
+    _shasum: _shasum,
     _spec: _spec,
     _where: _where,
     author: author,
     browser: browser,
     bugs: bugs,
+    bundleDependencies: bundleDependencies,
     bundlesize: bundlesize,
     dependencies: dependencies,
+    deprecated: deprecated,
     description: description,
     devDependencies: devDependencies,
     homepage: homepage,
@@ -3818,9 +4422,9 @@
     return Agent;
   }();
 
-  function ownKeys$9(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+  function ownKeys$8(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-  function _objectSpread$9(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$9(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$9(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+  function _objectSpread$8(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$8(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$8(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
   function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
@@ -3837,7 +4441,7 @@
       _classCallCheck(this, Client);
 
       var agent = new Agent();
-      return _super.call(this, _objectSpread$9({
+      return _super.call(this, _objectSpread$8({
         agent: agent
       }, config));
     }
@@ -3845,20 +4449,20 @@
     return Client;
   }(Client$1);
 
-  var isString$1 = function isString(input) {
+  var isString = function isString(input) {
     return typeof input === "string";
   };
 
-  var hasWindow$1 = function hasWindow() {
+  var hasWindow = function hasWindow() {
     return typeof window !== "undefined";
   };
-  var toArray$1 = function toArray(nodeList) {
+  var toArray = function toArray(nodeList) {
     return Array.prototype.slice.call(nodeList);
   };
-  var loaded$1 = function loaded(elem) {
+  var loaded = function loaded(elem) {
     return elem.getAttribute("idpc") === "true";
   };
-  var markLoaded$1 = function markLoaded(elem) {
+  var markLoaded = function markLoaded(elem) {
     return elem.setAttribute("idpc", "true");
   };
 
@@ -3879,51 +4483,51 @@
 
     return null;
   };
-  var toHtmlElem$1 = function toHtmlElem(parent, selector) {
+  var toHtmlElem = function toHtmlElem(parent, selector) {
     return selector ? parent.querySelector(selector) : null;
   };
-  var toElem$1 = function toElem(elem, context) {
-    if (isString$1(elem)) return context.querySelector(elem);
+  var toElem = function toElem(elem, context) {
+    if (isString(elem)) return context.querySelector(elem);
     return elem;
   };
 
-  var d$2 = function d() {
+  var d$1 = function d() {
     return window.document;
   };
 
   var getScope$1 = function getScope(scope) {
-    if (isString$1(scope)) return d$2().querySelector(scope);
-    if (scope === null) return d$2();
+    if (isString(scope)) return d$1().querySelector(scope);
+    if (scope === null) return d$1();
     return scope;
   };
-  var getDocument$1 = function getDocument(scope) {
+  var getDocument = function getDocument(scope) {
     if (scope instanceof Document) return scope;
     if (scope.ownerDocument) return scope.ownerDocument;
-    return d$2();
+    return d$1();
   };
-  var setStyle$1 = function setStyle(element, style) {
+  var setStyle = function setStyle(element, style) {
     var currentRules = element.getAttribute("style");
     Object.keys(style).forEach(function (key) {
       return element.style[key] = style[key];
     });
     return currentRules;
   };
-  var restoreStyle$1 = function restoreStyle(element, style) {
+  var restoreStyle = function restoreStyle(element, style) {
     element.setAttribute("style", style || "");
   };
-  var hide$1 = function hide(e) {
+  var hide = function hide(e) {
     e.style.display = "none";
     return e;
   };
-  var show$1 = function show(e) {
+  var show = function show(e) {
     e.style.display = "";
     return e;
   };
-  var remove$1 = function remove(elem) {
+  var remove = function remove(elem) {
     if (elem === null || elem.parentNode === null) return;
     elem.parentNode.removeChild(elem);
   };
-  var contains$1 = function contains(scope, selector, text) {
+  var contains = function contains(scope, selector, text) {
     var elements = scope.querySelectorAll(selector);
 
     for (var i = 0; i < elements.length; i++) {
@@ -3966,7 +4570,7 @@
       stop: stop
     };
   };
-  var cssEscape$1 = function cssEscape(value) {
+  var cssEscape = function cssEscape(value) {
     value = String(value);
     var length = value.length;
     var index = -1;
@@ -4018,7 +4622,7 @@
     return style;
   };
 
-  var newEvent$1 = function newEvent(_ref) {
+  var newEvent = function newEvent(_ref) {
     var event = _ref.event,
         _ref$bubbles = _ref.bubbles,
         bubbles = _ref$bubbles === void 0 ? true : _ref$bubbles,
@@ -4032,51 +4636,51 @@
     e.initEvent(event, bubbles, cancelable);
     return e;
   };
-  var trigger$1 = function trigger(e, event) {
-    return e.dispatchEvent(newEvent$1({
+  var trigger = function trigger(e, event) {
+    return e.dispatchEvent(newEvent({
       event: event
     }));
   };
 
-  var isSelect$1 = function isSelect(e) {
+  var isSelect = function isSelect(e) {
     if (e === null) return false;
     return e instanceof HTMLSelectElement;
   };
-  var isInput$1 = function isInput(e) {
+  var isInput = function isInput(e) {
     if (e === null) return false;
     return e instanceof HTMLInputElement;
   };
-  var isTextarea$1 = function isTextarea(e) {
+  var isTextarea = function isTextarea(e) {
     if (e === null) return false;
     return e instanceof HTMLTextAreaElement;
   };
-  var update$2 = function update(input, value) {
+  var update$1 = function update(input, value) {
     var skipTrigger = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
     if (!input) return;
-    if (!isInput$1(input) && !isTextarea$1(input)) return;
-    change$1({
+    if (!isInput(input) && !isTextarea(input)) return;
+    change({
       e: input,
       value: value,
       skipTrigger: skipTrigger
     });
   };
-  var hasValue$1 = function hasValue(select, value) {
+  var hasValue = function hasValue(select, value) {
     if (value === null) return false;
     return select.querySelector("[value=\"".concat(value, "\"]")) !== null;
   };
 
-  var updateSelect$1 = function updateSelect(_ref) {
+  var updateSelect = function updateSelect(_ref) {
     var e = _ref.e,
         value = _ref.value,
         skipTrigger = _ref.skipTrigger;
     if (value === null) return;
-    if (!isSelect$1(e)) return;
-    setValue$1(e, value);
-    if (!skipTrigger) trigger$1(e, "select");
-    trigger$1(e, "change");
+    if (!isSelect(e)) return;
+    setValue(e, value);
+    if (!skipTrigger) trigger(e, "select");
+    trigger(e, "change");
   };
 
-  var setValue$1 = function setValue(e, value) {
+  var setValue = function setValue(e, value) {
     var descriptor = Object.getOwnPropertyDescriptor(e.constructor.prototype, "value");
     if (descriptor === undefined) return;
     if (descriptor.set === undefined) return;
@@ -4084,99 +4688,99 @@
     setter.call(e, value);
   };
 
-  var updateInput$1 = function updateInput(_ref2) {
+  var updateInput = function updateInput(_ref2) {
     var e = _ref2.e,
         value = _ref2.value,
         skipTrigger = _ref2.skipTrigger;
     if (value === null) return;
-    if (!isInput$1(e) && !isTextarea$1(e)) return;
-    setValue$1(e, value);
-    if (!skipTrigger) trigger$1(e, "input");
-    trigger$1(e, "change");
+    if (!isInput(e) && !isTextarea(e)) return;
+    setValue(e, value);
+    if (!skipTrigger) trigger(e, "input");
+    trigger(e, "change");
   };
 
-  var change$1 = function change(options) {
+  var change = function change(options) {
     if (options.value === null) return;
-    updateSelect$1(options);
-    updateInput$1(options);
+    updateSelect(options);
+    updateInput(options);
   };
 
-  var toCiIso$1 = function toCiIso(address) {
+  var toCiIso = function toCiIso(address) {
     if (/^GY/.test(address.postcode)) return "GG";
     if (/^JE/.test(address.postcode)) return "JE";
     return null;
   };
-  var UK$1 = "United Kingdom";
-  var IOM$1 = "Isle of Man";
-  var EN$1 = "England";
-  var SC$1 = "Scotland";
-  var WA$1 = "Wales";
-  var NI$1 = "Northern Ireland";
-  var CI$1 = "Channel Islands";
-  var toIso$1 = function toIso(address) {
+  var UK = "United Kingdom";
+  var IOM = "Isle of Man";
+  var EN = "England";
+  var SC = "Scotland";
+  var WA = "Wales";
+  var NI = "Northern Ireland";
+  var CI = "Channel Islands";
+  var toIso = function toIso(address) {
     var country = address.country;
-    if (country === EN$1) return "GB";
-    if (country === SC$1) return "GB";
-    if (country === WA$1) return "GB";
-    if (country === NI$1) return "GB";
-    if (country === IOM$1) return "IM";
-    if (country === CI$1) return toCiIso$1(address);
+    if (country === EN) return "GB";
+    if (country === SC) return "GB";
+    if (country === WA) return "GB";
+    if (country === NI) return "GB";
+    if (country === IOM) return "IM";
+    if (country === CI) return toCiIso(address);
     return null;
   };
-  var toCountry$1 = function toCountry(address) {
+  var toCountry = function toCountry(address) {
     var country = address.country;
-    if (country === EN$1) return UK$1;
-    if (country === SC$1) return UK$1;
-    if (country === WA$1) return UK$1;
-    if (country === NI$1) return UK$1;
-    if (country === IOM$1) return IOM$1;
+    if (country === EN) return UK;
+    if (country === SC) return UK;
+    if (country === WA) return UK;
+    if (country === NI) return UK;
+    if (country === IOM) return IOM;
 
-    if (country === CI$1) {
-      var iso = toCiIso$1(address);
+    if (country === CI) {
+      var iso = toCiIso(address);
       if (iso === "GG") return "Guernsey";
       if (iso === "JE") return "Jersey";
     }
 
     return null;
   };
-  var updateCountry$1 = function updateCountry(select, address) {
+  var updateCountry = function updateCountry(select, address) {
     if (!select) return;
 
-    if (isSelect$1(select)) {
-      var iso = toIso$1(address);
-      if (hasValue$1(select, iso)) change$1({
+    if (isSelect(select)) {
+      var iso = toIso(address);
+      if (hasValue(select, iso)) change({
         e: select,
         value: iso
       });
-      var bcc = toCountry$1(address);
-      if (hasValue$1(select, bcc)) change$1({
+      var bcc = toCountry(address);
+      if (hasValue(select, bcc)) change({
         e: select,
         value: bcc
       });
     }
 
-    if (isInput$1(select)) {
-      var _bcc = toCountry$1(address);
+    if (isInput(select)) {
+      var _bcc = toCountry(address);
 
-      change$1({
+      change({
         e: select,
         value: _bcc
       });
     }
   };
 
-  var g$1 = {};
+  var g = {};
 
-  if (hasWindow$1()) {
+  if (hasWindow()) {
     if (window.idpcGlobal) {
-      g$1 = window.idpcGlobal;
+      g = window.idpcGlobal;
     } else {
-      window.idpcGlobal = g$1;
+      window.idpcGlobal = g;
     }
   }
 
   var idpcState = function idpcState() {
-    return g$1;
+    return g;
   };
 
   var idGen = function idGen() {
@@ -4190,76 +4794,76 @@
     };
   };
 
-  function ownKeys$8(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+  function ownKeys$7(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-  function _objectSpread$8(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$8(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$8(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-  var numberOfLines$1 = function numberOfLines(targets) {
+  function _objectSpread$7(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$7(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$7(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+  var numberOfLines = function numberOfLines(targets) {
     var line_2 = targets.line_2,
         line_3 = targets.line_3;
     if (!line_2) return 1;
     if (!line_3) return 2;
     return 3;
   };
-  var join$1 = function join(list) {
+  var join = function join(list) {
     return list.filter(function (e) {
-      if (isString$1(e)) return !!e.trim();
+      if (isString(e)) return !!e.trim();
       return !!e;
     }).join(", ");
   };
-  var toAddressLines$1 = function toAddressLines(n, address) {
+  var toAddressLines = function toAddressLines(n, address) {
     var line_1 = address.line_1,
         line_2 = address.line_2,
         line_3 = address.line_3;
     if (n === 3) return [line_1, line_2, line_3];
-    if (n === 2) return [line_1, join$1([line_2, line_3]), ""];
-    return [join$1([line_1, line_2, line_3]), "", ""];
+    if (n === 2) return [line_1, join([line_2, line_3]), ""];
+    return [join([line_1, line_2, line_3]), "", ""];
   };
-  var extract$1 = function extract(a, attr) {
+  var extract = function extract(a, attr) {
     var result = a[attr];
     if (typeof result === "number") return result.toString();
     if (result === undefined) return "";
     return result;
   };
-  var notInAddress$1 = function notInAddress(o, attr) {
+  var notInAddress = function notInAddress(o, attr) {
     return o[attr] === undefined;
   };
   var getFields$1 = function getFields(o) {
-    return _objectSpread$8(_objectSpread$8(_objectSpread$8({}, o.outputFields), searchNames$1(o.names || {}, o.config.scope)), searchLabels$1(o.labels || {}, o.config.scope));
+    return _objectSpread$7(_objectSpread$7(_objectSpread$7({}, o.outputFields), searchNames(o.names || {}, o.config.scope)), searchLabels(o.labels || {}, o.config.scope));
   };
 
-  var updateLines$1 = function updateLines(fields, address, scope) {
-    var _toAddressLines3 = toAddressLines$1(numberOfLines$1(fields), address),
+  var updateLines = function updateLines(fields, address, scope) {
+    var _toAddressLines3 = toAddressLines(numberOfLines(fields), address),
         _toAddressLines4 = _slicedToArray(_toAddressLines3, 3),
         line_1 = _toAddressLines4[0],
         line_2 = _toAddressLines4[1],
         line_3 = _toAddressLines4[2];
 
-    update$2(toElem$1(fields.line_1 || null, scope), line_1);
-    update$2(toElem$1(fields.line_2 || null, scope), line_2);
-    update$2(toElem$1(fields.line_3 || null, scope), line_3);
+    update$1(toElem(fields.line_1 || null, scope), line_1);
+    update$1(toElem(fields.line_2 || null, scope), line_2);
+    update$1(toElem(fields.line_3 || null, scope), line_3);
   };
 
-  var searchNames$1 = function searchNames(names, scope) {
+  var searchNames = function searchNames(names, scope) {
     var result = {};
     var key;
 
     for (key in names) {
       if (!names.hasOwnProperty(key)) continue;
       var name = names[key];
-      var named = toElem$1("[name=\"".concat(name, "\"]"), scope);
+      var named = toElem("[name=\"".concat(name, "\"]"), scope);
 
       if (named) {
         result[key] = named;
         continue;
       }
 
-      var ariaNamed = toElem$1("[aria-name=\"".concat(name, "\"]"), scope);
+      var ariaNamed = toElem("[aria-name=\"".concat(name, "\"]"), scope);
       if (ariaNamed) result[key] = ariaNamed;
     }
 
     return result;
   };
-  var searchLabels$1 = function searchLabels(labels, scope) {
+  var searchLabels = function searchLabels(labels, scope) {
     var result = {};
     if (labels === undefined) return labels;
     var key;
@@ -4268,13 +4872,13 @@
       if (!labels.hasOwnProperty(key)) continue;
       var name = labels[key];
       if (!name) continue;
-      var first = contains$1(scope, "label", name);
-      var label = toElem$1(first, scope);
+      var first = contains(scope, "label", name);
+      var label = toElem(first, scope);
       if (!label) continue;
       var forEl = label.getAttribute("for");
 
       if (forEl) {
-        var byId = scope.querySelector("#".concat(cssEscape$1(forEl)));
+        var byId = scope.querySelector("#".concat(cssEscape(forEl)));
 
         if (byId) {
           result[key] = byId;
@@ -4288,39 +4892,39 @@
 
     return result;
   };
-  var populateAddress$1 = function populateAddress(options) {
+  var populateAddress = function populateAddress(options) {
     var config = options.config;
 
-    var address = _objectSpread$8({}, options.address);
+    var address = _objectSpread$7({}, options.address);
 
     var scope = config.scope,
         titleizePostTown = config.titleizePostTown,
         populateOrganisation = config.populateOrganisation,
         populateCounty = config.populateCounty;
     var fields = getFields$1(options);
-    if (config.removeOrganisation) removeOrganisation$1(address);
+    if (config.removeOrganisation) removeOrganisation(address);
     if (titleizePostTown) address.post_town = dist.capitalisePostTown(address.post_town);
-    updateLines$1(fields, address, scope);
+    updateLines(fields, address, scope);
     delete address.line_1;
     delete address.line_2;
     delete address.line_3;
-    updateCountry$1(toElem$1(fields.country || null, scope), address);
+    updateCountry(toElem(fields.country || null, scope), address);
     delete address.country;
     if (populateOrganisation === false) delete address.organisation_name;
     if (populateCounty === false) delete address.county;
     var e;
 
     for (e in fields) {
-      if (notInAddress$1(address, e)) continue;
+      if (notInAddress(address, e)) continue;
 
       if (fields.hasOwnProperty(e)) {
         var value = fields[e];
         if (!value) continue;
-        update$2(toElem$1(value, scope), extract$1(address, e));
+        update$1(toElem(value, scope), extract(address, e));
       }
     }
   };
-  var removeOrganisation$1 = function removeOrganisation(address) {
+  var removeOrganisation = function removeOrganisation(address) {
     if (address.organisation_name.length === 0) return address;
     if (address.line_2.length === 0 && address.line_3.length === 0) return address;
 
@@ -4333,7 +4937,7 @@
     return address;
   };
 
-  var keyCodeMapping$1 = {
+  var keyCodeMapping = {
     13: "Enter",
     38: "ArrowUp",
     40: "ArrowDown",
@@ -4342,15 +4946,15 @@
     27: "Escape",
     8: "Backspace"
   };
-  var supportedKeys$1 = ["Enter", "ArrowUp", "ArrowDown", "Home", "End", "Escape", "Backspace"];
+  var supportedKeys = ["Enter", "ArrowUp", "ArrowDown", "Home", "End", "Escape", "Backspace"];
 
-  var supported$1 = function supported(k) {
-    return supportedKeys$1.indexOf(k) !== -1;
+  var supported = function supported(k) {
+    return supportedKeys.indexOf(k) !== -1;
   };
 
-  var toKey$1 = function toKey(event) {
-    if (event.keyCode) return keyCodeMapping$1[event.keyCode] || null;
-    return supported$1(event.key) ? event.key : null;
+  var toKey = function toKey(event) {
+    if (event.keyCode) return keyCodeMapping[event.keyCode] || null;
+    return supported(event.key) ? event.key : null;
   };
 
   /*! *****************************************************************************
@@ -4619,9 +5223,9 @@
     return c;
   }
 
-  function ownKeys$7(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+  function ownKeys$6(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-  function _objectSpread$7(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$7(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$7(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+  function _objectSpread$6(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$6(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$6(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
   /**
    * @hidden
    */
@@ -4689,12 +5293,12 @@
         notifying: {
           entry: ["renderNotice"],
           exit: ["clearAnnouncement"],
-          on: _objectSpread$7(_objectSpread$7(_objectSpread$7(_objectSpread$7({}, CLOSE), SUGGEST), NOTIFY), INPUT)
+          on: _objectSpread$6(_objectSpread$6(_objectSpread$6(_objectSpread$6({}, CLOSE), SUGGEST), NOTIFY), INPUT)
         },
         suggesting: {
           entry: ["renderSuggestions", "gotoCurrent", "expand"],
           exit: ["resetCurrent", "gotoCurrent", "contract"],
-          on: _objectSpread$7(_objectSpread$7(_objectSpread$7(_objectSpread$7(_objectSpread$7({}, CLOSE), SUGGEST), NOTIFY), INPUT), {}, {
+          on: _objectSpread$6(_objectSpread$6(_objectSpread$6(_objectSpread$6(_objectSpread$6({}, CLOSE), SUGGEST), NOTIFY), INPUT), {}, {
             NEXT: {
               actions: ["next", "gotoCurrent"]
             },
@@ -4770,7 +5374,7 @@
             li.setAttribute("aria-posinset", "".concat(i + 1));
             li.setAttribute("aria-setsize", s.length.toString());
             li.setAttribute("role", "option");
-            setStyle$1(li, view.options.liStyle);
+            setStyle(li, view.options.liStyle);
             li.id = "".concat(id, "_").concat(i);
             view.list.appendChild(li);
           });
@@ -4796,8 +5400,8 @@
         close: function close(_, e) {
           var reason = "blur";
           if (e.type === "CLOSE") reason = e.reason;
-          hide$1(view.list);
-          if (e.type === "CLOSE" && e.reason === "esc") update$2(view.input, "");
+          hide(view.list);
+          if (e.type === "CLOSE" && e.reason === "esc") update$1(view.input, "");
           view.options.onClose.call(view, reason);
         },
 
@@ -4805,7 +5409,7 @@
          * Makes list visible and run callback
          */
         open: function open() {
-          show$1(view.list);
+          show(view.list);
           view.options.onOpen.call(view);
         },
 
@@ -4902,13 +5506,13 @@
    * _.isObject(null);
    * // => false
    */
-  function isObject$1(value) {
+  function isObject(value) {
     var type = _typeof(value);
 
     return value != null && (type == 'object' || type == 'function');
   }
 
-  var isObject_1 = isObject$1;
+  var isObject_1 = isObject;
 
   var freeGlobal = _typeof(commonjsGlobal) == 'object' && commonjsGlobal && commonjsGlobal.Object === Object && commonjsGlobal;
   var _freeGlobal = freeGlobal;
@@ -5266,7 +5870,7 @@
    * jQuery(window).on('popstate', debounced.cancel);
    */
 
-  function debounce$1(func, wait, options) {
+  function debounce(func, wait, options) {
     var lastArgs,
         lastThis,
         maxWait,
@@ -5393,7 +5997,7 @@
     return debounced;
   }
 
-  var debounce_1 = debounce$1;
+  var debounce_1 = debounce;
 
   /**
    * @hidden
@@ -5409,7 +6013,7 @@
    * @hidden
    */
 
-  var update$1 = function update(e, id) {
+  var update = function update(e, id) {
     e.id = id;
     e.setAttribute("role", "status");
     e.setAttribute("aria-live", "polite");
@@ -5429,8 +6033,8 @@
         idB = _ref.idB;
     var container = document.createElement("div");
     container.setAttribute("style", reset + hidden);
-    var a = update$1(document.createElement("div"), idA);
-    var b = update$1(document.createElement("div"), idB);
+    var a = update(document.createElement("div"), idA);
+    var b = update(document.createElement("div"), idB);
     container.appendChild(a);
     container.appendChild(b);
     var A = true;
@@ -5487,12 +6091,12 @@
       this.list.id = this.ids();
       this.list.setAttribute("aria-label", this.options.msgList);
       this.list.setAttribute("role", "listbox");
-      hide$1(this.list); //configure unhide
+      hide(this.list); //configure unhide
 
       this.unhideEvent = this.unhideFields.bind(this);
       this.unhide = this.createUnhide(); // Configure input
 
-      if (isString$1(inputField)) {
+      if (isString(inputField)) {
         this.input = this.options.scope.querySelector(inputField);
       } else {
         this.input = inputField;
@@ -5527,9 +6131,9 @@
 
       this.announce = announce;
       this.alerts = container;
-      this.inputStyle = setStyle$1(this.input, this.options.inputStyle);
-      setStyle$1(this.container, this.options.containerStyle);
-      setStyle$1(this.list, this.options.listStyle);
+      this.inputStyle = setStyle(this.input, this.options.inputStyle);
+      setStyle(this.container, this.options.containerStyle);
+      setStyle(this.list, this.options.listStyle);
       this.fsm = create({
         view: this
       });
@@ -5598,7 +6202,7 @@
         this.unmountUnhide();
         this.unhideFields();
         this.fsm.stop();
-        restoreStyle$1(this.input, this.inputStyle);
+        restoreStyle(this.input, this.inputStyle);
         this.options.onRemove.call(this);
         return this;
       }
@@ -5831,7 +6435,7 @@
       key: "unmountUnhide",
       value: function unmountUnhide() {
         this.unhide.removeEventListener("click", this.unhideEvent);
-        if (this.options.unhide == null && this.options.hide.length) remove$1(this.unhide);
+        if (this.options.unhide == null && this.options.hide.length) remove(this.unhide);
       }
     }, {
       key: "hiddenFields",
@@ -5839,7 +6443,7 @@
         var _this2 = this;
 
         return this.options.hide.map(function (e) {
-          if (isString$1(e)) return toHtmlElem$1(_this2.options.scope, e);
+          if (isString(e)) return toHtmlElem(_this2.options.scope, e);
           return e;
         }).filter(function (e) {
           return e !== null;
@@ -5852,7 +6456,7 @@
     }, {
       key: "hideFields",
       value: function hideFields() {
-        this.hiddenFields().forEach(hide$1);
+        this.hiddenFields().forEach(hide);
       }
       /**
        * Unhides fields marked for hiding
@@ -5861,7 +6465,7 @@
     }, {
       key: "unhideFields",
       value: function unhideFields() {
-        this.hiddenFields().forEach(show$1);
+        this.hiddenFields().forEach(show);
         this.options.onUnhide.call(this);
       }
     }]);
@@ -5959,13 +6563,8 @@
 
   var _onKeyDown = function _onKeyDown(view) {
     return function (event) {
-      var key = toKey$1(event); //always prevent On enter
-
-      if (key === "Enter") {
-        event.preventDefault();
-      }
-
       view.options.onKeyDown.call(view, event);
+      var key = toKey(event);
 
       if (view.closed()) {
         view.open();
@@ -5974,6 +6573,7 @@
 
       if (view.fsm.state.matches("suggesting")) {
         if (key === "Enter") {
+          event.preventDefault();
           view.select();
         }
 
@@ -6012,14 +6612,14 @@
    */
 
   var findOrCreate = function findOrCreate(scope, q, create) {
-    if (isString$1(q)) return scope.querySelector(q);
+    if (isString(q)) return scope.querySelector(q);
     if (create && q === null) return create();
     return q;
   };
 
-  function ownKeys$6(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+  function ownKeys$5(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-  function _objectSpread$6(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$6(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$6(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+  function _objectSpread$5(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$5(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$5(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
   /**
    * @hidden
    */
@@ -6069,7 +6669,7 @@
         var cachedValue = this.retrieve(_query);
         if (cachedValue) return Promise.resolve(cachedValue);
         var p = list(this.client, {
-          query: _objectSpread$6({
+          query: _objectSpread$5({
             query: _query,
             api_key: this.client.config.api_key
           }, options)
@@ -6108,7 +6708,7 @@
    * @hidden
    */
 
-  var d$1 = ".idpc_ul.hidden{display:none}div.idpc_autocomplete{position:relative;margin:0;padding:0;border:0}div.idpc_autocomplete>input{display:block}div.idpc_autocomplete>ul{position:absolute;left:0;z-index:999;min-width:100%;box-sizing:border-box;list-style:none;padding:0;border-radius:.3em;margin:.2em 0 0;background:#fff;border:1px solid rgba(0,0,0,.3);box-shadow:.05em .2em .6em rgba(0,0,0,.2);text-shadow:none;max-height:250px;overflow-y:scroll}div.idpc_autocomplete>ul>li{position:relative;padding:.2em .5em;cursor:pointer}div.idpc_autocomplete>ul>li:hover{background:#b8d3e0;color:#000}div.idpc_autocomplete>ul>li.idpc_error{font-style:italic;background-color:#eee;cursor:default!important}div.idpc_autocomplete>ul>li[aria-selected=true]{background:#3d6d8f;color:#fff;z-index:1000}div.idpc_autocomplete>.idpc-unhide{font-size:90%;text-decoration:underline;cursor:pointer}@supports (transform:scale(0)){div.idpc_autocomplete>ul{transition:.3s cubic-bezier(.4, .2, .5, 1.4);transform-origin:1.43em -0.43em}div.idpc_autocomplete>ul:empty,div.idpc_autocomplete>ul[hidden]{opacity:0;transform:scale(0);display:block;transition-timing-function:ease}}";
+  var d = ".idpc_ul.hidden{display:none}div.idpc_autocomplete{position:relative;margin:0;padding:0;border:0}div.idpc_autocomplete>input{display:block}div.idpc_autocomplete>ul{position:absolute;left:0;z-index:999;min-width:100%;box-sizing:border-box;list-style:none;padding:0;border-radius:.3em;margin:.2em 0 0;background:#fff;border:1px solid rgba(0,0,0,.3);box-shadow:.05em .2em .6em rgba(0,0,0,.2);text-shadow:none;max-height:250px;overflow-y:scroll}div.idpc_autocomplete>ul>li{position:relative;padding:.2em .5em;cursor:pointer}div.idpc_autocomplete>ul>li:hover{background:#b8d3e0;color:#000}div.idpc_autocomplete>ul>li.idpc_error{font-style:italic;background-color:#eee;cursor:default!important}div.idpc_autocomplete>ul>li[aria-selected=true]{background:#3d6d8f;color:#fff;z-index:1000}div.idpc_autocomplete>.idpc-unhide{font-size:90%;text-decoration:underline;cursor:pointer}@supports (transform:scale(0)){div.idpc_autocomplete>ul{transition:.3s cubic-bezier(.4, .2, .5, 1.4);transform-origin:1.43em -0.43em}div.idpc_autocomplete>ul:empty,div.idpc_autocomplete>ul[hidden]{opacity:0;transform:scale(0);display:block;transition-timing-function:ease}}";
   /**
    * Injects CSS style into DOM
    *
@@ -6123,7 +6723,7 @@
     var g = idpcState();
     if (!g.afstyle) g.afstyle = {};
 
-    if (isString$1(style) && !g.afstyle[style]) {
+    if (isString(style) && !g.afstyle[style]) {
       g.afstyle[style] = true;
       var link = loadStyle(style, c.document);
       c.document.head.appendChild(link);
@@ -6132,15 +6732,15 @@
 
     if (style === true && !g.afstyle[""]) {
       g.afstyle[""] = true;
-      return injectStyle(d$1, c.document);
+      return injectStyle(d, c.document);
     }
 
     return;
   };
 
-  function ownKeys$5(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+  function ownKeys$4(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-  function _objectSpread$5(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$5(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$5(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+  function _objectSpread$4(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$4(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$4(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
   /**
    * @hidden
    */
@@ -6235,7 +6835,7 @@
 
       _classCallCheck(this, Controller);
 
-      this.options = _objectSpread$5(_objectSpread$5(_objectSpread$5({}, {
+      this.options = _objectSpread$4(_objectSpread$4(_objectSpread$4({}, {
         scope: window.document,
         document: window.document
       }), defaults$1), options); // Default inputField to line_1 if `inputField` not specified
@@ -6248,16 +6848,16 @@
 
       this.scope = getScope$1(this.options.scope); // Assign a parent Document for elem creation
 
-      this.document = getDocument$1(this.scope); // Assign a document or DOM subtree to scope outputs. Defaults to controller scope
+      this.document = getDocument(this.scope); // Assign a document or DOM subtree to scope outputs. Defaults to controller scope
 
       this.outputScope = findOrCreate(this.scope, this.options.outputScope, function () {
         return _this.scope;
       });
-      this.client = new Client(_objectSpread$5(_objectSpread$5({}, this.options), {}, {
+      this.client = new Client(_objectSpread$4(_objectSpread$4({}, this.options), {}, {
         api_key: this.options.apiKey
       }));
       this.cache = new ApiCache(this.client);
-      this.view = new View(_objectSpread$5(_objectSpread$5({}, this.options), {}, {
+      this.view = new View(_objectSpread$4(_objectSpread$4({}, this.options), {}, {
         scope: this.scope,
         document: this.document,
         onInput: debounce_1(this._onInput(), 100, {
@@ -6388,12 +6988,12 @@
 
     }, {
       key: "populateAddress",
-      value: function populateAddress(address) {
+      value: function populateAddress$1(address) {
         this.view.unhideFields();
 
-        populateAddress$1({
+        populateAddress({
           address: address,
-          config: _objectSpread$5(_objectSpread$5({}, this.options), {}, {
+          config: _objectSpread$4(_objectSpread$4({}, this.options), {}, {
             scope: this.outputScope
           }),
           outputFields: this.options.outputFields,
@@ -6421,9 +7021,9 @@
     return Controller;
   }();
 
-  function ownKeys$4(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+  function ownKeys$3(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-  function _objectSpread$4(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$4(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$4(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+  function _objectSpread$3(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$3(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$3(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
   var isTrue$1 = function isTrue() {
     return true;
@@ -6432,8 +7032,8 @@
   var getAnchors$1 = function getAnchors(config) {
     var scope = getScope$1(config.scope || null);
     var matches = scope.querySelectorAll(config.anchor || config.inputField || (config.outputFields || {}).line_1);
-    return toArray$1(matches).filter(function (e) {
-      return !loaded$1(e);
+    return toArray(matches).filter(function (e) {
+      return !loaded(e);
     });
   };
 
@@ -6484,13 +7084,13 @@
           config: config,
           options: options
         });
-        getAnchors$1(_objectSpread$4({
+        getAnchors$1(_objectSpread$3({
           anchor: anchor
         }, config)).forEach(function (anchor) {
           var scope = getScope(anchor);
           if (!scope) return;
 
-          var newConfig = _objectSpread$4(_objectSpread$4({
+          var newConfig = _objectSpread$3(_objectSpread$3({
             scope: scope
           }, config), {}, {
             checkKey: false
@@ -6502,7 +7102,7 @@
             config: newConfig
           });
           var c = setup$1(newConfig);
-          markLoaded$1(anchor);
+          markLoaded(anchor);
           onBind(c);
         });
       };
@@ -6576,626 +7176,6 @@
     go: go
   };
 
-  var isString = function isString(input) {
-    return typeof input === "string";
-  };
-
-  var hasWindow = function hasWindow() {
-    return typeof window !== "undefined";
-  };
-  var toArray = function toArray(nodeList) {
-    return Array.prototype.slice.call(nodeList);
-  };
-  var loaded = function loaded(elem) {
-    return elem.getAttribute("idpc") === "true";
-  };
-  var markLoaded = function markLoaded(elem) {
-    return elem.setAttribute("idpc", "true");
-  };
-  var toHtmlElem = function toHtmlElem(parent, selector) {
-    return selector ? parent.querySelector(selector) : null;
-  };
-  var toElem = function toElem(elem, context) {
-    if (isString(elem)) return context.querySelector(elem);
-    return elem;
-  };
-
-  var d = function d() {
-    return window.document;
-  };
-
-  var getScope = function getScope(scope) {
-    if (isString(scope)) return d().querySelector(scope);
-    if (scope === null) return d();
-    return scope;
-  };
-  var getDocument = function getDocument(scope) {
-    if (scope instanceof Document) return scope;
-    if (scope.ownerDocument) return scope.ownerDocument;
-    return d();
-  };
-  var setStyle = function setStyle(element, style) {
-    var currentRules = element.getAttribute("style");
-    Object.keys(style).forEach(function (key) {
-      return element.style[key] = style[key];
-    });
-    return currentRules;
-  };
-  var restoreStyle = function restoreStyle(element, style) {
-    element.setAttribute("style", style || "");
-  };
-  var hide = function hide(e) {
-    e.style.display = "none";
-    return e;
-  };
-  var show = function show(e) {
-    e.style.display = "";
-    return e;
-  };
-  var remove = function remove(elem) {
-    if (elem === null || elem.parentNode === null) return;
-    elem.parentNode.removeChild(elem);
-  };
-  var contains = function contains(scope, selector, text) {
-    var elements = scope.querySelectorAll(selector);
-
-    for (var i = 0; i < elements.length; i++) {
-      var e = elements[i];
-      var content = e.innerText;
-      if (content && content.trim() === text) return e;
-    }
-
-    return null;
-  };
-
-  var cssEscape = function cssEscape(value) {
-    value = String(value);
-    var length = value.length;
-    var index = -1;
-    var codeUnit;
-    var result = "";
-    var firstCodeUnit = value.charCodeAt(0);
-
-    while (++index < length) {
-      codeUnit = value.charCodeAt(index);
-
-      if (codeUnit == 0x0000) {
-        result += "\uFFFD";
-        continue;
-      }
-
-      if (codeUnit >= 0x0001 && codeUnit <= 0x001f || codeUnit == 0x007f || index == 0 && codeUnit >= 0x0030 && codeUnit <= 0x0039 || index == 1 && codeUnit >= 0x0030 && codeUnit <= 0x0039 && firstCodeUnit == 0x002d) {
-        result += "\\" + codeUnit.toString(16) + " ";
-        continue;
-      }
-
-      if (index == 0 && length == 1 && codeUnit == 0x002d) {
-        result += "\\" + value.charAt(index);
-        continue;
-      }
-
-      if (codeUnit >= 0x0080 || codeUnit == 0x002d || codeUnit == 0x005f || codeUnit >= 0x0030 && codeUnit <= 0x0039 || codeUnit >= 0x0041 && codeUnit <= 0x005a || codeUnit >= 0x0061 && codeUnit <= 0x007a) {
-        result += value.charAt(index);
-        continue;
-      }
-
-      result += "\\" + value.charAt(index);
-    }
-
-    return result;
-  };
-
-  var newEvent = function newEvent(_ref) {
-    var event = _ref.event,
-        _ref$bubbles = _ref.bubbles,
-        bubbles = _ref$bubbles === void 0 ? true : _ref$bubbles,
-        _ref$cancelable = _ref.cancelable,
-        cancelable = _ref$cancelable === void 0 ? true : _ref$cancelable;
-    if (typeof window.Event === "function") return new window.Event(event, {
-      bubbles: bubbles,
-      cancelable: cancelable
-    });
-    var e = document.createEvent("Event");
-    e.initEvent(event, bubbles, cancelable);
-    return e;
-  };
-  var trigger = function trigger(e, event) {
-    return e.dispatchEvent(newEvent({
-      event: event
-    }));
-  };
-
-  var isSelect = function isSelect(e) {
-    if (e === null) return false;
-    return e instanceof HTMLSelectElement;
-  };
-  var isInput = function isInput(e) {
-    if (e === null) return false;
-    return e instanceof HTMLInputElement;
-  };
-  var isTextarea = function isTextarea(e) {
-    if (e === null) return false;
-    return e instanceof HTMLTextAreaElement;
-  };
-  var update = function update(input, value) {
-    var skipTrigger = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-    if (!input) return;
-    if (!isInput(input) && !isTextarea(input)) return;
-    change({
-      e: input,
-      value: value,
-      skipTrigger: skipTrigger
-    });
-  };
-  var hasValue = function hasValue(select, value) {
-    if (value === null) return false;
-    return select.querySelector("[value=\"".concat(value, "\"]")) !== null;
-  };
-
-  var updateSelect = function updateSelect(_ref) {
-    var e = _ref.e,
-        value = _ref.value,
-        skipTrigger = _ref.skipTrigger;
-    if (value === null) return;
-    if (!isSelect(e)) return;
-    setValue(e, value);
-    if (!skipTrigger) trigger(e, "select");
-    trigger(e, "change");
-  };
-
-  var setValue = function setValue(e, value) {
-    var descriptor = Object.getOwnPropertyDescriptor(e.constructor.prototype, "value");
-    if (descriptor === undefined) return;
-    if (descriptor.set === undefined) return;
-    var setter = descriptor.set;
-    setter.call(e, value);
-  };
-
-  var updateInput = function updateInput(_ref2) {
-    var e = _ref2.e,
-        value = _ref2.value,
-        skipTrigger = _ref2.skipTrigger;
-    if (value === null) return;
-    if (!isInput(e) && !isTextarea(e)) return;
-    setValue(e, value);
-    if (!skipTrigger) trigger(e, "input");
-    trigger(e, "change");
-  };
-
-  var change = function change(options) {
-    if (options.value === null) return;
-    updateSelect(options);
-    updateInput(options);
-  };
-
-  var toCiIso = function toCiIso(address) {
-    if (/^GY/.test(address.postcode)) return "GG";
-    if (/^JE/.test(address.postcode)) return "JE";
-    return null;
-  };
-  var UK = "United Kingdom";
-  var IOM = "Isle of Man";
-  var EN = "England";
-  var SC = "Scotland";
-  var WA = "Wales";
-  var NI = "Northern Ireland";
-  var CI = "Channel Islands";
-  var toIso = function toIso(address) {
-    var country = address.country;
-    if (country === EN) return "GB";
-    if (country === SC) return "GB";
-    if (country === WA) return "GB";
-    if (country === NI) return "GB";
-    if (country === IOM) return "IM";
-    if (country === CI) return toCiIso(address);
-    return null;
-  };
-  var toCountry = function toCountry(address) {
-    var country = address.country;
-    if (country === EN) return UK;
-    if (country === SC) return UK;
-    if (country === WA) return UK;
-    if (country === NI) return UK;
-    if (country === IOM) return IOM;
-
-    if (country === CI) {
-      var iso = toCiIso(address);
-      if (iso === "GG") return "Guernsey";
-      if (iso === "JE") return "Jersey";
-    }
-
-    return null;
-  };
-  var updateCountry = function updateCountry(select, address) {
-    if (!select) return;
-
-    if (isSelect(select)) {
-      var iso = toIso(address);
-      if (hasValue(select, iso)) change({
-        e: select,
-        value: iso
-      });
-      var bcc = toCountry(address);
-      if (hasValue(select, bcc)) change({
-        e: select,
-        value: bcc
-      });
-    }
-
-    if (isInput(select)) {
-      var _bcc = toCountry(address);
-
-      change({
-        e: select,
-        value: _bcc
-      });
-    }
-  };
-
-  var g = {};
-
-  if (hasWindow()) {
-    if (window.idpcGlobal) {
-      g = window.idpcGlobal;
-    } else {
-      window.idpcGlobal = g;
-    }
-  }
-
-  function ownKeys$3(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-  function _objectSpread$3(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$3(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$3(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-  var numberOfLines = function numberOfLines(targets) {
-    var line_2 = targets.line_2,
-        line_3 = targets.line_3;
-    if (!line_2) return 1;
-    if (!line_3) return 2;
-    return 3;
-  };
-  var join = function join(list) {
-    return list.filter(function (e) {
-      if (isString(e)) return !!e.trim();
-      return !!e;
-    }).join(", ");
-  };
-  var toAddressLines = function toAddressLines(n, address) {
-    var line_1 = address.line_1,
-        line_2 = address.line_2,
-        line_3 = address.line_3;
-    if (n === 3) return [line_1, line_2, line_3];
-    if (n === 2) return [line_1, join([line_2, line_3]), ""];
-    return [join([line_1, line_2, line_3]), "", ""];
-  };
-  var extract = function extract(a, attr) {
-    var result = a[attr];
-    if (typeof result === "number") return result.toString();
-    if (result === undefined) return "";
-    return result;
-  };
-  var notInAddress = function notInAddress(o, attr) {
-    return o[attr] === undefined;
-  };
-  var getFields = function getFields(o) {
-    return _objectSpread$3(_objectSpread$3(_objectSpread$3({}, o.outputFields), searchNames(o.names || {}, o.config.scope)), searchLabels(o.labels || {}, o.config.scope));
-  };
-
-  var updateLines = function updateLines(fields, address, scope) {
-    var _toAddressLines3 = toAddressLines(numberOfLines(fields), address),
-        _toAddressLines4 = _slicedToArray(_toAddressLines3, 3),
-        line_1 = _toAddressLines4[0],
-        line_2 = _toAddressLines4[1],
-        line_3 = _toAddressLines4[2];
-
-    update(toElem(fields.line_1 || null, scope), line_1);
-    update(toElem(fields.line_2 || null, scope), line_2);
-    update(toElem(fields.line_3 || null, scope), line_3);
-  };
-
-  var searchNames = function searchNames(names, scope) {
-    var result = {};
-    var key;
-
-    for (key in names) {
-      if (!names.hasOwnProperty(key)) continue;
-      var name = names[key];
-      var named = toElem("[name=\"".concat(name, "\"]"), scope);
-
-      if (named) {
-        result[key] = named;
-        continue;
-      }
-
-      var ariaNamed = toElem("[aria-name=\"".concat(name, "\"]"), scope);
-      if (ariaNamed) result[key] = ariaNamed;
-    }
-
-    return result;
-  };
-  var searchLabels = function searchLabels(labels, scope) {
-    var result = {};
-    if (labels === undefined) return labels;
-    var key;
-
-    for (key in labels) {
-      if (!labels.hasOwnProperty(key)) continue;
-      var name = labels[key];
-      if (!name) continue;
-      var first = contains(scope, "label", name);
-      var label = toElem(first, scope);
-      if (!label) continue;
-      var forEl = label.getAttribute("for");
-
-      if (forEl) {
-        var byId = scope.querySelector("#".concat(cssEscape(forEl)));
-
-        if (byId) {
-          result[key] = byId;
-          continue;
-        }
-      }
-
-      var inner = label.querySelector("input");
-      if (inner) result[key] = inner;
-    }
-
-    return result;
-  };
-  var populateAddress = function populateAddress(options) {
-    var config = options.config;
-
-    var address = _objectSpread$3({}, options.address);
-
-    var scope = config.scope,
-        titleizePostTown = config.titleizePostTown,
-        populateOrganisation = config.populateOrganisation,
-        populateCounty = config.populateCounty;
-    var fields = getFields(options);
-    if (config.removeOrganisation) removeOrganisation(address);
-    if (titleizePostTown) address.post_town = dist.capitalisePostTown(address.post_town);
-    updateLines(fields, address, scope);
-    delete address.line_1;
-    delete address.line_2;
-    delete address.line_3;
-    updateCountry(toElem(fields.country || null, scope), address);
-    delete address.country;
-    if (populateOrganisation === false) delete address.organisation_name;
-    if (populateCounty === false) delete address.county;
-    var e;
-
-    for (e in fields) {
-      if (notInAddress(address, e)) continue;
-
-      if (fields.hasOwnProperty(e)) {
-        var value = fields[e];
-        if (!value) continue;
-        update(toElem(value, scope), extract(address, e));
-      }
-    }
-  };
-  var removeOrganisation = function removeOrganisation(address) {
-    if (address.organisation_name.length === 0) return address;
-    if (address.line_2.length === 0 && address.line_3.length === 0) return address;
-
-    if (address.line_1 === address.organisation_name) {
-      address.line_1 = address.line_2;
-      address.line_2 = address.line_3;
-      address.line_3 = "";
-    }
-
-    return address;
-  };
-
-  var keyCodeMapping = {
-    13: "Enter",
-    38: "ArrowUp",
-    40: "ArrowDown",
-    36: "Home",
-    35: "End",
-    27: "Escape",
-    8: "Backspace"
-  };
-  var supportedKeys = ["Enter", "ArrowUp", "ArrowDown", "Home", "End", "Escape", "Backspace"];
-
-  var supported = function supported(k) {
-    return supportedKeys.indexOf(k) !== -1;
-  };
-
-  var toKey = function toKey(event) {
-    if (event.keyCode) return keyCodeMapping[event.keyCode] || null;
-    return supported(event.key) ? event.key : null;
-  };
-
-  var isObject = function isObject(value) {
-    var type = _typeof(value);
-
-    return !!value && (type == "object" || type == "function");
-  };
-  var debounce = function debounce(func, wait, options) {
-    var lastArgs, lastThis, maxWait, result, timerId, lastCallTime;
-    var lastInvokeTime = 0;
-    var leading = false;
-    var maxing = false;
-    var trailing = true;
-
-    if (typeof func !== "function") {
-      throw new TypeError("Expected a function");
-    }
-
-    wait = +wait || 0;
-
-    if (isObject(options)) {
-      leading = !!options.leading;
-      maxing = "maxWait" in options;
-      maxWait = maxing ? Math.max(+options.maxWait || 0, wait) : maxWait;
-      trailing = "trailing" in options ? !!options.trailing : trailing;
-    }
-
-    function invokeFunc(time) {
-      var args = lastArgs;
-      var thisArg = lastThis;
-      lastArgs = lastThis = undefined;
-      lastInvokeTime = time;
-      result = func.apply(thisArg, args);
-      return result;
-    }
-
-    function leadingEdge(time) {
-      lastInvokeTime = time;
-      timerId = setTimeout(timerExpired, wait);
-      return leading ? invokeFunc(time) : result;
-    }
-
-    function remainingWait(time) {
-      var timeSinceLastCall = time - lastCallTime;
-      var timeSinceLastInvoke = time - lastInvokeTime;
-      var timeWaiting = wait - timeSinceLastCall;
-      return maxing ? Math.min(timeWaiting, maxWait - timeSinceLastInvoke) : timeWaiting;
-    }
-
-    function shouldInvoke(time) {
-      var timeSinceLastCall = time - lastCallTime;
-      var timeSinceLastInvoke = time - lastInvokeTime;
-      return lastCallTime === undefined || timeSinceLastCall >= wait || timeSinceLastCall < 0 || maxing && timeSinceLastInvoke >= maxWait;
-    }
-
-    function timerExpired() {
-      var time = Date.now();
-
-      if (shouldInvoke(time)) {
-        return trailingEdge(time);
-      }
-
-      timerId = setTimeout(timerExpired, remainingWait(time));
-    }
-
-    function trailingEdge(time) {
-      timerId = undefined;
-
-      if (trailing && lastArgs) {
-        return invokeFunc(time);
-      }
-
-      lastArgs = lastThis = undefined;
-      return result;
-    }
-
-    function cancel() {
-      if (timerId !== undefined) {
-        clearTimeout(timerId);
-      }
-
-      lastInvokeTime = 0;
-      lastArgs = lastCallTime = lastThis = timerId = undefined;
-    }
-
-    function pending() {
-      return timerId !== undefined;
-    }
-
-    function debounced() {
-      var time = Date.now();
-      var isInvoking = shouldInvoke(time);
-
-      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-        args[_key] = arguments[_key];
-      }
-
-      lastArgs = args;
-      lastThis = this;
-      lastCallTime = time;
-
-      if (isInvoking) {
-        if (timerId === undefined) {
-          return leadingEdge(lastCallTime);
-        }
-
-        if (maxing) {
-          timerId = setTimeout(timerExpired, wait);
-          return invokeFunc(lastCallTime);
-        }
-      }
-
-      if (timerId === undefined) {
-        timerId = setTimeout(timerExpired, wait);
-      }
-
-      return result;
-    }
-
-    debounced.cancel = cancel;
-    debounced.pending = pending;
-    return debounced;
-  };
-
-  var watchTimer = function watchTimer(_ref) {
-    var bind = _ref.bind,
-        _ref$interval = _ref.interval,
-        interval = _ref$interval === void 0 ? 1000 : _ref$interval;
-    var timer = null;
-
-    var start = function start() {
-      timer = window.setInterval(function () {
-        try {
-          bind();
-        } catch (e) {
-          stop();
-        }
-      }, interval);
-      return timer;
-    };
-
-    var stop = function stop() {
-      if (timer === null) return;
-      window.clearInterval(timer);
-      timer = null;
-    };
-
-    return {
-      start: start,
-      stop: stop
-    };
-  };
-  var watchMutation = function watchMutation(_ref2) {
-    var bind = _ref2.bind,
-        _ref2$interval = _ref2.interval,
-        interval = _ref2$interval === void 0 ? 1000 : _ref2$interval,
-        _ref2$target = _ref2.target,
-        target = _ref2$target === void 0 ? window.document : _ref2$target,
-        _ref2$observerConfig = _ref2.observerConfig,
-        observerConfig = _ref2$observerConfig === void 0 ? {
-      subtree: true,
-      childList: true,
-      attributes: true
-    } : _ref2$observerConfig;
-    var observer = new MutationObserver(debounce(function () {
-      try {
-        bind();
-      } catch (e) {
-        stop();
-      }
-    }, interval));
-
-    var start = function start() {
-      observer.observe(target, observerConfig);
-      return null;
-    };
-
-    var stop = function stop() {
-      return observer.disconnect();
-    };
-
-    return {
-      start: start,
-      stop: stop
-    };
-  };
-  var watchChange = function watchChange(options) {
-    if (!window) return watchTimer(options);
-    if (!window.MutationObserver) return watchTimer(options);
-    if (options.mutationObserver) return watchMutation(options);
-    return watchTimer(options);
-  };
-
   /**
    * Formats an address as a suggestion to be displayed in postcode lookup select
    * menu
@@ -7241,7 +7221,7 @@
     }
   };
 
-  function ownKeys$2(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+  function ownKeys$2(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
   function _objectSpread$2(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$2(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$2(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
   /**
@@ -7265,7 +7245,7 @@
 
 
   var keypress = function keypress(event) {
-    if (toKey(event) === "Enter") {
+    if (toKey$1(event) === "Enter") {
       event.preventDefault();
       this.handleClick();
       return false;
@@ -7397,9 +7377,9 @@
         api_key: this.options.apiKey
       })); // Scope the operations of this controller to a document or DOM subtree
 
-      this.scope = getScope(this.options.scope); // Assign a parent Document for elem creation
+      this.scope = getScope$2(this.options.scope); // Assign a parent Document for elem creation
 
-      this.document = getDocument(this.scope); // Assign a document or DOM subtree to scope outputs. Defaults to controller scope
+      this.document = getDocument$1(this.scope); // Assign a document or DOM subtree to scope outputs. Defaults to controller scope
 
       this.outputScope = this.findOrCreate(this.options.outputScope, function () {
         return _this.scope;
@@ -7409,7 +7389,7 @@
 
       this.context = this.findOrCreate(this.options.context); // Set context styles if configured
 
-      this.prevContext = setStyle(this.context, this.options.contextStyle);
+      this.prevContext = setStyle$1(this.context, this.options.contextStyle);
       this.keypress = keypress.bind(this);
       this.click = click.bind(this);
       this.selectEvent = selectEvent.bind(this);
@@ -7436,7 +7416,7 @@
     _createClass(Controller, [{
       key: "findOrCreate",
       value: function findOrCreate(q, create) {
-        if (isString(q)) return this.scope.querySelector(q);
+        if (isString$3(q)) return this.scope.querySelector(q);
         if (create && q === null) return create();
         return q;
       }
@@ -7469,7 +7449,7 @@
       key: "unmountUnhide",
       value: function unmountUnhide() {
         this.unhide.removeEventListener("click", this.unhideEvent);
-        if (!this.options.unhide && this.options.hide.length) remove(this.unhide);
+        if (!this.options.unhide && this.options.hide.length) remove$1(this.unhide);
       }
       /**
        * Creates select container instance
@@ -7490,7 +7470,7 @@
           if (c.selectContainerId) div.id = c.selectContainerId;
           if (c.selectContainerClass) div.className = c.selectContainerClass;
           div.setAttribute("aria-live", "polite");
-          hide(div);
+          hide$1(div);
           return div;
         });
       }
@@ -7501,7 +7481,7 @@
     }, {
       key: "unmountContainer",
       value: function unmountContainer() {
-        remove(this.selectContainer);
+        remove$1(this.selectContainer);
       }
       /**
        * Create input field and binds event listeners
@@ -7527,7 +7507,7 @@
           if (c.placeholder) i.placeholder = c.placeholder;
           if (c.inputAriaLabel) i.setAttribute("aria-label", c.inputAriaLabel);
           if (c.autocomplete) i.setAttribute("autocomplete", c.autocomplete);
-          setStyle(i, _this4.options.inputStyle);
+          setStyle$1(i, _this4.options.inputStyle);
           return i;
         });
         input.addEventListener("keypress", this.keypress);
@@ -7545,7 +7525,7 @@
       value: function unmountInput() {
         this.input.removeEventListener("keypress", this.keypress);
         this.input.removeEventListener("submit", returnFalse);
-        if (this.options.input === null) remove(this.input);
+        if (this.options.input === null) remove$1(this.input);
       }
       /**
        * Creates button and binds event listeners
@@ -7566,7 +7546,7 @@
           if (c.buttonLabel) b.innerText = c.buttonLabel;
           if (c.buttonId) b.id = c.buttonId;
           if (c.buttonClass) b.className = c.buttonClass;
-          setStyle(b, _this5.options.buttonStyle);
+          setStyle$1(b, _this5.options.buttonStyle);
           b.onclick = preventDefault;
           return b;
         });
@@ -7585,7 +7565,7 @@
       value: function unmountButton() {
         this.button.removeEventListener("submit", returnFalse);
         this.button.removeEventListener("click", this.click);
-        if (this.options.button === null) remove(this.button);
+        if (this.options.button === null) remove$1(this.button);
       }
       /**
        * Mounts message container
@@ -7605,8 +7585,8 @@
           if (c.messageClass) p.className = c.messageClass;
           if (c.messageId) p.id = c.messageId;
           p.setAttribute("role", "alert");
-          setStyle(p, _this6.options.messageStyle);
-          hide(p);
+          setStyle$1(p, _this6.options.messageStyle);
+          hide$1(p);
           return p;
         });
       }
@@ -7617,7 +7597,7 @@
     }, {
       key: "unmountMessage",
       value: function unmountMessage() {
-        if (this.options.message === null) remove(this.message);
+        if (this.options.message === null) remove$1(this.message);
       }
       /**
        * Creates Select HTML Element
@@ -7630,7 +7610,7 @@
         var c = this.options;
         if (c.selectId) select.id = c.selectId;
         if (c.selectClass) select.className = c.selectClass;
-        setStyle(select, this.options.selectStyle);
+        setStyle$1(select, this.options.selectStyle);
         if (c.selectAriaLabel) select.setAttribute("aria-label", c.selectAriaLabel);
         select.addEventListener("change", this.selectEvent);
         return select;
@@ -7654,7 +7634,7 @@
         }
 
         this.selectContainer.appendChild(this.select);
-        show(this.selectContainer);
+        show$1(this.selectContainer);
         this.options.onSelectCreated.call(this, this.select);
       }
       /**
@@ -7664,8 +7644,8 @@
     }, {
       key: "unmountSelect",
       value: function unmountSelect() {
-        remove(this.select);
-        hide(this.selectContainer);
+        remove$1(this.select);
+        hide$1(this.selectContainer);
         this.options.onSelectRemoved.call(this);
       }
       /**
@@ -7765,7 +7745,7 @@
         this.unmountContainer();
         this.unmountMessage();
         this.unmountUnhide();
-        restoreStyle(this.context, this.prevContext);
+        restoreStyle$1(this.context, this.prevContext);
         this.options.onRemove.call(this);
       }
       /**
@@ -7877,7 +7857,7 @@
       value: function setMessage(message) {
         if (!this.message) return;
         if (message === undefined) return this.hideMessage();
-        show(this.message);
+        show$1(this.message);
         this.message.innerText = message;
       }
       /**
@@ -7889,7 +7869,7 @@
       value: function hideMessage() {
         if (!this.message) return;
         this.message.innerText = "";
-        hide(this.message);
+        hide$1(this.message);
       }
       /**
        * Call to initially render the DOM elements
@@ -7927,7 +7907,7 @@
 
     }, {
       key: "populateAddress",
-      value: function populateAddress$1(address) {
+      value: function populateAddress(address) {
         this.unhideFields();
         var outputFields = this.options.outputFields;
 
@@ -7935,7 +7915,7 @@
           scope: this.outputScope
         });
 
-        populateAddress({
+        populateAddress$1({
           outputFields: outputFields,
           address: address,
           config: config
@@ -7949,7 +7929,7 @@
         var _this10 = this;
 
         return this.options.hide.map(function (e) {
-          if (isString(e)) return toHtmlElem(_this10.scope, e);
+          if (isString$3(e)) return toHtmlElem$1(_this10.scope, e);
           return e;
         }).filter(function (e) {
           return e !== null;
@@ -7962,7 +7942,7 @@
     }, {
       key: "hideFields",
       value: function hideFields() {
-        this.hiddenFields().forEach(hide);
+        this.hiddenFields().forEach(hide$1);
       }
       /**
        * Unhides fields marked for hiding and triggers callback
@@ -7971,7 +7951,7 @@
     }, {
       key: "unhideFields",
       value: function unhideFields() {
-        this.hiddenFields().forEach(show);
+        this.hiddenFields().forEach(show$1);
         this.options.onUnhide.call(this);
       }
       /**
@@ -7996,7 +7976,7 @@
     return Controller;
   }();
 
-  function ownKeys$1(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+  function ownKeys$1(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
   function _objectSpread$1(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$1(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$1(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
@@ -8007,10 +7987,10 @@
   var NOOP$1 = function NOOP() {};
 
   var getAnchors = function getAnchors(config) {
-    var scope = getScope(config.scope || null);
+    var scope = getScope$2(config.scope || null);
     var matches = scope.querySelectorAll(config.anchor || config.context || config.scope);
-    return toArray(matches).filter(function (e) {
-      return !loaded(e);
+    return toArray$1(matches).filter(function (e) {
+      return !loaded$1(e);
     });
   };
   /**
@@ -8036,7 +8016,7 @@
         _options$onAnchorFoun = options.onAnchorFound,
         onAnchorFound = _options$onAnchorFoun === void 0 ? NOOP$1 : _options$onAnchorFoun,
         _options$getScope = options.getScope,
-        getScope$1 = _options$getScope === void 0 ? getScope : _options$getScope;
+        getScope = _options$getScope === void 0 ? getScope$2 : _options$getScope;
     var controller;
 
     var bind = function bind() {
@@ -8046,7 +8026,7 @@
           anchor: anchor
         }, config)).forEach(function (anchor) {
           if (!pageTest()) return;
-          var scope = getScope$1(anchor);
+          var scope = getScope(anchor);
           onAnchorFound({
             anchor: anchor,
             scope: scope,
@@ -8054,7 +8034,7 @@
           }); //deploy solution
 
           controller = new Controller(config);
-          markLoaded(anchor);
+          markLoaded$1(anchor);
           onBind(controller);
         });
       } catch (error) {
@@ -8130,18 +8110,20 @@
     watch: watch
   };
 
-  function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+  function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
   function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
   var hoistCountry = function hoistCountry(config, outputFields, linesIdentifier) {
     if (config.hoistCountry !== true) return;
     if (!outputFields.country) return;
     if (!outputFields.line_1) return;
-    var elem = getParent$1(toElem$2(outputFields.country, document), "div", function (e) {
+    var elem = getParent$1(outputFields.country, "div", function (e) {
       return e.classList.contains("field");
     });
+    console.log("hoist el", elem);
     if (!elem) return;
     var target = getLinesContainer(outputFields, linesIdentifier);
+    console.log("hoist tar", target);
     if (!target) return;
 
     if (!elem.hasAttribute("country-hoist")) {
@@ -8159,7 +8141,7 @@
     var parentTest = linesIdentifier ? linesIdentifier.parentTest : function (e) {
       return e.classList.contains("field");
     };
-    return getParent$1(toElem$2(line_1, document), parentScope, parentTest);
+    return getParent$1(line_1, parentScope, parentTest);
   };
   var SUPPORTED_COUNTRIES = ["England", "Scotland", "Wales", "Northern Ireland", "Channel Islands", "Isle of Man", "United Kingdom", "Jersey", "Guernsey", "GB", "IM", "JE", "GG"];
   var countryIsSupported = function countryIsSupported(e) {
@@ -8168,37 +8150,6 @@
       if (country === supported) return true;
       return prev;
     }, false);
-  };
-  var insertPostcodeField = function insertPostcodeField(outputFields, linesIdentifier) {
-    var search = function search(resolve) {
-      var line_1 = toElem$2(outputFields.line_1, document);
-
-      if (line_1 === null) {
-        setTimeout(function () {
-          return search(resolve);
-        }, 1000);
-        return;
-      }
-
-      var target = getLinesContainer(outputFields, linesIdentifier);
-
-      if (target === null) {
-        resolve(null);
-        return;
-      }
-
-      var postcodeField = document.createElement("div");
-      postcodeField.className = "idpc_lookup field";
-      insertBefore({
-        target: target,
-        elem: postcodeField
-      });
-      resolve(postcodeField);
-    };
-
-    return new Promise(function (resolve) {
-      search(resolve);
-    });
   };
   var addLookupLabel = function addLookupLabel(postcodeField) {
     var span = document.createElement("span");
@@ -8217,118 +8168,138 @@
   var NOOP = function NOOP() {};
 
   var watchCountry = function watchCountry(_ref2, activate, deactivate) {
-    var _toElem;
-
     var country = _ref2.country;
     if (!country) return NOOP;
 
-    var checkCountry = function checkCountry() {
-      if (countryIsSupported(toElem$2(country, document))) return activate();
+    var checkCountry = function checkCountry(target) {
+      if (countryIsSupported(target)) return activate();
       deactivate();
     };
 
-    (_toElem = toElem$2(country, document)) === null || _toElem === void 0 ? void 0 : _toElem.addEventListener("change", checkCountry);
-    return checkCountry;
+    country.addEventListener("change", function (event) {
+      checkCountry(event.target);
+    });
+    return checkCountry(country);
   };
+
+  var getFields = function getFields(outputFields, scope) {
+    var result = {};
+    Object.keys(outputFields).forEach(function (key) {
+      //@ts-expect-error
+      result[key] = toElem$1(outputFields[key], scope);
+    });
+    return result;
+  };
+
   var setupPostcodeLookup = function setupPostcodeLookup(config, outputFields) {
     var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
     var linesIdentifier = arguments.length > 3 ? arguments[3] : undefined;
     if (config.postcodeLookup !== true) return;
-    insertPostcodeField(outputFields, linesIdentifier).then(function (postcodeField) {
-      if (postcodeField === null) return;
-      PostcodeLookup.watch(_objectSpread({
-        apiKey: config.apiKey,
-        checkKey: true,
-        context: "div.idpc_lookup",
-        outputFields: outputFields,
-        selectStyle: {
-          "margin-top": "5px",
-          "margin-bottom": "5px"
-        },
-        buttonStyle: {
-          "position": "absolute",
-          "right": 0
-        },
-        contextStyle: {
-          "position": "relative"
-        },
-        onLoaded: function onLoaded() {
-          this.options.outputFields = function () {
-            var result = {};
-            Object.keys(outputFields).forEach(function (key) {
-              //@ts-expect-error
-              result[key] = toElem$2(outputFields[key], document);
-            });
-            return result;
-          }(); // Add search label
+    PostcodeLookup.watch(_objectSpread({
+      apiKey: config.apiKey,
+      checkKey: true,
+      context: "div.idpc_lookup",
+      outputFields: outputFields,
+      selectStyle: {
+        "margin-top": "5px",
+        "margin-bottom": "5px"
+      },
+      buttonStyle: {
+        "position": "absolute",
+        "right": 0
+      },
+      contextStyle: {
+        "position": "relative"
+      },
+      onLoaded: function onLoaded() {
+        var _this = this;
 
+        // Add search label
+        var label = addLookupLabel(this.context);
+        watchCountry(this.options.outputFields, function () {
+          label.hidden = false;
+          _this.context.style.display = "block";
+        }, function () {
+          label.hidden = true;
+          _this.context.style.display = "none";
+        });
+      }
+    }, config.postcodeLookupOverride), _objectSpread({
+      getScope: function getScope(anchor) {
+        return getParent$1(anchor, "FORM");
+      },
+      anchor: outputFields.line_2,
+      onAnchorFound: function onAnchorFound(options) {
+        var _target$parentElement;
 
-          var label = addLookupLabel(postcodeField);
-          hoistCountry(config, outputFields);
-          watchCountry(outputFields, function () {
-            label.hidden = false;
-            postcodeField.style.display = "block";
-          }, function () {
-            label.hidden = true;
-            postcodeField.style.display = "none";
-          })();
-        }
-      }, config.postcodeLookupOverride), options);
-    });
+        var scope = options.scope;
+        var targets = getFields(outputFields, scope);
+        var target = getLinesContainer(targets, linesIdentifier); //@ts-expect-error
+
+        options.config.outputFields = targets;
+        if (target === null) return;
+        hoistCountry(config, targets, linesIdentifier);
+        if ((_target$parentElement = target.parentElement) !== null && _target$parentElement !== void 0 && _target$parentElement.querySelector('.idpc_lookup[idpc="true"]')) return;
+        var postcodeField = document.createElement("div");
+        postcodeField.className = "idpc_lookup field";
+        options.config.context = postcodeField;
+        return insertBefore({
+          target: target,
+          elem: postcodeField
+        });
+      }
+    }, options));
   };
   var setupAutocomplete = /*#__PURE__*/function () {
     var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime.mark(function _callee(config, outputFields) {
       var options,
+          linesIdentifier,
           _args = arguments;
       return _regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
               options = _args.length > 2 && _args[2] !== undefined ? _args[2] : {};
+              linesIdentifier = _args.length > 3 ? _args[3] : undefined;
 
               if (!(config.autocomplete !== true)) {
-                _context.next = 3;
+                _context.next = 4;
                 break;
               }
 
               return _context.abrupt("return");
 
-            case 3:
+            case 4:
               if (!(outputFields.line_1 === undefined)) {
-                _context.next = 5;
+                _context.next = 6;
                 break;
               }
 
               return _context.abrupt("return");
 
-            case 5:
-              _context.next = 7;
+            case 6:
+              _context.next = 8;
               return AddressFinder.watch(_objectSpread({
                 apiKey: config.apiKey,
                 checkKey: true,
                 onLoaded: function onLoaded() {
-                  var _this = this;
+                  var _this2 = this;
 
-                  this.options.outputFields = function () {
-                    var result = {};
-                    Object.keys(outputFields).forEach(function (key) {
-                      //@ts-expect-error
-                      result[key] = toElem$2(outputFields[key], document);
-                    });
-                    return result;
-                  }();
+                  //@ts-expect-error
+                  this.options.outputFields = getFields(outputFields, this.scope); //@ts-expect-error
 
-                  hoistCountry(config, outputFields);
-                  watchCountry(outputFields, function () {
-                    return _this.view.attach();
+                  //@ts-expect-error
+                  hoistCountry(config, this.options.outputFields, linesIdentifier);
+                  watchCountry(this.options.outputFields, function () {
+                    return _this2.view.attach();
                   }, function () {
-                    return _this.view.detach();
-                  })();
+                    return _this2.view.detach();
+                  });
                 },
                 outputFields: outputFields
               }, config.autocompleteOverride), options);
 
-            case 7:
+            case 8:
             case "end":
               return _context.stop();
           }
@@ -8357,12 +8328,17 @@
   var pageTest$3 = function pageTest() {
     return includes(window.location.pathname, "/checkout");
   };
+  var getScope = function getScope(anchor) {
+    return getParent$1(anchor, "form");
+  };
   var bind$3 = function bind(config) {
     setupAutocomplete(config, selectors$1, {
-      pageTest: pageTest$3
+      pageTest: pageTest$3,
+      getScope: getScope
     });
     setupPostcodeLookup(config, selectors$1, {
-      pageTest: pageTest$3
+      pageTest: pageTest$3,
+      getScope: getScope
     });
   };
 
@@ -8392,7 +8368,7 @@
   var linesIdentifier = {
     parentScope: "div",
     parentTest: function parentTest(e) {
-      return e.classList.contains("field") && e.classList.contains("street");
+      return e.classList.contains("field");
     }
   };
 
@@ -8403,7 +8379,7 @@
   var bind$1 = function bind(config) {
     setupAutocomplete(config, selectors, {
       pageTest: pageTest$1
-    });
+    }, linesIdentifier);
     setupPostcodeLookup(config, selectors, {
       pageTest: pageTest$1
     }, linesIdentifier);

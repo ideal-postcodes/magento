@@ -26,7 +26,7 @@
     return typeof input === "string";
   };
 
-  var hasWindow$2 = function hasWindow() {
+  var hasWindow$1 = function hasWindow() {
     return typeof window !== "undefined";
   };
 
@@ -60,7 +60,7 @@
     return elem;
   };
 
-  function ownKeys$9(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+  function ownKeys$9(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
   function _objectSpread$9(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$9(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$9(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
   var defaults$3 = {
@@ -79,13 +79,13 @@
     return _objectSpread$9(_objectSpread$9({}, defaults$3), c);
   };
 
-  var g$2 = {};
+  var g$1 = {};
 
-  if (hasWindow$2()) {
+  if (hasWindow$1()) {
     if (window.idpcGlobal) {
-      g$2 = window.idpcGlobal;
+      g$1 = window.idpcGlobal;
     } else {
-      window.idpcGlobal = g$2;
+      window.idpcGlobal = g$1;
     }
   }
 
@@ -94,14 +94,17 @@
   }
 
   function _iterableToArrayLimit(arr, i) {
-    if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;
+    var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"];
+
+    if (_i == null) return;
     var _arr = [];
     var _n = true;
     var _d = false;
-    var _e = undefined;
+
+    var _s, _e;
 
     try {
-      for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+      for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
         _arr.push(_s.value);
 
         if (i && _arr.length === i) break;
@@ -956,7 +959,7 @@
     return Constructor;
   }
 
-  function ownKeys$8(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+  function ownKeys$8(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
   function _objectSpread$8(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$8(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$8(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
@@ -1017,7 +1020,7 @@
     return Client;
   }();
 
-  function ownKeys$7(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+  function ownKeys$7(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
   function _objectSpread$7(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$7(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$7(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
@@ -1199,6 +1202,8 @@
   function _possibleConstructorReturn(self, call) {
     if (call && (_typeof(call) === "object" || typeof call === "function")) {
       return call;
+    } else if (call !== void 0) {
+      throw new TypeError("Derived constructors may only return object or undefined");
     }
 
     return _assertThisInitialized(self);
@@ -1221,7 +1226,7 @@
     if (typeof Proxy === "function") return true;
 
     try {
-      Date.prototype.toString.call(Reflect.construct(Date, [], function () {}));
+      Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {}));
       return true;
     } catch (e) {
       return false;
@@ -2169,9 +2174,7 @@
    */
 
 
-  function merge()
-  /* obj1, obj2, obj3, ... */
-  {
+  function merge() {
     var result = {};
 
     function assignValue(val, key) {
@@ -3078,27 +3081,27 @@
     return config;
   };
 
-  var _args = [["axios@0.21.4", "/e/IDDQD/magento"]];
-  var _from = "axios@0.21.4";
+  var _from = "axios@~0.21.4";
   var _id = "axios@0.21.4";
   var _inBundle = false;
   var _integrity = "sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==";
   var _location = "/axios";
   var _phantomChildren = {};
   var _requested = {
-    type: "version",
+    type: "range",
     registry: true,
-    raw: "axios@0.21.4",
+    raw: "axios@~0.21.4",
     name: "axios",
     escapedName: "axios",
-    rawSpec: "0.21.4",
+    rawSpec: "~0.21.4",
     saveSpec: null,
-    fetchSpec: "0.21.4"
+    fetchSpec: "~0.21.4"
   };
-  var _requiredBy = ["/@ideal-postcodes/core-axios"];
+  var _requiredBy = ["/", "/@ideal-postcodes/core-axios"];
   var _resolved = "https://registry.npmjs.org/axios/-/axios-0.21.4.tgz";
-  var _spec = "0.21.4";
-  var _where = "/e/IDDQD/magento";
+  var _shasum = "c67b90dc0568e5c1cf2b0b858c43ba28e2eda575";
+  var _spec = "axios@~0.21.4";
+  var _where = "E:\\IDDQD\\magento";
   var author = {
     name: "Matt Zabriskie"
   };
@@ -3108,6 +3111,7 @@
   var bugs = {
     url: "https://github.com/axios/axios/issues"
   };
+  var bundleDependencies = false;
   var bundlesize = [{
     path: "./dist/axios.min.js",
     threshold: "5kB"
@@ -3115,6 +3119,7 @@
   var dependencies = {
     "follow-redirects": "^1.14.0"
   };
+  var deprecated = false;
   var description = "Promise based HTTP client for the browser and node.js";
   var devDependencies = {
     coveralls: "^3.0.0",
@@ -3176,7 +3181,6 @@
   var unpkg = "dist/axios.min.js";
   var version = "0.21.4";
   var pkg = {
-    _args: _args,
     _from: _from,
     _id: _id,
     _inBundle: _inBundle,
@@ -3186,13 +3190,16 @@
     _requested: _requested,
     _requiredBy: _requiredBy,
     _resolved: _resolved,
+    _shasum: _shasum,
     _spec: _spec,
     _where: _where,
     author: author,
     browser: browser,
     bugs: bugs,
+    bundleDependencies: bundleDependencies,
     bundlesize: bundlesize,
     dependencies: dependencies,
+    deprecated: deprecated,
     description: description,
     devDependencies: devDependencies,
     homepage: homepage,
@@ -3726,7 +3733,7 @@
     return Agent;
   }();
 
-  function ownKeys$6(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+  function ownKeys$6(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
   function _objectSpread$6(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$6(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$6(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
@@ -3757,7 +3764,7 @@
     return typeof input === "string";
   };
 
-  var hasWindow$1 = function hasWindow() {
+  var hasWindow = function hasWindow() {
     return typeof window !== "undefined";
   };
   var toArray = function toArray(nodeList) {
@@ -4073,18 +4080,18 @@
     }
   };
 
-  var g$1 = {};
+  var g = {};
 
-  if (hasWindow$1()) {
+  if (hasWindow()) {
     if (window.idpcGlobal) {
-      g$1 = window.idpcGlobal;
+      g = window.idpcGlobal;
     } else {
-      window.idpcGlobal = g$1;
+      window.idpcGlobal = g;
     }
   }
 
   var idpcState = function idpcState() {
-    return g$1;
+    return g;
   };
 
   var idGen = function idGen() {
@@ -4098,7 +4105,7 @@
     };
   };
 
-  function ownKeys$5(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+  function ownKeys$5(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
   function _objectSpread$5(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$5(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$5(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
   var numberOfLines = function numberOfLines(targets) {
@@ -4131,7 +4138,7 @@
   var notInAddress = function notInAddress(o, attr) {
     return o[attr] === undefined;
   };
-  var getFields = function getFields(o) {
+  var getFields$1 = function getFields(o) {
     return _objectSpread$5(_objectSpread$5(_objectSpread$5({}, o.outputFields), searchNames(o.names || {}, o.config.scope)), searchLabels(o.labels || {}, o.config.scope));
   };
 
@@ -4205,7 +4212,7 @@
         titleizePostTown = config.titleizePostTown,
         populateOrganisation = config.populateOrganisation,
         populateCounty = config.populateCounty;
-    var fields = getFields(options);
+    var fields = getFields$1(options);
     if (config.removeOrganisation) removeOrganisation(address);
     if (titleizePostTown) address.post_town = dist.capitalisePostTown(address.post_town);
     updateLines(fields, address, scope);
@@ -4527,7 +4534,7 @@
     return c;
   }
 
-  function ownKeys$4(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+  function ownKeys$4(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
   function _objectSpread$4(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$4(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$4(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
   /**
@@ -5867,13 +5874,8 @@
 
   var _onKeyDown = function _onKeyDown(view) {
     return function (event) {
-      var key = toKey(event); //always prevent On enter
-
-      if (key === "Enter") {
-        event.preventDefault();
-      }
-
       view.options.onKeyDown.call(view, event);
+      var key = toKey(event);
 
       if (view.closed()) {
         view.open();
@@ -5882,6 +5884,7 @@
 
       if (view.fsm.state.matches("suggesting")) {
         if (key === "Enter") {
+          event.preventDefault();
           view.select();
         }
 
@@ -5925,7 +5928,7 @@
     return q;
   };
 
-  function ownKeys$3(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+  function ownKeys$3(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
   function _objectSpread$3(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$3(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$3(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
   /**
@@ -6046,7 +6049,7 @@
     return;
   };
 
-  function ownKeys$2(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+  function ownKeys$2(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
   function _objectSpread$2(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$2(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$2(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
   /**
@@ -6329,7 +6332,7 @@
     return Controller;
   }();
 
-  function ownKeys$1(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+  function ownKeys$1(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
   function _objectSpread$1(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$1(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$1(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
@@ -6484,32 +6487,20 @@
     go: go
   };
 
-  var hasWindow = function hasWindow() {
-    return typeof window !== "undefined";
-  };
-
-  var g = {};
-
-  if (hasWindow()) {
-    if (window.idpcGlobal) {
-      g = window.idpcGlobal;
-    } else {
-      window.idpcGlobal = g;
-    }
-  }
-
-  function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+  function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
   function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
   var hoistCountry = function hoistCountry(config, outputFields, linesIdentifier) {
     if (config.hoistCountry !== true) return;
     if (!outputFields.country) return;
     if (!outputFields.line_1) return;
-    var elem = getParent$1(toElem$1(outputFields.country, document), "div", function (e) {
+    var elem = getParent$1(outputFields.country, "div", function (e) {
       return e.classList.contains("field");
     });
+    console.log("hoist el", elem);
     if (!elem) return;
     var target = getLinesContainer(outputFields, linesIdentifier);
+    console.log("hoist tar", target);
     if (!target) return;
 
     if (!elem.hasAttribute("country-hoist")) {
@@ -6527,7 +6518,7 @@
     var parentTest = linesIdentifier ? linesIdentifier.parentTest : function (e) {
       return e.classList.contains("field");
     };
-    return getParent$1(toElem$1(line_1, document), parentScope, parentTest);
+    return getParent$1(line_1, parentScope, parentTest);
   };
   var SUPPORTED_COUNTRIES = ["England", "Scotland", "Wales", "Northern Ireland", "Channel Islands", "Isle of Man", "United Kingdom", "Jersey", "Guernsey", "GB", "IM", "JE", "GG"];
   var countryIsSupported = function countryIsSupported(e) {
@@ -6541,72 +6532,78 @@
   var NOOP = function NOOP() {};
 
   var watchCountry = function watchCountry(_ref2, activate, deactivate) {
-    var _toElem;
-
     var country = _ref2.country;
     if (!country) return NOOP;
 
-    var checkCountry = function checkCountry() {
-      if (countryIsSupported(toElem$1(country, document))) return activate();
+    var checkCountry = function checkCountry(target) {
+      if (countryIsSupported(target)) return activate();
       deactivate();
     };
 
-    (_toElem = toElem$1(country, document)) === null || _toElem === void 0 ? void 0 : _toElem.addEventListener("change", checkCountry);
-    return checkCountry;
+    country.addEventListener("change", function (event) {
+      checkCountry(event.target);
+    });
+    return checkCountry(country);
+  };
+
+  var getFields = function getFields(outputFields, scope) {
+    var result = {};
+    Object.keys(outputFields).forEach(function (key) {
+      //@ts-expect-error
+      result[key] = toElem$1(outputFields[key], scope);
+    });
+    return result;
   };
   var setupAutocomplete = /*#__PURE__*/function () {
     var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime.mark(function _callee(config, outputFields) {
       var options,
+          linesIdentifier,
           _args = arguments;
       return _regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
               options = _args.length > 2 && _args[2] !== undefined ? _args[2] : {};
+              linesIdentifier = _args.length > 3 ? _args[3] : undefined;
 
               if (!(config.autocomplete !== true)) {
-                _context.next = 3;
+                _context.next = 4;
                 break;
               }
 
               return _context.abrupt("return");
 
-            case 3:
+            case 4:
               if (!(outputFields.line_1 === undefined)) {
-                _context.next = 5;
+                _context.next = 6;
                 break;
               }
 
               return _context.abrupt("return");
 
-            case 5:
-              _context.next = 7;
+            case 6:
+              _context.next = 8;
               return AddressFinder.watch(_objectSpread({
                 apiKey: config.apiKey,
                 checkKey: true,
                 onLoaded: function onLoaded() {
-                  var _this = this;
+                  var _this2 = this;
 
-                  this.options.outputFields = function () {
-                    var result = {};
-                    Object.keys(outputFields).forEach(function (key) {
-                      //@ts-expect-error
-                      result[key] = toElem$1(outputFields[key], document);
-                    });
-                    return result;
-                  }();
+                  //@ts-expect-error
+                  this.options.outputFields = getFields(outputFields, this.scope); //@ts-expect-error
 
-                  hoistCountry(config, outputFields);
-                  watchCountry(outputFields, function () {
-                    return _this.view.attach();
+                  //@ts-expect-error
+                  hoistCountry(config, this.options.outputFields, linesIdentifier);
+                  watchCountry(this.options.outputFields, function () {
+                    return _this2.view.attach();
                   }, function () {
-                    return _this.view.detach();
-                  })();
+                    return _this2.view.detach();
+                  });
                 },
                 outputFields: outputFields
               }, config.autocompleteOverride), options);
 
-            case 7:
+            case 8:
             case "end":
               return _context.stop();
           }
@@ -6680,19 +6677,23 @@
     return includes(window.location.pathname, "/sales/order");
   };
 
-  var parentScope = "fieldset"; //const parentTest = (e: HTMLElement) => e.className === "admin__fieldset";
+  var parentScope = "fieldset";
+
+  var parentTest = function parentTest(e) {
+    return e.className === "admin__fieldset";
+  };
+
+  var pageTest = function pageTest() {
+    return includes(window.location.pathname, "/customer");
+  };
 
   var bind = function bind(config) {
     setupAutocomplete(config, selectors, {
       pageTest: pageTest,
       getScope: function getScope(anchor) {
-        return getParent$1(anchor, parentScope);
+        return getParent$1(anchor, parentScope, parentTest);
       }
     });
-  };
-
-  var pageTest = function pageTest() {
-    return includes(window.location.pathname, "/customer");
   };
 
   window.idpcStart = function () {

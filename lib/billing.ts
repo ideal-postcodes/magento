@@ -4,6 +4,7 @@ import {
   includes,
   setupPostcodeLookup,
 } from "./extension";
+import {getParent} from "@ideal-postcodes/jsutil";
 
 export const selectors = {
   line_1: '[name="street[0]"]',
@@ -17,8 +18,13 @@ export const selectors = {
 };
 
 export const pageTest = () => includes(window.location.pathname, "/checkout");
+export const parentTest =  (e: HTMLElement) => {
+  return e.offsetWidth > 0 && e.offsetHeight > 0;
+};
+
+export const getScope = (anchor: HTMLElement) => getParent(anchor, "form")
 
 export const bind = (config: Config) => {
-  setupAutocomplete(config, selectors, { pageTest });
-  setupPostcodeLookup(config, selectors, { pageTest });
+  setupAutocomplete(config, selectors, { pageTest, getScope });
+  setupPostcodeLookup(config, selectors, { pageTest, getScope });
 };

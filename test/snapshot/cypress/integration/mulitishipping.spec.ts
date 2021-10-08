@@ -12,7 +12,7 @@ const address = fixtures.jersey;
 describe("Multishipping", () => {
   describe("Create New Customer Account", () => {
     const suite = {
-      scope: ".form-create-account",
+      scope: ".form.create.account.form-create-account",
       selectors,
       address,
     };

@@ -14,7 +14,8 @@ import {
   ParentTest,
   Country,
   OutputFields,
-  toElem
+  toElem,
+    Targets
 } from "@ideal-postcodes/jsutil";
 
 import { AddressFinder } from "@ideal-postcodes/address-finder";
@@ -31,14 +32,14 @@ interface LinesIdentifier {
 
 export const hoistCountry = (
   config: Config,
-  outputFields: OutputFields,
+  outputFields: Targets,
   linesIdentifier?: LinesIdentifier
 ) => {
   if (config.hoistCountry !== true) return;
   if (!outputFields.country) return;
   if (!outputFields.line_1) return;
   const elem = getParent(
-    toElem(outputFields.country, document) as HTMLElement,
+      outputFields.country,
     "div",
     (e) => e.classList.contains("field")
   );
@@ -53,7 +54,7 @@ export const hoistCountry = (
 };
 
 export const getLinesContainer = (
-  { line_1 }: OutputFields,
+  { line_1 }: Targets,
   linesIdentifier?: LinesIdentifier
 ): HTMLElement | null => {
   if (line_1 === null) return null;
@@ -65,7 +66,7 @@ export const getLinesContainer = (
     : (e: HTMLElement) => e.classList.contains("field");
 
   return getParent(
-    toElem(line_1 as string, document) as HTMLElement,
+    line_1 as HTMLElement,
     parentScope,
     parentTest
   );
@@ -99,32 +100,6 @@ export const countryIsSupported = (
   }, false);
 };
 
-export const insertPostcodeField = (
-  outputFields: OutputFields,
-  linesIdentifier?: LinesIdentifier
-): Promise<HTMLElement | null> => {
-  const search = (resolve: any): void => {
-    const line_1 = toElem(outputFields.line_1 as string, document)
-    if(line_1 === null) {
-      setTimeout(() => search(resolve), 1000);
-      return;
-    }
-    const target = getLinesContainer(outputFields, linesIdentifier);
-    if (target === null) {
-      resolve(null);
-      return;
-    }
-    const postcodeField = document.createElement("div");
-    postcodeField.className = "idpc_lookup field";
-    insertBefore({ target, elem: postcodeField });
-    resolve(postcodeField);
-  }
-  return new Promise((resolve) => {
-    search(resolve);
-  });
-
-};
-
 export const addLookupLabel = (
   postcodeField: HTMLElement
 ): HTMLLabelElement => {
@@ -141,18 +116,29 @@ export const addLookupLabel = (
 const NOOP = () => {};
 
 export const watchCountry = (
-  { country }: OutputFields,
+  { country }: any,
   activate: any,
   deactivate: any
 ) => {
   if (!country) return NOOP;
-  const checkCountry = () => {
-    if (countryIsSupported(toElem(country, document) as HTMLSelectElement))
+  const checkCountry = (target: HTMLInputElement | HTMLSelectElement) => {
+    if (countryIsSupported(target))
       return activate();
     deactivate();
   };
-  toElem(country, document)?.addEventListener("change", checkCountry);
-  return checkCountry;
+  country.addEventListener("change", (event: any) => {
+    checkCountry(event.target);
+  });
+  return checkCountry(country);
+};
+
+const getFields = (outputFields: OutputFields, scope: HTMLElement | Document): Targets => {
+  const result:any = {};
+  Object.keys(outputFields).forEach((key) => {
+    //@ts-expect-error
+    result[key] = toElem(outputFields[key], scope);
+  });
+  return result;
 };
 
 export const setupPostcodeLookup = (
@@ -162,57 +148,64 @@ export const setupPostcodeLookup = (
   linesIdentifier?: LinesIdentifier
 ) => {
   if (config.postcodeLookup !== true) return;
-  insertPostcodeField(outputFields, linesIdentifier).then((postcodeField) => {
-    if (postcodeField === null) return;
-    PostcodeLookup.watch(
-        {
-          apiKey: config.apiKey,
-          checkKey: true,
-          context: "div.idpc_lookup",
-          outputFields,
-          selectStyle:{
-            "margin-top": "5px",
-            "margin-bottom": "5px"
-          },
-          buttonStyle: {
-            "position": "absolute",
-            "right": 0
-          },
-          contextStyle: {
-            "position": "relative"
-          },
-          onLoaded () {
-            this.options.outputFields = (() => {
-              const result:any = {};
-              Object.keys(outputFields).forEach((key) => {
-                //@ts-expect-error
-                result[key] = toElem(outputFields[key], document);
-              });
-              return result;
-            })();
-            // Add search label
-            const label = addLookupLabel(postcodeField);
-            hoistCountry(config, outputFields);
-            watchCountry(outputFields,() => {
-              label.hidden = false;
-              postcodeField.style.display = "block";
-            }, () =>
-            {
-              label.hidden = true;
-              postcodeField.style.display = "none"
-            })();
-          },
-          ...config.postcodeLookupOverride
+  PostcodeLookup.watch(
+      {
+        apiKey: config.apiKey,
+        checkKey: true,
+        context: "div.idpc_lookup",
+        outputFields,
+        selectStyle:{
+          "margin-top": "5px",
+          "margin-bottom": "5px"
         },
-        options
-    );
-  });
+        buttonStyle: {
+          "position": "absolute",
+          "right": 0
+        },
+        contextStyle: {
+          "position": "relative"
+        },
+        onLoaded: function () {
+          // Add search label
+          const label = addLookupLabel(this.context);
+          watchCountry(this.options.outputFields,() => {
+            label.hidden = false;
+            this.context.style.display = "block";
+          }, () =>
+          {
+            label.hidden = true;
+            this.context.style.display = "none"
+          });
+        },
+        ...config.postcodeLookupOverride
+      },
+      {
+        getScope: (anchor: HTMLElement) => getParent(anchor, "FORM"),
+        anchor: outputFields.line_2,
+        onAnchorFound: function(options) {
+          const { scope } = options;
+          const targets = getFields(outputFields, scope);
+          const target = getLinesContainer(targets, linesIdentifier);
+          //@ts-expect-error
+          options.config.outputFields = targets;
+          if (target === null) return;
+          hoistCountry(config, targets, linesIdentifier);
+          if(target.parentElement?.querySelector('.idpc_lookup[idpc="true"]')) return;
+          const postcodeField = document.createElement("div");
+          postcodeField.className = "idpc_lookup field";
+          options.config.context = postcodeField;
+          return insertBefore({ target, elem: postcodeField });
+        },
+        ...options,
+      }
+  );
 };
 
 export const setupAutocomplete = async (
   config: Config,
   outputFields: OutputFields,
-  options: any = {}
+  options: any = {},
+  linesIdentifier?: LinesIdentifier
 ) => {
   if (config.autocomplete !== true) return;
   if (outputFields.line_1 === undefined) return;
@@ -220,17 +213,12 @@ export const setupAutocomplete = async (
     {
       apiKey: config.apiKey,
       checkKey: true,
-      onLoaded () {
-        this.options.outputFields = (() => {
-          const result:any = {};
-          Object.keys(outputFields).forEach((key) => {
-            //@ts-expect-error
-            result[key] = toElem(outputFields[key], document);
-          });
-          return result;
-        })();
-        hoistCountry(config, outputFields);
-        watchCountry(outputFields, () => this.view.attach(), () => this.view.detach())();
+      onLoaded: function() {
+        //@ts-expect-error
+        this.options.outputFields = getFields(outputFields, this.scope);
+        //@ts-expect-error
+        hoistCountry(config, this.options.outputFields, linesIdentifier);
+        watchCountry(this.options.outputFields, () => this.view.attach(), () => this.view.detach());
       },
       outputFields,
       ...config.autocompleteOverride

@@ -165,7 +165,7 @@ export const setupPostcodeLookup = (
         contextStyle: {
           "position": "relative"
         },
-        onLoaded: function () {
+        onLoaded () {
           // Add search label
           const label = addLookupLabel(this.context);
           watchCountry(this.options.outputFields,() => {
@@ -182,7 +182,7 @@ export const setupPostcodeLookup = (
       {
         getScope: (anchor: HTMLElement) => getParent(anchor, "FORM"),
         anchor: outputFields.line_2,
-        onAnchorFound: function(options) {
+        onAnchorFound(options) {
           const { scope } = options;
           const targets = getFields(outputFields, scope);
           const target = getLinesContainer(targets, linesIdentifier);
@@ -213,7 +213,7 @@ export const setupAutocomplete = async (
     {
       apiKey: config.apiKey,
       checkKey: true,
-      onLoaded: function() {
+      onLoaded() {
         //@ts-expect-error
         this.options.outputFields = getFields(outputFields, this.scope);
         //@ts-expect-error

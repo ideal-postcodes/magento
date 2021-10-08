@@ -18,10 +18,6 @@ export const selectors = {
 };
 
 export const pageTest = () => includes(window.location.pathname, "/checkout");
-export const parentTest =  (e: HTMLElement) => {
-  return e.offsetWidth > 0 && e.offsetHeight > 0;
-};
-
 export const getScope = (anchor: HTMLElement) => getParent(anchor, "form")
 
 export const bind = (config: Config) => {

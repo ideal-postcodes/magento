@@ -24,6 +24,7 @@
     "build": "NODE_ENV=production rollup -c",
     "watch": "rollup -cw",
     "lint": "eslint lib/**/*.ts",
+    "lint-fix": "eslint lib/**/*.ts --fix",
     "test:e2e": "cypress run --project test/e2e",
     "test:all": "npm start && npm run test:e2e && make down",
     "test:snapshot": "cypress run --project test/snapshot",

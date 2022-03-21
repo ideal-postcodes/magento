@@ -15,7 +15,7 @@ describe("Admin", () => {
       const suite = {
         scope: "#order-billing_address",
         selectors: billing,
-        address
+        address,
       };
       setupSuite(suite, true);
       autocompleteSuite(suite);
@@ -28,7 +28,7 @@ describe("Admin", () => {
       const suite = {
         scope: "#order-shipping_address",
         selectors: shipping,
-        address
+        address,
       };
       setupSuite(suite, true);
       autocompleteSuite(suite);
@@ -39,7 +39,7 @@ describe("Admin", () => {
     const suite = {
       scope: "#order-billing_address",
       selectors: billing,
-      address
+      address,
     };
 
     before(() => {

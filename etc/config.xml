@@ -14,6 +14,8 @@
         <populate_organisation>1</populate_organisation>
         <require_county>0</require_county>
         <hoist_country>1</hoist_country>
+        <autocomplete_override>{}</autocomplete_override>
+        <postcode_lookup_override>{}</postcode_lookup_override>
       </settings>
     </idealpostcodes>
   </default>

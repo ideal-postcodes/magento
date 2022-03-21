@@ -87,6 +87,24 @@ class Data extends AbstractHelper /** * @var EncryptorInterface */
         return $userToken;
     }
 
+    public function getAutocompleteOverride(
+        $scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT
+    ) {
+        return $this->scopeConfig->getValue(
+            'idealpostcodes/settings/autocomplete_override',
+            $scope
+        );
+    }
+
+    public function getPostcodeLookupOverride(
+        $scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT
+    ) {
+        return $this->scopeConfig->getValue(
+            'idealpostcodes/settings/postcode_lookup_override',
+            $scope
+        );
+    }
+
     public function usesPostcodeLookup(
         $scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT
     ) {
@@ -142,7 +160,9 @@ class Data extends AbstractHelper /** * @var EncryptorInterface */
             'addressAutocomplete' => $this->usesAutocomplete($scope),
             'populateOrganisation' => $this->populateOrganisation($scope),
             'hoistCountryField' => $this->hoistCountry($scope),
-            'requireCounty' => $this->requireCounty($scope)
+            'requireCounty' => $this->requireCounty($scope),
+            'autocompleteOverride' => $this->getAutocompleteOverride($scope),
+            "postcodeLookupOverride" => $this->getPostcodeLookupOverride($scope)
         );
         return $config;
     }

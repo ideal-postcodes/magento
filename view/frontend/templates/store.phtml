@@ -12,8 +12,9 @@ requirejs(['jquery'], function(jQuery){
     ); ?>;
     var hoistCountry = <?php echo $helper->getConfig('hoistCountryField'); ?>;
     var populateCounty = <?php echo $helper->getConfig('requireCounty'); ?>;
+    var autocompleteOverride = <?php echo $helper->getConfig('autocompleteOverride'); ?>;
+    var postcodeLookupOverride = <?php echo $helper->getConfig('postcodeLookupOverride'); ?>;
     var enabled = <?php echo $helper->getConfig('enabled'); ?>;
-
     // Exit early if disabled
     if (enabled === false) return;
     window.idpcConfig = {
@@ -23,9 +24,10 @@ requirejs(['jquery'], function(jQuery){
       populateCounty: populateCounty,
       populateOrganisation: populateOrganisation,
       hoistCountry: hoistCountry,
+      autocompleteOverride: autocompleteOverride,
+      postcodeLookupOverride: postcodeLookupOverride
     }
-
-    if (window.idpcStart) window.idpcStart();
+    window.idpcStart();
   });
 });
 </script>

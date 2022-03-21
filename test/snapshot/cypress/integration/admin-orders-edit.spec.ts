@@ -11,7 +11,7 @@ describe("Admin", () => {
     const suite = {
       scope: "#edit_form",
       selectors,
-      address
+      address,
     };
     before(() => {
       cy.setup("./fixtures/admin/sales/order/edit.html");
@@ -28,7 +28,7 @@ describe("Admin", () => {
       scope:
         ".customer_form_areas_address_address_customer_address_update_modal_update_customer_address_form_loader",
       selectors,
-      address
+      address,
     };
     setupSuite(suite);
     autocompleteSuite(suite);

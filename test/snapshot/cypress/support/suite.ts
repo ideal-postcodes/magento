@@ -13,7 +13,7 @@ export const setupSuite = (suite: Suite, country?: boolean): void => {
   const address = suite.address;
 
   it("Setup", () => {
-    cy.wait(1000);
+    cy.wait(3000);
     cy.get(scope).within(() => {
       if (country) {
         cy.get(selectors.country).should("have.value", "US");
@@ -31,7 +31,7 @@ export const setupSuite = (suite: Suite, country?: boolean): void => {
         });
       cy.get(".idpc_ul li").should("have.length", 0);
       cy.get(selectors.country).select("GB");
-      cy.wait(2000);
+      cy.wait(3000);
       cy.get(selectors.line_1)
         .clear({
           force: true,
@@ -39,7 +39,7 @@ export const setupSuite = (suite: Suite, country?: boolean): void => {
         .type(address.line_1, {
           force: true,
         });
-      cy.wait(2000);
+      cy.wait(3000);
       cy.get(".idpc_ul li").should("not.have.length", 0);
     });
   });
@@ -67,7 +67,8 @@ const assertions = (
     cy
       .get(selectors.organisation)
       .should("have.value", address.organisation_name);
-  cy.get(selectors.post_town).should("have.value", address.post_town);
+  const town = address.post_town.toLowerCase();
+  cy.get(selectors.post_town).should("have.value", town.charAt(0).toUpperCase() + town.slice(1));
   cy.get(selectors.country).should("have.value", "JE");
   cy.get(selectors.postcode).should("have.value", address.postcode);
 };
@@ -80,6 +81,7 @@ export const autocompleteSuite = (suite: Suite) => {
   it("Autocomplete", () => {
     cy.get(scope).within((scope) => {
       cy.get(selectors.country).select("GB");
+      cy.wait(2000);
       cy.get(selectors.line_1)
         .clear({
           force: true,
@@ -87,7 +89,7 @@ export const autocompleteSuite = (suite: Suite) => {
         .type(address.line_1, {
           force: true,
         });
-      cy.wait(2000);
+      cy.wait(3000);
       cy.get(".idpc_ul li").first().click({ force: true });
       assertions(scope, selectors, address);
     });
@@ -102,16 +104,17 @@ export const postcodeLookupSuite = (suite: Suite) => {
   it("Postcode Lookup", () => {
     cy.get(scope).within((scope) => {
       cy.get(selectors.country).select("GB");
-      cy.get("#idpc_input")
+      cy.wait(1000);
+      cy.get(".idpc-input")
         .clear({
           force: true,
         })
         .type(address.postcode, {
           force: true,
         });
-      cy.get("#idpc_button").click({ force: true });
-      cy.wait(1000);
-      cy.get("#idpc_dropdown").select("0");
+      cy.get(".idpc-button").click({ force: true });
+      cy.wait(3000);
+      cy.get(".idpc-select").select("0");
       assertions(scope, selectors, address);
     });
   });

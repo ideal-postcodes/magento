@@ -1,11 +1,10 @@
-import { setupBind } from "@ideal-postcodes/jsutil";
 import {
   Config,
   setupAutocomplete,
   includes,
   setupPostcodeLookup,
-  hoistCountry,
 } from "./extension";
+import {getParent} from "@ideal-postcodes/jsutil";
 
 export const selectors = {
   line_1: '[name="street[0]"]',
@@ -13,23 +12,15 @@ export const selectors = {
   line_3: '[name="street[2]"]',
   postcode: '[name="postcode"]',
   post_town: '[name="city"]',
-  organisation: '[name="company"]',
+  organisation_name: '[name="company"]',
   county: '[name="region"]',
   country: '[name="country_id"]',
 };
 
-const bind = (config: Config) => {
-  setupBind({
-    selectors,
-    parentScope: "div",
-    parentTest: (e) => e.classList.contains("billing-address-form"),
-  }).forEach(({ targets }) => {
-    hoistCountry(config, targets);
-    setupAutocomplete(config, targets);
-    setupPostcodeLookup(config, targets);
-  });
+export const pageTest = () => includes(window.location.pathname, "/checkout");
+export const getScope = (anchor: HTMLElement) => getParent(anchor, "form")
+
+export const bind = (config: Config) => {
+  setupAutocomplete(config, selectors, { pageTest, getScope });
+  setupPostcodeLookup(config, selectors, { pageTest, getScope });
 };
-
-const pageTest = () => includes(window.location.pathname, "/checkout");
-
-export const bindings = { bind, pageTest };

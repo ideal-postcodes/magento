@@ -235,7 +235,7 @@
         >
           <label>Autocomplete Override</label>
           <comment>
-            Your User Token can be found on your accounts page. This is not required for your address validation to function. It is only required if you need to retrieve usage statistics on your API Key.
+            Advanced: Custom override code for Address Finder. Please see our documentation for how to use this.
           </comment>
           <config_path>idealpostcodes/settings/autocomplete_override</config_path>
           <depends>
@@ -253,7 +253,7 @@
         >
           <label>PostcodeLookup Override</label>
           <comment>
-            Your User Token can be found on your accounts page. This is not required for your address validation to function. It is only required if you need to retrieve usage statistics on your API Key.
+            Advanced: Custom override code for Postcode Lookup. Please see our documentation for how to use this.
           </comment>
           <config_path>idealpostcodes/settings/postcode_lookup_override</config_path>
           <depends>

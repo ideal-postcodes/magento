@@ -1,3 +1,10 @@
+## [2.0.8](https://github.com/ideal-postcodes/magento/compare/2.0.7...2.0.8) (2022-03-21)
+
+
+### Bug Fixes
+
+* **Override:** Add custom overrides for Address Finder and Postcode Lookup ([cdb3cee](https://github.com/ideal-postcodes/magento/commit/cdb3ceef9215041718abdd4e7d30696c973c0784))
+
 ## [2.0.7](https://github.com/ideal-postcodes/magento/compare/2.0.6...2.0.7) (2021-04-12)
 
 

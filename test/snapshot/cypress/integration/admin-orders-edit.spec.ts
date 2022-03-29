@@ -33,4 +33,25 @@ describe("Admin", () => {
     setupSuite(suite);
     autocompleteSuite(suite);
   });
+
+  describe("Custom Fields", () => {
+    const suite = {
+      scope: "#order-billing_address_fields",
+      selectors: {
+        "line_1": "#order-billing_address_street0",
+        "line_2": "#order-billing_address_street1",
+        "line_3": "#order-billing_address_street2",
+        "country": "#order-billing_address_country_id",
+        "post_town": "#order-billing_address_city",
+        "postcode": "#order-billing_address_postcode"
+      },
+      address,
+    };
+    before(() => {
+      // @ts-ignore
+      cy.setup("./fixtures/customer/custom-address-fields.html", false, [suite.selectors]);
+    });
+    setupSuite(suite, true);
+    autocompleteSuite(suite);
+  });
 });

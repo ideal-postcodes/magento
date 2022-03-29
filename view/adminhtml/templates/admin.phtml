@@ -2,7 +2,7 @@
 
 $helper = $this->helper('Idealpostcodes\Ukaddresssearch\Helper\Data'); ?>
 
-<script type="text/javascript">
+<script type="text/javascript" name="Ideal_Postcodes">
     requirejs(['jquery'], function(jQuery) {
         jQuery(function() {
     var apiKey = "<?php echo $helper->getConfig('api_key'); ?>";
@@ -14,6 +14,7 @@ $helper = $this->helper('Idealpostcodes\Ukaddresssearch\Helper\Data'); ?>
     ); ?>;
     var populateCounty = <?php echo $helper->getConfig('requireCounty'); ?>;
     var enabled = <?php echo $helper->getConfig('enabled'); ?>;
+    var customFields = <?php echo $helper->getConfig('customFields'); ?>;
 
     // Exit early if disabled
     if (enabled === false) return;
@@ -23,7 +24,8 @@ $helper = $this->helper('Idealpostcodes\Ukaddresssearch\Helper\Data'); ?>
       autocomplete: autocomplete,
       populateCounty: populateCounty,
       populateOrganisation: populateOrganisation,
-      hoistCountry: false
+      hoistCountry: false,
+      customFields: customFields
     };
 
     if (window.idpcStart) window.idpcStart();

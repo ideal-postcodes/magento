@@ -23,6 +23,7 @@ import { PostcodeLookup } from "@ideal-postcodes/postcode-lookup";
 
 export interface Config extends BaseConfig {
   hoistCountry?: boolean;
+  customFields?: OutputFields[];
 }
 
 interface LinesIdentifier {
@@ -90,11 +91,23 @@ const SUPPORTED_COUNTRIES: SupportedCountry[] = [
   "GG",
 ];
 
+const EXTENDED_COUNTRIES: string[] =[
+    "United States of America",
+    "US"
+]
+
+export const supportedCountries = (extended: boolean): string[] => {
+  //@ts-expect-error
+  if(extended) return SUPPORTED_COUNTRIES.concat(EXTENDED_COUNTRIES);
+  return SUPPORTED_COUNTRIES;
+}
+
 export const countryIsSupported = (
-  e: HTMLInputElement | HTMLSelectElement
+  e: HTMLInputElement | HTMLSelectElement,
+  extended: boolean = false
 ): boolean => {
   const country = e.value;
-  return SUPPORTED_COUNTRIES.reduce<boolean>((prev, supported) => {
+  return supportedCountries(extended).reduce<boolean>((prev, supported) => {
     if (country === supported) return true;
     return prev;
   }, false);
@@ -118,11 +131,12 @@ const NOOP = () => {};
 export const watchCountry = (
   { country }: any,
   activate: any,
-  deactivate: any
+  deactivate: any,
+  extended: boolean = false
 ) => {
   if (!country) return NOOP;
   const checkCountry = (target: HTMLInputElement | HTMLSelectElement) => {
-    if (countryIsSupported(target))
+    if (countryIsSupported(target, extended))
       return activate();
     deactivate();
   };
@@ -218,7 +232,7 @@ export const setupAutocomplete = async (
         this.options.outputFields = getFields(outputFields, this.scope);
         //@ts-expect-error
         hoistCountry(config, this.options.outputFields, linesIdentifier);
-        watchCountry(this.options.outputFields, () => this.view.attach(), () => this.view.detach());
+        watchCountry(this.options.outputFields, () => this.attach(), () => this.detach(), true);
       },
       outputFields,
       ...config.autocompleteOverride

@@ -1,3 +1,10 @@
+# [2.1.0](https://github.com/ideal-postcodes/magento/compare/2.0.8...2.1.0) (2022-03-30)
+
+
+### Features
+
+* **Custom Fields:** Allow custom address field autofill ([f67f70f](https://github.com/ideal-postcodes/magento/commit/f67f70f9c68852950f47472e9d79a78abf587dd8))
+
 ## [2.0.8](https://github.com/ideal-postcodes/magento/compare/2.0.7...2.0.8) (2022-03-21)
 
 

@@ -260,6 +260,24 @@
             <field id="enabled">1</field>
           </depends>
         </field>
+        <field
+                id="custom_fields"
+                type="textarea"
+                translate="label,comment"
+                sortOrder="80"
+                showInDefault="1"
+                showInWebsite="1"
+                showInStore="1"
+        >
+          <label>Custom Fields Configuration</label>
+          <comment>
+            Advanced: Custom fields configuration to enable additional fields to bind autocomplete solution like coming from different plugin that handles address data.
+          </comment>
+          <config_path>idealpostcodes/settings/custom_fields</config_path>
+          <depends>
+            <field id="enabled">1</field>
+          </depends>
+        </field>
       </group>
     </section>
   </system>

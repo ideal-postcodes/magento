@@ -21,6 +21,8 @@ export const setupSuite = (suite: Suite, country?: boolean): void => {
         cy.get(selectors.country).should("have.value", "");
         cy.get(selectors.country).select("US");
       }
+      cy.get(selectors.country).select("PL");
+      cy.wait(3000);
       cy.get("#idpc_input").should("be.not.visible");
       cy.get(selectors.line_1)
         .clear({

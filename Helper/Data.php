@@ -150,6 +150,13 @@ class Data extends AbstractHelper /** * @var EncryptorInterface */
         );
     }
 
+    public function customFields($scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT) {
+        return $this->scopeConfig->getValue(
+            'idealpostcodes/settings/custom_fields',
+            $scope
+        );
+    }
+
     public function toConfiguration(
         $scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT
     ) {
@@ -162,7 +169,8 @@ class Data extends AbstractHelper /** * @var EncryptorInterface */
             'hoistCountryField' => $this->hoistCountry($scope),
             'requireCounty' => $this->requireCounty($scope),
             'autocompleteOverride' => $this->getAutocompleteOverride($scope),
-            "postcodeLookupOverride" => $this->getPostcodeLookupOverride($scope)
+            "postcodeLookupOverride" => $this->getPostcodeLookupOverride($scope),
+            "customFields" => $this->customFields($scope)
         );
         return $config;
     }

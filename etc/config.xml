@@ -16,6 +16,7 @@
         <hoist_country>1</hoist_country>
         <autocomplete_override>{}</autocomplete_override>
         <postcode_lookup_override>{}</postcode_lookup_override>
+        <custom_fields>[]</custom_fields>
       </settings>
     </idealpostcodes>
   </default>

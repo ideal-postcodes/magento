@@ -83,7 +83,7 @@ const loadScript = async (url: string, { document }: Window) => {
   });
 };
 
-Cypress.Commands.add("setup", (url, postcodeLookup) => {
+Cypress.Commands.add("setup", (url, postcodeLookup, customFields) => {
   cy.visit(url, {
     onBeforeLoad: (window) => {
       window.idpcConfig = {
@@ -98,6 +98,7 @@ Cypress.Commands.add("setup", (url, postcodeLookup) => {
         autocompleteOverride: {
           checkKey: false,
         },
+        customFields: customFields || []
       };
     },
     onLoad: async (window) => {

@@ -1,3 +1,10 @@
+## [2.1.1](https://github.com/ideal-postcodes/magento/compare/2.1.0...2.1.1) (2022-04-21)
+
+
+### Bug Fixes
+
+* **Custom Bindings:** Apply custom bindings to store ([551fa41](https://github.com/ideal-postcodes/magento/commit/551fa41cb2c1e3969b90391aa076d05dcd7b089c))
+
 # [2.1.0](https://github.com/ideal-postcodes/magento/compare/2.0.8...2.1.0) (2022-03-30)
 
 

@@ -1,3 +1,10 @@
+## [2.1.2](https://github.com/ideal-postcodes/magento/compare/2.1.1...2.1.2) (2022-05-06)
+
+
+### Bug Fixes
+
+* **JS:** Rebuild JS assets ([9d82acc](https://github.com/ideal-postcodes/magento/commit/9d82accbad8e94abb3b91b69302b1910b4a5c8a4))
+
 ## [2.1.1](https://github.com/ideal-postcodes/magento/compare/2.1.0...2.1.1) (2022-04-21)
 
 

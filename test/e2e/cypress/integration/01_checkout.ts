@@ -21,7 +21,7 @@ const suite = {
 };
 
 const waitPerVersion = (time: number) => {
-  const check = ["2.3"];
+  const check = ["2.3", "2.4"];
   if (!check.includes(version)) cy.wait(time);
 };
 

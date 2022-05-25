@@ -42,7 +42,12 @@ echo 'Running magento setup:install'
   --admin-lastname=$MAGENTO_ADMIN_LASTNAME \
   --admin-email=$MAGENTO_ADMIN_EMAIL \
   --admin-user=$MAGENTO_ADMIN_USERNAME \
-  --admin-password=$MAGENTO_ADMIN_PASSWORD
+  --admin-password=$MAGENTO_ADMIN_PASSWORD \
+  --search-engine='elasticsearch7' \
+  --elasticsearch-host='elasticsearch' \
+  --elasticsearch-port='9200' \
+  --elasticsearch-enable-auth='0' \
+  --elasticsearch-timeout='60'
 
 echo 'Enabled Ideal Postcodes extension'
 /var/www/html/bin/magento module:enable Idealpostcodes_Ukaddresssearch

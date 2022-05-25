@@ -7,10 +7,19 @@ TAG=${git describe --tags}
 .PHONY: bootstrap
 bootstrap: up init fix-session-expire
 
+## Bootstrap containers and compile magento internals
+.PHONY: bootstrap-74
+bootstrap-74: up-74 init-74
+
 ## Initialise repository - run install-magento
 .PHONY: init
 init:
 	docker-compose exec web dockerize -wait tcp://db:3306 -timeout 60m /usr/local/bin/install-magento
+
+## Initialise repository - run install-magento
+.PHONY: init-74
+init-74:
+	docker-compose exec web dockerize -wait tcp://db:3306 -wait tcp://elasticsearch:9200 -timeout 60m /usr/local/bin/install-magento
 
 ## Launch docker-compose as background daemon
 .PHONY: up
@@ -21,6 +30,11 @@ up:
 .PHONY: down
 down:
 	docker-compose down
+
+## Shut down docker-compose services
+.PHONY: down-74
+down-74:
+	docker-compose -f docker-compose.yml -f docker/74.yml down
 
 ## -- CI Test Methods --
 
@@ -33,6 +47,11 @@ up-73:
 .PHONY: up-73-m24
 up-73-m24:
 	docker-compose -f docker-compose.yml -f docker/73.yml up -d
+
+## Start up PHP 7.3 Magento 2.4
+.PHONY: up-74
+up-74:
+	docker-compose -f docker-compose.yml -f docker/74.yml up -d
 
 ## -- Development Methods --
 

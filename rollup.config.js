@@ -49,11 +49,11 @@ const config = (file) => {
 
 export default [
   {
-    ...config("./view/base/web/binding.js"),
+    ...config("./view/base/web/binding.min.js"),
     input: "./lib/store.ts",
   },
   {
-    ...config("./view/base/web/admin.js"),
+    ...config("./view/base/web/admin.min.js"),
     input: "./lib/admin.ts",
   },
 ];

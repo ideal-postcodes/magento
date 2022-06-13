@@ -1,3 +1,10 @@
+## [2.1.3](https://github.com/ideal-postcodes/magento/compare/2.1.2...2.1.3) (2022-06-13)
+
+
+### Bug Fixes
+
+* **JS Bundle:** Bypass Minifier ([b03542b](https://github.com/ideal-postcodes/magento/commit/b03542b791381e4c77a2f7620205c0340bdba955))
+
 ## [2.1.2](https://github.com/ideal-postcodes/magento/compare/2.1.1...2.1.2) (2022-05-06)
 
 

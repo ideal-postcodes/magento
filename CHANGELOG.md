@@ -1,3 +1,10 @@
+## [2.1.4](https://github.com/ideal-postcodes/magento/compare/2.1.3...2.1.4) (2022-06-14)
+
+
+### Bug Fixes
+
+* **Composer:** Add PHP 8.0 ([#390](https://github.com/ideal-postcodes/magento/issues/390)) ([76b3864](https://github.com/ideal-postcodes/magento/commit/76b386401eb1292cd6ee77347b33228e77d1eac6))
+
 ## [2.1.3](https://github.com/ideal-postcodes/magento/compare/2.1.2...2.1.3) (2022-06-13)
 
 

@@ -3,7 +3,7 @@
   "description": "Ideal Postcodes UK address search magento extension. Ideal-Postcodes.co.uk",
   "type": "magento2-module",
   "require": {
-    "php": "~5.5.0|~5.6.0|~7.0|~7.1|~7.2|~7.3|~8.0"
+    "php": "~5.5.0|~5.6.0|~7.0|~7.1|~7.2|~7.3|~8.0|~8.1"
   },
   "support": {
     "email": "support@ideal-postcodes.co.uk",

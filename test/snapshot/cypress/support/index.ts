@@ -54,10 +54,6 @@ const storeSourcesMap = [
   },
   {
     type: "js",
-    url: "http://localhost:60154/fixtures/require.min.js",
-  },
-  {
-    type: "js",
     url: "http://localhost:60154/fixtures/store.js",
   },
   {

@@ -1,3 +1,11 @@
+## [2.1.5](https://github.com/ideal-postcodes/magento/compare/2.1.4...2.1.5) (2022-06-30)
+
+
+### Bug Fixes
+
+* **Composer:** Add 8.1 support ([6c249d6](https://github.com/ideal-postcodes/magento/commit/6c249d6d4e4b15f1b0a63155b5c189d37201460c))
+* **jQuery:** Drop jquery requirement ([c078dfb](https://github.com/ideal-postcodes/magento/commit/c078dfb334f708d5e8ab9548c24884677061a863))
+
 ## [2.1.4](https://github.com/ideal-postcodes/magento/compare/2.1.3...2.1.4) (2022-06-14)
 
 

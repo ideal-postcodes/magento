@@ -1,3 +1,10 @@
+## [2.1.6](https://github.com/ideal-postcodes/magento/compare/2.1.5...2.1.6) (2022-07-04)
+
+
+### Bug Fixes
+
+* **Minification:** Handle broken Magento minifiers ([5d9d6df](https://github.com/ideal-postcodes/magento/commit/5d9d6df5f0744adbd05e208edbec4e45c47807d6))
+
 ## [2.1.5](https://github.com/ideal-postcodes/magento/compare/2.1.4...2.1.5) (2022-06-30)
 
 

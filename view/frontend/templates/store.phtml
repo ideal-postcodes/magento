@@ -6,15 +6,13 @@ document.addEventListener('DOMContentLoaded', function() {
   var apiKey = "<?php echo $helper->getConfig('api_key'); ?>";
   var postcodeLookup = <?php echo $helper->getConfig('postcodeLookup'); ?>;
   var autocomplete = <?php echo $helper->getConfig('addressAutocomplete'); ?>;
-  var populateOrganisation = <?php echo $helper->getConfig(
-      'populateOrganisation'
-  ); ?>;
+  var populateOrganisation = <?php echo $helper->getConfig('populateOrganisation'); ?>;
   var hoistCountry = <?php echo $helper->getConfig('hoistCountryField'); ?>;
   var populateCounty = <?php echo $helper->getConfig('requireCounty'); ?>;
   var autocompleteOverride = <?php echo $helper->getConfig('autocompleteOverride'); ?>;
   var postcodeLookupOverride = <?php echo $helper->getConfig('postcodeLookupOverride'); ?>;
   var enabled = <?php echo $helper->getConfig('enabled'); ?>;
-  var customFields = <?php echo $helper->getConfig('customFields'); ?>;
+  var customFields = <?php echo trim(preg_replace('/\r|\n/', '', $helper->getConfig('customFields'))); ?>;
   // Exit early if disabled
   if (enabled === false) return;
   window.idpcConfig = {
@@ -27,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
     autocompleteOverride: autocompleteOverride,
     postcodeLookupOverride: postcodeLookupOverride,
     customFields: customFields
-  }
+  };
   window.idpcStart();
 });
 </script>

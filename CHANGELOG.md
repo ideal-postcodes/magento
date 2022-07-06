@@ -1,3 +1,10 @@
+## [2.1.7](https://github.com/ideal-postcodes/magento/compare/2.1.6...2.1.7) (2022-07-06)
+
+
+### Bug Fixes
+
+* **PHP:** Allow all 7.x and 8.x ([f98a459](https://github.com/ideal-postcodes/magento/commit/f98a45918d6d03526c95b325b9a2df367c736c9a))
+
 ## [2.1.6](https://github.com/ideal-postcodes/magento/compare/2.1.5...2.1.6) (2022-07-04)
 
 

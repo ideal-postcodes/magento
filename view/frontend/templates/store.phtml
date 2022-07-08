@@ -3,7 +3,9 @@ $helper = $this->helper('Idealpostcodes\Ukaddresssearch\Helper\Data'); ?>
 
 <script type="text/javascript" name="Ideal_Postcodes">
 document.addEventListener('DOMContentLoaded', function() {
-    console.log("Present");
+   var url = window.location.href;
+   var onlyOnCheckout = <?php echo $helper->getConfig('checkoutOnly'); ?>;
+   var urlRegex = new Regex("<?php echo $helper->getConfig('matchCheckout'); ?>");
    var script = document.createElement("script");
    script.src = "<?php echo $helper->getFileUrl('binding.min.js'); ?>";
    script.onload = function() {
@@ -32,6 +34,10 @@ document.addEventListener('DOMContentLoaded', function() {
         };
         window.idpcStart();
    }
-   document.head.appendChild(script);
+   if(!onlyOnCheckout) {
+		document.head.appendChild(script);
+   } else if(urlRegex.test(url)) {
+   		document.head.appendChild(script);
+   }
 });
 </script>

@@ -17,6 +17,8 @@
         <autocomplete_override>{}</autocomplete_override>
         <postcode_lookup_override>{}</postcode_lookup_override>
         <custom_fields>[]</custom_fields>
+        <checkout_only>0</checkout_only>
+        <match_checkout_page>\/checkout</match_checkout_page>
       </settings>
     </idealpostcodes>
   </default>

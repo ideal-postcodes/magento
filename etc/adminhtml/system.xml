@@ -297,6 +297,24 @@
             <field id="enabled">1</field>
           </depends>
         </field>
+        <field
+                id="match_checkout_page"
+                type="text"
+                translate="label,comment"
+                sortOrder="80"
+                showInDefault="1"
+                showInWebsite="1"
+                showInStore="1"
+        >
+          <label>Checkout Page Url Regex</label>
+          <comment>
+            Here you can change regex to match your checkout url. Default is generic one from basic magento install
+          </comment>
+          <config_path>idealpostcodes/settings/match_checkout_page</config_path>
+          <depends>
+            <field id="checkout_only">1</field>
+          </depends>
+        </field>
       </group>
     </section>
   </system>

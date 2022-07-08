@@ -278,6 +278,25 @@
             <field id="enabled">1</field>
           </depends>
         </field>
+        <field
+                id="checkout_only"
+                type="select"
+                translate="label"
+                sortOrder="80"
+                showInDefault="1"
+                showInWebsite="1"
+                showInStore="1"
+        >
+          <label>Load source script only on checkout pages</label>
+          <comment>
+            This option force to load our solution only on checkout page in store front. Please be sure that it is desired way to operate.
+          </comment>
+          <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+          <config_path>idealpostcodes/settings/checkout_only</config_path>
+          <depends>
+            <field id="enabled">1</field>
+          </depends>
+        </field>
       </group>
     </section>
   </system>

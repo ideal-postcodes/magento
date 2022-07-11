@@ -5,7 +5,7 @@ TAG=${git describe --tags}
 
 ## Bootstrap containers and compile magento internals
 .PHONY: bootstrap
-bootstrap: up init
+bootstrap: up init fix-session-expire
 
 ## Initialise repository - run install-magento
 .PHONY: init

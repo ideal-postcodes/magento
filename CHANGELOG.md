@@ -1,3 +1,10 @@
+## [2.1.8](https://github.com/ideal-postcodes/magento/compare/2.1.7...2.1.8) (2022-07-11)
+
+
+### Bug Fixes
+
+* **Scoping:** Allow store by store scoping ([8d83a25](https://github.com/ideal-postcodes/magento/commit/8d83a25568b3c1f45ac2562f67a519c5b374b4f6))
+
 ## [2.1.7](https://github.com/ideal-postcodes/magento/compare/2.1.6...2.1.7) (2022-07-06)
 
 

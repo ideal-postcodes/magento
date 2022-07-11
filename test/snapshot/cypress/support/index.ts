@@ -69,7 +69,7 @@ const loadCss = (url: string, { document }: Window) => {
   document.head.appendChild(css);
 };
 
-const loadScript = async (url: string, { document }: Window) => {
+const loadScript = async (url: string, { document }: Window): Promise<void> => {
   return new Promise((resolve) => {
     const script = document.createElement("script");
     script.setAttribute("type", "text/javascript");
@@ -94,6 +94,7 @@ Cypress.Commands.add("setup", (url, postcodeLookup, customFields) => {
         autocompleteOverride: {
           checkKey: false,
         },
+        // @ts-ignore
         customFields: customFields || []
       };
     },

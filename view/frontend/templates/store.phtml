@@ -5,7 +5,7 @@ $helper = $this->helper('Idealpostcodes\Ukaddresssearch\Helper\Data'); ?>
 document.addEventListener('DOMContentLoaded', function() {
    var url = window.location.href;
    var onlyOnCheckout = <?php echo $helper->getConfig('checkoutOnly'); ?>;
-   var urlRegex = new Regex("<?php echo $helper->getConfig('matchCheckout'); ?>");
+   var urlRegex = new RegExp("<?php echo $helper->getConfig('matchCheckout'); ?>");
    var script = document.createElement("script");
    script.src = "<?php echo $helper->getFileUrl('binding.min.js'); ?>";
    script.onload = function() {

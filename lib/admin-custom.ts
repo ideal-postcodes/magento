@@ -11,7 +11,11 @@ export const bind = (config: Config) => {
     fields.forEach((selectors) => {
         setupAutocomplete(config, selectors, {
             pageTest,
-            getScope: (anchor: HTMLElement) => getParent(anchor, parentScope, parentTest)
+            getScope: (anchor: HTMLElement) => {
+                let parent = getParent(anchor, parentScope, parentTest);
+                if(parent) return parent
+                return getParent(anchor, "FORM");
+            }
         });
     })
 };

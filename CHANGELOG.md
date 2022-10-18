@@ -1,3 +1,10 @@
+## [2.1.9](https://github.com/ideal-postcodes/magento/compare/2.1.8...2.1.9) (2022-10-18)
+
+
+### Bug Fixes
+
+* **Address Finder:** Fixes scoping for custom forms ([5b98b99](https://github.com/ideal-postcodes/magento/commit/5b98b9947b0946f96cd93c8a17d09252ec71fe47))
+
 ## [2.1.8](https://github.com/ideal-postcodes/magento/compare/2.1.7...2.1.8) (2022-07-11)
 
 

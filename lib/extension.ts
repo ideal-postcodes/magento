@@ -191,6 +191,7 @@ export const setupPostcodeLookup = (
             this.context.style.display = "none"
           });
         },
+        populateOrganisation: config.populateOrganisation,
         ...config.postcodeLookupOverride
       },
       {
@@ -235,6 +236,7 @@ export const setupAutocomplete = async (
         watchCountry(this.options.outputFields, () => this.attach(), () => this.detach(), true);
       },
       outputFields,
+      populateOrganisation: config.populateOrganisation,
       ...config.autocompleteOverride
     },
     options

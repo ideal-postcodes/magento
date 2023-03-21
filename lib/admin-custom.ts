@@ -12,7 +12,7 @@ export const bind = (config: Config) => {
         setupAutocomplete(config, selectors, {
             pageTest,
             getScope: (anchor: HTMLElement) => {
-                let parent = getParent(anchor, parentScope, parentTest);
+                const parent = getParent(anchor, parentScope, parentTest);
                 if(parent) return parent
                 return getParent(anchor, "FORM");
             }

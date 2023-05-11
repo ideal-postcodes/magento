@@ -24,16 +24,6 @@ down:
 
 ## -- CI Test Methods --
 
-## Start up PHP 7.1
-.PHONY: up-71
-up-71:
-	docker-compose -f docker-compose.yml -f docker/71.yml up -d
-
-## Start up PHP 7.2
-.PHONY: up-72
-up-72:
-	docker-compose -f docker-compose.yml -f docker/72.yml up -d
-
 ## Start up PHP 7.3
 .PHONY: up-73
 up-73:

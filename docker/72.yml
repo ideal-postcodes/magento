@@ -1,7 +1,0 @@
-version: "3.0"
-services:
-  web:
-    build:
-      context: "."
-      args:
-        BASE_IMAGE: idealpostcodes/magento-test:m2.3-php7.2

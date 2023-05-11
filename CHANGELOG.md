@@ -1,3 +1,10 @@
+## [2.1.10](https://github.com/ideal-postcodes/magento/compare/2.1.9...2.1.10) (2023-05-11)
+
+
+### Bug Fixes
+
+* **test:** Remove old versions from testing scenario and clear files ([7a95296](https://github.com/ideal-postcodes/magento/commit/7a95296bcdc7466be0d79045330b38df4e306a81))
+
 ## [2.1.9](https://github.com/ideal-postcodes/magento/compare/2.1.8...2.1.9) (2022-10-18)
 
 

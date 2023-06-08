@@ -1,3 +1,10 @@
+# [2.2.0](https://github.com/ideal-postcodes/magento/compare/2.1.10...2.2.0) (2023-06-08)
+
+
+### Features
+
+* **version:** Add Version 2.4.4 with php 7.4 ([159ba0a](https://github.com/ideal-postcodes/magento/commit/159ba0ad358da35f5a36d036cffea27005c3ff6c))
+
 ## [2.1.10](https://github.com/ideal-postcodes/magento/compare/2.1.9...2.1.10) (2023-05-11)
 
 

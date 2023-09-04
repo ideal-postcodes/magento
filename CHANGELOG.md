@@ -1,3 +1,10 @@
+# [2.3.0](https://github.com/ideal-postcodes/magento/compare/2.2.0...2.3.0) (2023-09-04)
+
+
+### Features
+
+* **address-finder:** Upgrade to version 4.2.0 ([e18aae8](https://github.com/ideal-postcodes/magento/commit/e18aae8ec6a6d8bbcd37fa675265ed0b360ff2b3))
+
 # [2.2.0](https://github.com/ideal-postcodes/magento/compare/2.1.10...2.2.0) (2023-06-08)
 
 

@@ -40,7 +40,7 @@
   "dependencies": {
     "@ideal-postcodes/postcode-lookup": "~1.10.1",
     "@ideal-postcodes/address-finder": "~4.2.0",
-    "axios": "~0.21.4"
+    "axios": "~1.5.0"
   },
   "devDependencies": {
     "@babel/preset-env": "~7.16.11",

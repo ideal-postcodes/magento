@@ -3,5 +3,5 @@
   "browser": "electron",
   "defaultCommandTimeout": 60000,
   "requestTimeout": 60000,
-  "video": false
+  "video": true
 }

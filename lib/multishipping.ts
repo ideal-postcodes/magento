@@ -18,13 +18,12 @@ export const selectors = {
 
 export const linesIdentifier = {
   parentScope: "div",
-  parentTest: (e: HTMLElement) =>
-    e.classList.contains("field"),
+  parentTest: (e: HTMLElement) => e.classList.contains("field"),
 };
 
 const pageTest = () => includes(window.location.pathname, "/multishipping");
 
 export const bind = (config: Config) => {
-  setupAutocomplete(config, selectors, { pageTest }, linesIdentifier);
+  setupAutocomplete(config, selectors, { pageTest });
   setupPostcodeLookup(config, selectors, { pageTest }, linesIdentifier);
 };

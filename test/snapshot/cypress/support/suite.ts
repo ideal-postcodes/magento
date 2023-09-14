@@ -70,7 +70,10 @@ const assertions = (
       .get(selectors.organisation)
       .should("have.value", address.organisation_name);
   const town = address.post_town.toLowerCase();
-  cy.get(selectors.post_town).should("have.value", town.charAt(0).toUpperCase() + town.slice(1));
+  cy.get(selectors.post_town).should(
+    "have.value",
+    town.charAt(0).toUpperCase() + town.slice(1)
+  );
   cy.get(selectors.country).should("have.value", "JE");
   cy.get(selectors.postcode).should("have.value", address.postcode);
 };
@@ -83,6 +86,9 @@ export const autocompleteSuite = (suite: Suite) => {
   it("Autocomplete", () => {
     cy.get(scope).within((scope) => {
       cy.get(selectors.country).select("GB");
+      cy.get(selectors.line_1).focus();
+      cy.get(".idpc_country").first().click();
+      cy.get(".idpc_ul").contains("United Kingdom").click();
       cy.wait(2000);
       cy.get(selectors.line_1)
         .clear({

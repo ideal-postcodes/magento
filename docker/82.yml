@@ -1,11 +1,5 @@
 version: "3.0"
 services:
-  db:
-    image: library/mariadb:10.2-bionic
-    volumes:
-      - db-data:/var/lib/mysql/data
-    env_file:
-      - ./docker/.env
   es:
     image: library/elasticsearch:7.0.0
     container_name: elasticsearch
@@ -26,5 +20,6 @@ services:
       - es
     build:
       context: "."
+      dockerfile: "Dockerfile"
       args:
-        BASE_IMAGE: idealpostcodes/magento-test:m2.4-php7.4
+        BASE_IMAGE: idealpostcodes/magento-test:m2.4.6-php8.2

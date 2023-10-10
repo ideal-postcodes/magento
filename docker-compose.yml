@@ -1,7 +1,7 @@
 version: '3.0'
 services:
   db:
-    image: mariadb
+    image: library/mariadb:10.4-bionic
     volumes:
       - db-data:/var/lib/mysql/data
     env_file:

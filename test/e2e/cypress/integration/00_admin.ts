@@ -66,6 +66,12 @@ describe("Admin", () => {
     cy.get("#idealpostcodes_required_api_key")
       .clear({ force: true })
       .type(apiKey, { force: true });
+    cy.get("#idealpostcodes_admin-head").click();
+    cy.get("#idealpostcodes_admin_autocomplete_override")
+      .clear({ force: true })
+      .type('{{}"defaultCountry": "GBR", "detectCountry": false}', {
+        force: true,
+      });
     cy.wait(500);
     cy.contains("Save Config").click();
     cy.wait(1000);

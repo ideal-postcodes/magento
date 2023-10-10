@@ -18,11 +18,11 @@ const suite = {
 
 describe("Customer", () => {
   describe("Checkout - Billing form", () => {
-    before(() => {
+    beforeEach(() => {
       cy.setup("./fixtures/checkout/billing.html", true);
     });
 
-    setupSuite(suite);
+    //setupSuite(suite);
     autocompleteSuite(suite);
     postcodeLookupSuite(suite);
   });

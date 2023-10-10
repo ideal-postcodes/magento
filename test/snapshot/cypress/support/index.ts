@@ -82,6 +82,7 @@ const loadScript = async (url: string, { document }: Window): Promise<void> => {
 Cypress.Commands.add("setup", (url, postcodeLookup, customFields) => {
   cy.visit(url, {
     onBeforeLoad: (window) => {
+      console.log(url, postcodeLookup);
       window.idpcConfig = {
         apiKey: Cypress.env("API_KEY"),
         populateOrganisation: true,
@@ -91,11 +92,13 @@ Cypress.Commands.add("setup", (url, postcodeLookup, customFields) => {
         postcodeLookupOverride: {
           checkKey: false,
         },
+        // @ts-ignore
+        defaultCountry: "GB",
         autocompleteOverride: {
           checkKey: false,
         },
         // @ts-ignore
-        customFields: customFields || []
+        customFields: customFields || [],
       };
     },
     onLoad: async (window) => {

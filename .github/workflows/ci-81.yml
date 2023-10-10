@@ -1,29 +1,24 @@
-name: Magento 2.4 CI
+name: Magento 2.4 CI with PHP 8.1
 
 on:
   - push
 
 jobs:
   ci:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
 
       - name: Launch Magento test environment
-        run: make up-73-m24
-
-      - name: Run install script
-        run: >-
-          docker-compose exec -T web bash -c 'dockerize -wait tcp://db:3306 -timeout 60m /usr/local/bin/install-magento'
         env:
+          PHP: "81"
           COMPOSE_INTERACTIVE_NO_CLI: "1"
-
-      - name: Set Base URL
-        run: make fix-session-expire
+        run: make up
 
       - uses: cypress-io/github-action@v2
         with:
           project: ./test/e2e
+          config: baseUrl=http://localhost:3000
         env:
           CYPRESS_API_KEY: ${{ secrets.API_KEY }}
           CYPRESS_MAGENTO_VERSION: "2.4"

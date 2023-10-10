@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
 
 import { address as fixtures } from "@ideal-postcodes/api-fixtures";
-import { setupSuite, autocompleteSuite } from "../support/suite";
+import { autocompleteSuite } from "../support/suite";
 import { billing, shipping } from "../../../../lib/admin-orders";
 
 const address = fixtures.jersey;
@@ -17,7 +17,6 @@ describe("Admin", () => {
         selectors: billing,
         address,
       };
-      setupSuite(suite, true);
       autocompleteSuite(suite);
     });
 
@@ -30,7 +29,6 @@ describe("Admin", () => {
         selectors: shipping,
         address,
       };
-      setupSuite(suite, true);
       autocompleteSuite(suite);
     });
   });
@@ -45,8 +43,6 @@ describe("Admin", () => {
     before(() => {
       cy.setup("./fixtures/admin/sales/new-customer.html");
     });
-
-    setupSuite(suite, true);
     autocompleteSuite(suite);
   });
 });

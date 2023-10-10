@@ -1,11 +1,7 @@
 /// <reference types="cypress" />
 
 import { address as fixtures } from "@ideal-postcodes/api-fixtures";
-import {
-  setupSuite,
-  autocompleteSuite,
-  postcodeLookupSuite,
-} from "../support/suite";
+import { autocompleteSuite, postcodeLookupSuite } from "../support/suite";
 import { selectors } from "../../../../lib/multishipping";
 
 const address = fixtures.jersey;
@@ -18,10 +14,9 @@ const suite = {
 
 describe("Customer", () => {
   describe("Account - New address", () => {
-    before(() => {
+    beforeEach(() => {
       cy.setup("./fixtures/customer/address-form.html", true);
     });
-    setupSuite(suite);
     autocompleteSuite(suite);
     postcodeLookupSuite(suite);
   });

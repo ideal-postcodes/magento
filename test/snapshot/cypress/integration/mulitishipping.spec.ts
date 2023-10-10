@@ -1,11 +1,7 @@
 /// <reference types="cypress" />
 
 import { address as fixtures } from "@ideal-postcodes/api-fixtures";
-import {
-  setupSuite,
-  autocompleteSuite,
-  postcodeLookupSuite,
-} from "../support/suite";
+import { autocompleteSuite, postcodeLookupSuite } from "../support/suite";
 import { selectors } from "../../../../lib/multishipping";
 const address = fixtures.jersey;
 
@@ -16,11 +12,9 @@ describe("Multishipping", () => {
       selectors,
       address,
     };
-    before(() => {
+    beforeEach(() => {
       cy.setup("./fixtures/multishipping/checkout-register.html", true);
     });
-
-    setupSuite(suite, true);
     autocompleteSuite(suite);
     postcodeLookupSuite(suite);
   });
@@ -32,14 +26,12 @@ describe("Multishipping", () => {
       address,
     };
 
-    before(() => {
+    beforeEach(() => {
       cy.setup(
         "./fixtures/multishipping/checkoutaddress-newshipping.html",
         true
       );
     });
-
-    setupSuite(suite, true);
     autocompleteSuite(suite);
     postcodeLookupSuite(suite);
   });

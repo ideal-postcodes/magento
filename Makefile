@@ -1,57 +1,27 @@
+PHP ?= 81
 .DEFAULT_GOAL := help
 TAG=${git describe --tags}
 
 ## -- Container Launch --
 
-## Bootstrap containers and compile magento internals
-.PHONY: bootstrap
-bootstrap: up init fix-session-expire
-
-## Bootstrap containers and compile magento internals
-.PHONY: bootstrap-74
-bootstrap-74: up-74 init-74
-
-## Initialise repository - run install-magento
-.PHONY: init
-init:
-	docker-compose exec web dockerize -wait tcp://db:3306 -timeout 60m /usr/local/bin/install-magento
-
-## Initialise repository - run install-magento
-.PHONY: init-74
-init-74:
-	docker-compose exec web dockerize -wait tcp://db:3306 -wait tcp://elasticsearch:9200 -timeout 60m /usr/local/bin/install-magento
-
 ## Launch docker-compose as background daemon
 .PHONY: up
-up:
-	docker-compose up -d
+up: build init
+
+
+.PHONY: build
+build:
+	docker-compose -f docker-compose.yml -f docker/${PHP}.yml up -d
 
 ## Shut down docker-compose services
 .PHONY: down
 down:
-	docker-compose down
+	docker-compose -f docker-compose.yml -f docker/${PHP}.yml down
 
-## Shut down docker-compose services
-.PHONY: down-74
-down-74:
-	docker-compose -f docker-compose.yml -f docker/74.yml down
-
-## -- CI Test Methods --
-
-## Start up PHP 7.3
-.PHONY: up-73
-up-73:
-	docker-compose -f docker-compose.yml -f docker/73.yml up -d
-
-## Start up PHP 7.3 Magento 2.4
-.PHONY: up-73-m24
-up-73-m24:
-	docker-compose -f docker-compose.yml -f docker/73.yml up -d
-
-## Start up PHP 7.3 Magento 2.4
-.PHONY: up-74
-up-74:
-	docker-compose -f docker-compose.yml -f docker/74.yml up -d
+## Initialise repository - run install-magento
+.PHONY: init
+init:
+	docker-compose exec -T web dockerize -wait tcp://db:3306 -wait tcp://elasticsearch:9200 -timeout 60m /usr/local/bin/install-magento
 
 ## -- Development Methods --
 
@@ -69,6 +39,10 @@ static_deploy:
 .PHONY: shell
 shell:
 	docker-compose exec web bash
+
+.PHONY: shell-db
+shell-db:
+	docker-compose exec db bash
 
 ## Enable magento cache. Should be disabled to load extensions
 .PHONY: cache-enable
@@ -88,8 +62,7 @@ cache-flush:
 ## Set base URL as 127.0.0.1 instead of localhost - fixes session expirey issue
 .PHONY: set-base-url
 set-base-url:
-	docker-compose exec -T db mysql -u magento -pmagento -D magento -e 'UPDATE `core_config_data` SET `value`="http://127.0.0.1:3000/" WHERE path="web/secure/base_url"'
-	docker-compose exec -T db mysql -u magento -pmagento -D magento -e 'UPDATE `core_config_data` SET `value`="http://127.0.0.1:3000/" WHERE path="web/unsecure/base_url"'
+	docker-compose exec -T db mysql -u magento -pmagento -D magento -e 'UPDATE `core_config_data` SET `value`="http://127.0.0.1:3000/" WHERE path="web/secure/base_url"'
 
 ## Fix for session expired error in development
 .PHONY: fix-session-expire

@@ -1,7 +1,7 @@
-ARG BASE_IMAGE=idealpostcodes/magento-test:m2.3-php7.2
+ARG BASE_IMAGE=idealpostcodes/magento-test:m2.4-php8.1
 FROM $BASE_IMAGE
 
-COPY ./docker/install-magento /usr/local/bin/install-magento
+COPY docker/install-magento /usr/local/bin/install-magento
 RUN chmod u+x /usr/local/bin/install-magento
 
 COPY ./docker/compile-magento /usr/local/bin/compile-magento

@@ -1,3 +1,10 @@
+# [2.4.0](https://github.com/ideal-postcodes/magento/compare/2.3.0...2.4.0) (2023-10-31)
+
+
+### Features
+
+* **commands:** Clean Make Commands ([09d1ae3](https://github.com/ideal-postcodes/magento/commit/09d1ae3d8c1edddc46bb779e7cdcc4e4fd5dfba3))
+
 # [2.3.0](https://github.com/ideal-postcodes/magento/compare/2.2.0...2.3.0) (2023-09-04)
 
 

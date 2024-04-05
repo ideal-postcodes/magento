@@ -1,3 +1,10 @@
+## [2.4.1](https://github.com/ideal-postcodes/magento/compare/2.4.0...2.4.1) (2024-04-05)
+
+
+### Bug Fixes
+
+* **address-finder:** Update to version 4.5.3 ([3f7b9a5](https://github.com/ideal-postcodes/magento/commit/3f7b9a53416a740b0476b25b3e40738b76c5ffc7))
+
 # [2.4.0](https://github.com/ideal-postcodes/magento/compare/2.3.0...2.4.0) (2023-10-31)
 
 

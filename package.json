@@ -33,7 +33,7 @@
     "test:build": "rollup -c test/snapshot/rollup.config.js",
     "test:watch": "rollup -c test/snapshot/rollup.config.js -w",
     "test": "npm run test:snapshot",
-    "open:snapshot": "cypress open --project test/snapshot"
+    "test:open": "cypress open --project test/snapshot"
   },
   "release": {
     "extends": "@cablanchard/semantic-release"
@@ -41,7 +41,7 @@
   "license": "MIT",
   "dependencies": {
     "@ideal-postcodes/postcode-lookup": "~1.10.1",
-    "@ideal-postcodes/address-finder": "~4.2.0",
+    "@ideal-postcodes/address-finder": "~4.5.3",
     "axios": "~0.21.4"
   },
   "devDependencies": {

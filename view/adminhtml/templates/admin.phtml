@@ -2,27 +2,34 @@
 
 $helper = $this->helper('Idealpostcodes\Ukaddresssearch\Helper\Data'); ?>
 
-<script type="text/javascript" name="Ideal_Postcodes">
-document.addEventListener('DOMContentLoaded', function() {
-  var apiKey = "<?php echo $helper->getConfig('api_key'); ?>";
-  var autocomplete = <?php echo $helper->getAdminConfig('addressAutocomplete'); ?>;
-  var populateOrganisation = <?php echo $helper->getConfig('populateOrganisation'); ?>;
-  var populateCounty = <?php echo $helper->getConfig('requireCounty'); ?>;
-  var enabled = <?php echo $helper->getConfig('enabled'); ?>;
-  var customFields = <?php echo trim(preg_replace('/\r|\n/', '',$helper->getConfig('customFields'))); ?>;
-
+<?php
+$script = '
+document.addEventListener(\'DOMContentLoaded\', function() {
+  var apiKey = "' . $helper->getConfig('api_key') . '";
+  var postcodeLookup = ' . $helper->getConfig('postcodeLookup') . ';
+  var autocomplete = ' . $helper->getConfig('addressAutocomplete') . ';
+  var populateOrganisation = ' . $helper->getConfig('populateOrganisation') . ';
+  var hoistCountry = ' . $helper->getConfig('hoistCountryField') . ';
+  var populateCounty = ' . $helper->getConfig('requireCounty') . ';
+  var autocompleteOverride = ' . $helper->getConfig('autocompleteOverride') . ';
+  var postcodeLookupOverride = ' . $helper->getConfig('postcodeLookupOverride') . ';
+  var enabled = ' . $helper->getConfig('enabled') . ';
+  var customFields = ' . trim(preg_replace("/\r|\n/", "", $helper->getConfig('customFields'))) . ';
   // Exit early if disabled
   if (enabled === false) return;
   window.idpcConfig = {
     apiKey: apiKey,
-    postcodeLookup: false,
+    postcodeLookup: postcodeLookup,
     autocomplete: autocomplete,
     populateCounty: populateCounty,
     populateOrganisation: populateOrganisation,
-    hoistCountry: false,
+    hoistCountry: hoistCountry,
+    autocompleteOverride: autocompleteOverride,
+    postcodeLookupOverride: postcodeLookupOverride,
     customFields: customFields
   };
-
-  if (window.idpcStart) window.idpcStart();
+  window.idpcStart();
 });
-</script>
+';
+?>
+<?= $secureRenderer->renderTag('script', [], $script, false); ?>

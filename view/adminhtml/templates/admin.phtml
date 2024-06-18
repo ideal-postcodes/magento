@@ -1,16 +1,14 @@
 <?php /** @var Magento\Framework\View\TemplateEngine\Php $this */
+$helper = $this->helper('Idealpostcodes\Ukaddresssearch\Helper\Data');
 
-$helper = $this->helper('Idealpostcodes\Ukaddresssearch\Helper\Data'); ?>
-
-<script type="text/javascript" name="Ideal_Postcodes">
-document.addEventListener('DOMContentLoaded', function() {
-  var apiKey = "<?php echo $helper->getConfig('api_key'); ?>";
-  var autocomplete = <?php echo $helper->getAdminConfig('addressAutocomplete'); ?>;
-  var populateOrganisation = <?php echo $helper->getConfig('populateOrganisation'); ?>;
-  var populateCounty = <?php echo $helper->getConfig('requireCounty'); ?>;
-  var enabled = <?php echo $helper->getConfig('enabled'); ?>;
-  var customFields = <?php echo trim(preg_replace('/\r|\n/', '',$helper->getConfig('customFields'))); ?>;
-
+$script = '
+document.addEventListener(\'DOMContentLoaded\', function() {
+  var apiKey = "' . $helper->getConfig('api_key') . '";
+  var autocomplete = ' . $helper->getConfig('addressAutocomplete') . ';
+  var populateOrganisation = ' . $helper->getConfig('populateOrganisation') . ';
+  var populateCounty = ' . $helper->getConfig('requireCounty') . ';
+  var enabled = ' . $helper->getConfig('enabled') . ';
+  var customFields = ' . trim(preg_replace("/\r|\n/", "", $helper->getConfig('customFields'))) . ';
   // Exit early if disabled
   if (enabled === false) return;
   window.idpcConfig = {
@@ -22,7 +20,9 @@ document.addEventListener('DOMContentLoaded', function() {
     hoistCountry: false,
     customFields: customFields
   };
-
-  if (window.idpcStart) window.idpcStart();
+  window.idpcStart();
 });
-</script>
+';
+
+$secureRenderer->renderTag('script', [], $script, false);
+?>

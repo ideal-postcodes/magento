@@ -1,13 +1,12 @@
 <?php
-$helper = $this->helper('Idealpostcodes\Ukaddresssearch\Helper\Data'); ?>
-
-<?php
+$helper = $this->helper('Idealpostcodes\Ukaddresssearch\Helper\Data');
 $script = '
+console.log("should be here");
 document.addEventListener(\'DOMContentLoaded\', function() {
   var apiKey = "' . $helper->getConfig('api_key') . '";
   var postcodeLookup = ' . $helper->getConfig('postcodeLookup') . ';
   var autocomplete = ' . $helper->getConfig('addressAutocomplete') . ';
-  var populateOrganisation = ' . $helper->getConfig('populateOrganisation') . ';
+  var removeOrganisation = ' . $helper->getConfig('removeOrganisation') . ';
   var hoistCountry = ' . $helper->getConfig('hoistCountryField') . ';
   var populateCounty = ' . $helper->getConfig('requireCounty') . ';
   var autocompleteOverride = ' . $helper->getConfig('autocompleteOverride') . ';
@@ -21,7 +20,7 @@ document.addEventListener(\'DOMContentLoaded\', function() {
     postcodeLookup: postcodeLookup,
     autocomplete: autocomplete,
     populateCounty: populateCounty,
-    populateOrganisation: populateOrganisation,
+    removeOrganisation: removeOrganisation,
     hoistCountry: hoistCountry,
     autocompleteOverride: autocompleteOverride,
     postcodeLookupOverride: postcodeLookupOverride,
@@ -31,4 +30,4 @@ document.addEventListener(\'DOMContentLoaded\', function() {
 });
 ';
 ?>
-<?= $secureRenderer->renderTag('script', [], $script, false); ?>
+<?= /* @noEscape */ $secureRenderer->renderTag('script', ['type' => 'text/javascript', 'id' => 'idpc-config'], $script, false); ?>

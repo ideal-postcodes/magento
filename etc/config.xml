@@ -11,7 +11,8 @@
         <postcode_lookup>1</postcode_lookup>
         <autocomplete>1</autocomplete>
         <admin_autocomplete>1</admin_autocomplete>
-        <populate_organisation>1</populate_organisation>
+        <remove_organisation_store>1</remove_organisation_store>
+        <remove_organisation_admin>1</remove_organisation_admin>
         <require_county>0</require_county>
         <hoist_country>1</hoist_country>
         <autocomplete_override>{}</autocomplete_override>

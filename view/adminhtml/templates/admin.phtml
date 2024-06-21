@@ -5,7 +5,7 @@ $script = '
 document.addEventListener(\'DOMContentLoaded\', function() {
   var apiKey = "' . $helper->getConfig('api_key') . '";
   var autocomplete = ' . $helper->getConfig('addressAutocomplete') . ';
-  var populateOrganisation = ' . $helper->getConfig('populateOrganisation') . ';
+  var removeOrganisation = ' . $helper->getConfig('removeOrganisation') . ';
   var populateCounty = ' . $helper->getConfig('requireCounty') . ';
   var enabled = ' . $helper->getConfig('enabled') . ';
   var customFields = ' . trim(preg_replace("/\r|\n/", "", $helper->getConfig('customFields'))) . ';
@@ -16,7 +16,7 @@ document.addEventListener(\'DOMContentLoaded\', function() {
     postcodeLookup: false,
     autocomplete: autocomplete,
     populateCounty: populateCounty,
-    populateOrganisation: populateOrganisation,
+    removeOrganisation: removeOrganisation,
     hoistCountry: false,
     customFields: customFields
   };

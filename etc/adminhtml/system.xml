@@ -65,23 +65,6 @@
       >
         <label>Data</label>
         <field
-                id="populate_organisation"
-                type="select"
-                translate="label,comment"
-                sortOrder="60"
-                showInDefault="1"
-                showInWebsite="1"
-                showInStore="1"
-        >
-          <label>Populate Organisation</label>
-          <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-          <config_path>idealpostcodes/settings/populate_organisation</config_path>
-          <comment>Fill the Company field based on selected address.</comment>
-          <depends>
-            <field id="enabled">1</field>
-          </depends>
-        </field>
-        <field
                 id="require_county"
                 type="select"
                 translate="label,comment"
@@ -167,6 +150,23 @@
             <field id="enabled">1</field>
           </depends>
         </field>
+        <field
+                id="remove_organisation_store"
+                type="select"
+                translate="label,comment"
+                sortOrder="90"
+                showInDefault="1"
+                showInWebsite="1"
+                showInStore="1"
+        >
+          <label>Remove Organisation</label>
+          <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+          <config_path>idealpostcodes/settings/remove_organisation_store</config_path>
+          <comment>Remove organisation name from first line of address.</comment>
+          <depends>
+            <field id="enabled">1</field>
+          </depends>
+        </field>
       </group>
       <group
               id="store_admin_configuration"
@@ -194,6 +194,23 @@
           <config_path>idealpostcodes/settings/admin_autocomplete</config_path>
           <depends>
             <field id="enabled">1</field>
+          </depends>
+        </field>
+        <field
+                id="remove_organisation_admin"
+                type="select"
+                translate="label,comment"
+                sortOrder="90"
+                showInDefault="1"
+                showInWebsite="1"
+                showInStore="1"
+        >
+          <label>Remove Organisation</label>
+          <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+          <config_path>idealpostcodes/settings/remove_organisation_admin</config_path>
+          <comment>Remove organisation name from first line of address.</comment>
+          <depends>
+            <field id="enable_admin_integration">1</field>
           </depends>
         </field>
       </group>

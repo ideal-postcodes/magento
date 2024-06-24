@@ -23,6 +23,7 @@ import { PostcodeLookup } from "@ideal-postcodes/postcode-lookup";
 
 export interface Config extends BaseConfig {
   hoistCountry?: boolean;
+  removeOrganisation: boolean;
   customFields?: OutputFields[];
 }
 
@@ -160,6 +161,8 @@ export const setupPostcodeLookup = (
       checkKey: true,
       context: "div.idpc_lookup",
       outputFields,
+      removeOrganisation: config.removeOrganisation,
+      populateCounty: config.populateCounty,
       selectStyle: {
         "margin-top": "5px",
         "margin-bottom": "5px",
@@ -223,6 +226,8 @@ export const setupAutocomplete = async (
     {
       apiKey: config.apiKey,
       checkKey: true,
+      removeOrganisation: config.removeOrganisation,
+      populateCounty: config.populateCounty,
       onLoaded() {
         //@ts-expect-error
         this.options.outputFields = getFields(outputFields, this.scope);

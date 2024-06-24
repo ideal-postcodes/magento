@@ -148,11 +148,21 @@ class Data extends AbstractHelper /** * @var EncryptorInterface */
         );
     }
 
-    public function populateOrganisation(
+    public function removeOrganisation(
         $scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $storeId = null
     ) {
         return $this->scopeConfig->isSetFlag(
-            'idealpostcodes/settings/populate_organisation',
+            'idealpostcodes/settings/remove_organisation_store',
+            $scope,
+            $storeId
+        );
+    }
+
+    public function removeOrganisationAdmin(
+        $scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $storeId = null
+    ) {
+        return $this->scopeConfig->isSetFlag(
+            'idealpostcodes/settings/remove_organisation_admin',
             $scope,
             $storeId
         );
@@ -210,7 +220,7 @@ class Data extends AbstractHelper /** * @var EncryptorInterface */
             'api_key' => $this->getApiKey($scope, $storeId),
             'postcodeLookup' => $this->usesPostcodeLookup($scope, $storeId),
             'addressAutocomplete' => $this->usesAutocomplete($scope, $storeId),
-            'populateOrganisation' => $this->populateOrganisation($scope, $storeId),
+            'removeOrganisation' => $this->removeOrganisation($scope, $storeId),
             'hoistCountryField' => $this->hoistCountry($scope, $storeId),
             'requireCounty' => $this->requireCounty($scope, $storeId),
             'autocompleteOverride' => $this->getAutocompleteOverride($scope, $storeId),
@@ -229,9 +239,10 @@ class Data extends AbstractHelper /** * @var EncryptorInterface */
             'enabled' => $this->isEnabled($scope),
             'api_key' => $this->getApiKey($scope),
             'addressAutocomplete' => $this->isEnabledAdminAutocomplete($scope),
-            'populateOrganisation' => $this->populateOrganisation($scope),
+            'removeOrganisation' => $this->removeOrganisationAdmin($scope),
             'hoistCountryField' => $this->hoistCountry($scope),
-            'requireCounty' => $this->requireCounty($scope)
+            'requireCounty' => $this->requireCounty($scope),
+            "customFields" => $this->customFields($scope),
         );
         return $config;
     }

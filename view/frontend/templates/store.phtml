@@ -1,18 +1,19 @@
 <?php
 $helper = $this->helper('Idealpostcodes\Ukaddresssearch\Helper\Data');
-$script = '
-console.log("should be here");
-document.addEventListener(\'DOMContentLoaded\', function() {
-  var apiKey = "' . $helper->getConfig('api_key') . '";
-  var postcodeLookup = ' . $helper->getConfig('postcodeLookup') . ';
-  var autocomplete = ' . $helper->getConfig('addressAutocomplete') . ';
-  var removeOrganisation = ' . $helper->getConfig('removeOrganisation') . ';
-  var hoistCountry = ' . $helper->getConfig('hoistCountryField') . ';
-  var populateCounty = ' . $helper->getConfig('requireCounty') . ';
-  var autocompleteOverride = ' . $helper->getConfig('autocompleteOverride') . ';
-  var postcodeLookupOverride = ' . $helper->getConfig('postcodeLookupOverride') . ';
-  var enabled = ' . $helper->getConfig('enabled') . ';
-  var customFields = ' . trim(preg_replace("/\r|\n/", "", $helper->getConfig('customFields'))) . ';
+?>
+<?php if(!isset($secureRenderer)) { ?>
+<script type="text/javascript" name="Ideal_Postcodes">
+document.addEventListener('DOMContentLoaded', function() {
+  var apiKey = "<?php echo $helper->getConfig('api_key'); ?>";
+  var postcodeLookup = <?php echo $helper->getConfig('postcodeLookup'); ?>;
+  var autocomplete = <?php echo $helper->getConfig('addressAutocomplete'); ?>;
+  var removeOrganisation = <?php echo $helper->getConfig('removeOrganisation'); ?>;
+  var hoistCountry = <?php echo $helper->getConfig('hoistCountryField'); ?>;
+  var populateCounty = <?php echo $helper->getConfig('requireCounty'); ?>;
+  var autocompleteOverride = <?php echo $helper->getConfig('autocompleteOverride'); ?>;
+  var postcodeLookupOverride = <?php echo $helper->getConfig('postcodeLookupOverride'); ?>;
+  var enabled = <?php echo $helper->getConfig('enabled'); ?>;
+  var customFields = <?php echo trim(preg_replace('/\r|\n/', '', $helper->getConfig('customFields'))); ?>;
   // Exit early if disabled
   if (enabled === false) return;
   window.idpcConfig = {
@@ -28,6 +29,35 @@ document.addEventListener(\'DOMContentLoaded\', function() {
   };
   window.idpcStart();
 });
-';
+</script>
+<?php } else {
+    echo $secureRenderer->renderTag('script', [], '
+    document.addEventListener("DOMContentLoaded", function() {
+      var apiKey = "' . $helper->getConfig('api_key') . '";
+      var postcodeLookup = ' . $helper->getConfig('postcodeLookup') . ';
+      var autocomplete = ' . $helper->getConfig('addressAutocomplete') . ';
+      var removeOrganisation = ' . $helper->getConfig('removeOrganisation') . ';
+      var hoistCountry = ' . $helper->getConfig('hoistCountryField') . ';
+      var populateCounty = ' . $helper->getConfig('requireCounty') . ';
+      var autocompleteOverride = ' . $helper->getConfig('autocompleteOverride') . ';
+      var postcodeLookupOverride = ' . $helper->getConfig('postcodeLookupOverride') . ';
+      var enabled = ' . $helper->getConfig('enabled') . ';
+      var customFields = ' . trim(preg_replace('/\r|\n/', '', $helper->getConfig('customFields'))) . ';
+      // Exit early if disabled
+      if (enabled === false) return;
+      window.idpcConfig = {
+        apiKey: apiKey,
+        postcodeLookup: postcodeLookup,
+        autocomplete: autocomplete,
+        populateCounty: populateCounty,
+        removeOrganisation: removeOrganisation,
+        hoistCountry: hoistCountry,
+        autocompleteOverride: autocompleteOverride,
+        postcodeLookupOverride: postcodeLookupOverride,
+        customFields: customFields
+      };
+      window.idpcStart();
+    });
+', false);
+}
 ?>
-<?= /* @noEscape */ $secureRenderer->renderTag('script', ['type' => 'text/javascript', 'id' => 'idpc-config'], $script, false); ?>

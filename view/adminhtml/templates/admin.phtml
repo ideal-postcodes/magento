@@ -1,28 +1,51 @@
 <?php /** @var Magento\Framework\View\TemplateEngine\Php $this */
 $helper = $this->helper('Idealpostcodes\Ukaddresssearch\Helper\Data');
-
-$script = '
-document.addEventListener(\'DOMContentLoaded\', function() {
-  var apiKey = "' . $helper->getConfig('api_key') . '";
-  var autocomplete = ' . $helper->getConfig('addressAutocomplete') . ';
-  var removeOrganisation = ' . $helper->getConfig('removeOrganisation') . ';
-  var populateCounty = ' . $helper->getConfig('requireCounty') . ';
-  var enabled = ' . $helper->getConfig('enabled') . ';
-  var customFields = ' . trim(preg_replace("/\r|\n/", "", $helper->getConfig('customFields'))) . ';
-  // Exit early if disabled
-  if (enabled === false) return;
-  window.idpcConfig = {
-    apiKey: apiKey,
-    postcodeLookup: false,
-    autocomplete: autocomplete,
-    populateCounty: populateCounty,
-    removeOrganisation: removeOrganisation,
-    hoistCountry: false,
-    customFields: customFields
-  };
-  window.idpcStart();
-});
-';
-
-$secureRenderer->renderTag('script', [], $script, false);
+?>
+<?php if(!isset($secureRenderer)) { ?>
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+        var apiKey = "<?= $helper->getAdminConfig('api_key') ?>";
+        var autocomplete = <?= $helper->getAdminConfig('addressAutocomplete') ?>;
+        var removeOrganisation = <?= $helper->getAdminConfig('removeOrganisation') ?>;
+        var populateCounty = <?= $helper->getAdminConfig('requireCounty') ?>;
+        var enabled = <?= $helper->getAdminConfig('enabled') ?>;
+        var customFields = <?= trim(preg_replace("/\r|\n/", "", $helper->getAdminConfig('customFields'))) ?>;
+        // Exit early if disabled
+        if (enabled === false) return;
+        window.idpcConfig = {
+            apiKey: apiKey,
+            postcodeLookup: false,
+            autocomplete: autocomplete,
+            populateCounty: populateCounty,
+            removeOrganisation: removeOrganisation,
+            hoistCountry: false,
+            customFields: customFields
+        };
+        window.idpcStart();
+        });
+    </script>
+<?php } else {
+    echo $secureRenderer->renderTag('script', [], '
+        document.addEventListener("DOMContentLoaded", function() {
+          var apiKey = "' . $helper->getAdminConfig('api_key') . '";
+          var autocomplete = ' . $helper->getAdminConfig('addressAutocomplete') . ';
+          var removeOrganisation = ' . $helper->getAdminConfig('removeOrganisation') . ';
+          var populateCounty = ' . $helper->getAdminConfig('requireCounty') . ';
+          var enabled = ' . $helper->getAdminConfig('enabled') . ';
+          var customFields = ' . trim(preg_replace("/\r|\n/", "", $helper->getAdminConfig('customFields'))) . ';
+          // Exit early if disabled
+          if (enabled === false) return;
+          window.idpcConfig = {
+            apiKey: apiKey,
+            postcodeLookup: false,
+            autocomplete: autocomplete,
+            populateCounty: populateCounty,
+            removeOrganisation: removeOrganisation,
+            hoistCountry: false,
+            customFields: customFields
+          };
+          window.idpcStart();
+        });
+    ', false);
+}
 ?>

@@ -1,3 +1,10 @@
+## [2.4.2](https://github.com/ideal-postcodes/magento/compare/2.4.1...2.4.2) (2024-06-25)
+
+
+### Bug Fixes
+
+* **inline-script:** Fix problem with inline script tag in safari ([223f274](https://github.com/ideal-postcodes/magento/commit/223f2747fc84f2c89ee82b0712c03d45344487ce))
+
 ## [2.4.1](https://github.com/ideal-postcodes/magento/compare/2.4.0...2.4.1) (2024-04-05)
 
 

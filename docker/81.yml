@@ -1,9 +1,8 @@
 version: "3.0"
 services:
   es:
-    image: arm64v8/elasticsearch:7.14.2
+    image: elasticsearch:7.14.2
     container_name: elasticsearch
-    platform: linux/arm64
     ports:
       - "9200:9200"
       - "9300:9300"

@@ -14,6 +14,10 @@ up: build init
 .PHONY: down
 down:
 	docker compose -f docker-compose.yml -f docker/${PHP}${YML_SUFFIX}.yml down
+## Build and run
+.PHONY: build
+build:
+	docker compose -f docker-compose.yml -f docker/${PHP}${YML_SUFFIX}.yml up -d --wait
 
 ## Initialise repository - run install-magento
 .PHONY: init
@@ -122,7 +126,3 @@ help:
 			} \
 		}' \
 		$(MAKEFILE_LIST)
-
-.PHONY: build
-build:
-	docker compose -f docker-compose.yml -f docker/${PHP}${YML_SUFFIX}.yml up -d --wait

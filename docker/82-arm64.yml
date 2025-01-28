@@ -1,8 +1,9 @@
 version: "3.0"
 services:
   es:
-    image: elasticsearch:7.14.2
+    image: arm64v8/elasticsearch:7.14.2
     container_name: elasticsearch
+    platform: linux/arm64
     ports:
       - "9200:9200"
       - "9300:9300"
@@ -27,4 +28,4 @@ services:
       context: "."
       dockerfile: "Dockerfile"
       args:
-        BASE_IMAGE: idealpostcodes/magento-test:m2.4.6-php8.2
+        BASE_IMAGE: idealpostcodes/magento-test:m2.4-php8.2

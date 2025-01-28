@@ -1,4 +1,6 @@
 PHP ?= 81
+PLATFORM ?= $(shell uname -m)
+YML_SUFFIX := $(if $(filter arm64,$(PLATFORM)),-arm64,)
 .DEFAULT_GOAL := help
 TAG=${git describe --tags}
 
@@ -11,7 +13,7 @@ up: build init
 ## Shut down docker compose services
 .PHONY: down
 down:
-	docker compose -f docker-compose.yml -f docker/${PHP}.yml down
+	docker compose -f docker-compose.yml -f docker/${PHP}${YML_SUFFIX}.yml down
 
 ## Initialise repository - run install-magento
 .PHONY: init
@@ -123,4 +125,4 @@ help:
 
 .PHONY: build
 build:
-	docker compose -f docker-compose.yml -f docker/${PHP}.yml up -d --wait
+	docker compose -f docker-compose.yml -f docker/${PHP}${YML_SUFFIX}.yml up -d --wait

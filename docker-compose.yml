@@ -1,4 +1,4 @@
-version: '3.0'
+version: '3.8'
 services:
   db:
     image: library/mariadb:10.4-bionic
@@ -6,22 +6,34 @@ services:
       - db-data:/var/lib/mysql/data
     env_file:
       - ./docker/.env
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
   web:
     build: .
     ports:
       - "3000:80"
-    links:
-      - db
+    depends_on:
+      db:
+        condition: service_healthy
     env_file:
       - ./docker/.env
     volumes:
       - ".:/var/www/html/app/code/Idealpostcodes/Ukaddresssearch"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     ports:
       - "8580:80"
-    links:
-      - db
+    depends_on:
+      db:
+        condition: service_healthy
 volumes:
   db-data:

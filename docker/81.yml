@@ -1,20 +1,26 @@
 version: "3.0"
 services:
   es:
-    image: library/elasticsearch:7.0.0
+    image: arm64v8/elasticsearch:7.14.2
     container_name: elasticsearch
+    platform: linux/arm64
     ports:
       - "9200:9200"
       - "9300:9300"
     environment:
-      - bootstrap.memory_lock=true
       - discovery.type=single-node
-      - "ES_JAVA_OPTS=-Xms2g -Xmx2g"
-      - cluster.routing.allocation.disk.threshold_enabled=false
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     ulimits:
       memlock:
         soft: -1
         hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    mem_limit: 1g
+    cap_add:
+      - IPC_LOCK
   web:
     depends_on:
       - es

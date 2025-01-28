@@ -2,20 +2,20 @@
 
 import { address as fixtures } from "@ideal-postcodes/api-fixtures";
 import { autocompleteSuite, postcodeLookupSuite } from "../support/suite";
-import { selectors } from "../../../../lib/multishipping";
+import { selectors } from "../../../../lib/billing";
 
 const address = fixtures.jersey;
 
 const suite = {
-  scope: ".form-address-edit",
+  scope: ".checkout-shipping-address",
   selectors,
   address,
 };
 
 describe("Customer", () => {
-  describe("Account - New address", () => {
+  describe("Checkout - Shipping form", () => {
     beforeEach(() => {
-      cy.setup("./fixtures/customer/address-form.html", true);
+      cy.setup("/test/snapshot/fixtures/checkout/shipping.html", true);
     });
     autocompleteSuite(suite);
     postcodeLookupSuite(suite);

@@ -39,26 +39,26 @@ declare global {
 const adminSourcesMap = [
   {
     type: "js",
-    url: "http://localhost:60154/fixtures/admin.js",
+    url: "http://localhost:60154/test/snapshot/fixtures/admin.js",
   },
   {
     type: "js",
-    url: "http://localhost:60154/fixtures/start.js",
+    url: "http://localhost:60154/test/snapshot/fixtures/start.js",
   },
 ];
 
 const storeSourcesMap = [
   {
     type: "js",
-    url: "http://localhost:60154/fixtures/jquery.js",
+    url: "http://localhost:60154/test/snapshot/fixtures/jquery.js",
   },
   {
     type: "js",
-    url: "http://localhost:60154/fixtures/store.js",
+    url: "http://localhost:60154/test/snapshot/fixtures/store.js",
   },
   {
     type: "js",
-    url: "http://localhost:60154/fixtures/start.js",
+    url: "http://localhost:60154/test/snapshot/fixtures/start.js",
   },
 ];
 

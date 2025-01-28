@@ -1,6 +1,0 @@
-{
-  "port": 60154,
-  "video":false,
-  "browser": "electron",
-  "defaultCommandTimeout": 10000
-}

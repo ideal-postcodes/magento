@@ -14,14 +14,14 @@ describe("Admin", () => {
       address,
     };
     before(() => {
-      cy.setup("./fixtures/admin/sales/order/edit.html");
+      cy.setup("/test/snapshot/fixtures/admin/sales/order/edit.html");
     });
     autocompleteSuite(suite);
   });
 
   describe("Customer Edit", () => {
     before(() => {
-      cy.setup("./fixtures/admin/customer/edit.html");
+      cy.setup("/test/snapshot/fixtures/admin/customer/edit.html");
     });
     const suite = {
       scope:
@@ -47,7 +47,7 @@ describe("Admin", () => {
     };
     before(() => {
       // @ts-ignore
-      cy.setup("./fixtures/customer/custom-address-fields.html", false, [
+      cy.setup("/test/snapshot/fixtures/customer/custom-address-fields.html", false, [
         suite.selectors,
       ]);
     });

@@ -27,7 +27,7 @@ const suiteShippingCom = {
 describe("One Page Checkout", () => {
   describe("Demo checkout", () => {
     beforeEach(() => {
-      cy.setup("./fixtures/checkout/onepagecheckout-demo.html", true);
+      cy.setup("/test/snapshot/fixtures/checkout/onepagecheckout-demo.html", true);
     });
     describe("Shipping", () => {
       autocompleteSuite(suiteShipping);
@@ -40,7 +40,7 @@ describe("One Page Checkout", () => {
   });
   describe("Express Checkout Lane", () => {
     beforeEach(() => {
-      cy.setup("./fixtures/checkout/onestepcheckoutcom-checkout.html", true);
+      cy.setup("/test/snapshot/fixtures/checkout/onestepcheckoutcom-checkout.html", true);
     });
     autocompleteSuite(suiteShippingCom);
     postcodeLookupSuite(suiteShippingCom);

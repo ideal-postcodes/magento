@@ -7,7 +7,7 @@ jobs:
   ci:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v4
 
       - name: Launch Magento test environment
         env:
@@ -15,10 +15,24 @@ jobs:
           COMPOSE_INTERACTIVE_NO_CLI: "1"
         run: make up
 
-      - uses: cypress-io/github-action@v2
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
         with:
           project: ./test/e2e
           config: baseUrl=http://localhost:3000
+          browser: chrome
+          wait-on: 'http://localhost:3000'
+          wait-on-timeout: 120
         env:
           CYPRESS_API_KEY: ${{ secrets.API_KEY }}
           CYPRESS_MAGENTO_VERSION: "2.4"
+          NODE_OPTIONS: "--max-old-space-size=4096"

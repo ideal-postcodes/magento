@@ -4,65 +4,60 @@ TAG=${git describe --tags}
 
 ## -- Container Launch --
 
-## Launch docker-compose as background daemon
+## Launch docker compose as background daemon
 .PHONY: up
 up: build init
 
-
-.PHONY: build
-build:
-	docker-compose -f docker-compose.yml -f docker/${PHP}.yml up -d
-
-## Shut down docker-compose services
+## Shut down docker compose services
 .PHONY: down
 down:
-	docker-compose -f docker-compose.yml -f docker/${PHP}.yml down
+	docker compose -f docker-compose.yml -f docker/${PHP}.yml down
 
 ## Initialise repository - run install-magento
 .PHONY: init
 init:
-	docker-compose exec -T web dockerize -wait tcp://db:3306 -wait tcp://elasticsearch:9200 -timeout 60m /usr/local/bin/install-magento
+	docker compose exec -T web dockerize -wait tcp://db:3306 -wait tcp://elasticsearch:9200 -timeout 60m /usr/local/bin/install-magento
 
 ## -- Development Methods --
 
 ## Run magento upgrade
 .PHONY: upgrade
 upgrade:
-	docker-compose exec web /usr/local/bin/upgrade-magento
+	docker compose exec web /usr/local/bin/upgrade-magento
 
 ## Deploy static content
 .PHONY: static_deploy
 static_deploy:
-	docker-compose exec web /usr/local/bin/compile-magento
+	docker compose exec web /usr/local/bin/compile-magento
 
 ## Launch bash shell into magento container
 .PHONY: shell
 shell:
-	docker-compose exec web bash
+	docker compose exec web bash
 
 .PHONY: shell-db
 shell-db:
-	docker-compose exec db bash
+	docker compose exec db bash
 
 ## Enable magento cache. Should be disabled to load extensions
 .PHONY: cache-enable
 cache-enable:
-	docker-compose exec web /var/www/html/bin/magento cache:enable
+	docker compose exec web /var/www/html/bin/magento cache:enable
 
 ## Disable magento cache
 .PHONY: cache-disable
 cache-disable:
-	docker-compose exec web /var/www/html/bin/magento cache:disable
+	docker compose exec web /var/www/html/bin/magento cache:disable
 
 ## Flush cache
 .PHONY: cache-flush
 cache-flush:
-	docker-compose exec -T web /var/www/html/bin/magento cache:flush
+	docker compose exec -T web /var/www/html/bin/magento cache:flush
 
 ## Set base URL as 127.0.0.1 instead of localhost - fixes session expirey issue
 .PHONY: set-base-url
 set-base-url:
-	docker-compose exec -T db mysql -u magento -pmagento -D magento -e 'UPDATE `core_config_data` SET `value`="http://127.0.0.1:3000/" WHERE path="web/secure/base_url"'
+	docker compose exec -T db mysql -u magento -pmagento -D magento -e 'UPDATE `core_config_data` SET `value`="http://127.0.0.1:3000/" WHERE path="web/secure/base_url"'
 
 ## Fix for session expired error in development
 .PHONY: fix-session-expire
@@ -71,12 +66,12 @@ fix-session-expire: set-base-url cache-flush
 ## Tail logs
 .PHONY: logs
 logs:
-	docker-compose logs -f
+	docker compose logs -f
 
 ## Tail magento logs only
 .PHONY: logs-magento
 logs-magento:
-	docker-compose logs -f web
+	docker compose logs -f web
 
 ## -- Misc --
 
@@ -125,3 +120,7 @@ help:
 			} \
 		}' \
 		$(MAKEFILE_LIST)
+
+.PHONY: build
+build:
+	docker compose -f docker-compose.yml -f docker/${PHP}.yml up -d --wait

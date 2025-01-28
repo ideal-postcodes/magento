@@ -13,7 +13,7 @@ describe("Multishipping", () => {
       address,
     };
     beforeEach(() => {
-      cy.setup("./fixtures/multishipping/checkout-register.html", true);
+      cy.setup("/test/snapshot/fixtures/multishipping/checkout-register.html", true);
     });
     autocompleteSuite(suite);
     postcodeLookupSuite(suite);
@@ -28,7 +28,7 @@ describe("Multishipping", () => {
 
     beforeEach(() => {
       cy.setup(
-        "./fixtures/multishipping/checkoutaddress-newshipping.html",
+        "/test/snapshot/fixtures/multishipping/checkoutaddress-newshipping.html",
         true
       );
     });

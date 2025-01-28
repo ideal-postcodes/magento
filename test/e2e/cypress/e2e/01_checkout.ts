@@ -26,18 +26,18 @@ const waitPerVersion = (time: number) => {
 };
 
 describe("Checkout", () => {
-  before(() => {
+  beforeEach(() => {
     // Add product and visit checkout
     cy.visit("/index.php/simple-product-113.html");
-    waitPerVersion(30000);
+    waitPerVersion(5000);
     cy.get("#product-addtocart-button").click();
-    waitPerVersion(30000);
+    waitPerVersion(5000);
     cy.get(".message-success > div").should(
       "contain.text",
       "You added Simple Product 113"
     );
     cy.visit("/index.php/checkout/");
-    waitPerVersion(10000);
+    waitPerVersion(5000);
   });
 
   postcodeLookupSuite(suite);

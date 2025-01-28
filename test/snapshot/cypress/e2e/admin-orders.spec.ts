@@ -10,7 +10,7 @@ describe("Admin", () => {
   describe("New Order Customer Address", () => {
     describe("Billing", () => {
       before(() => {
-        cy.setup("./fixtures/admin/sales/customer-2.html");
+        cy.setup("/test/snapshot/fixtures/admin/sales/customer-2.html");
       });
       const suite = {
         scope: "#order-billing_address",
@@ -22,7 +22,7 @@ describe("Admin", () => {
 
     describe("Shipping", () => {
       before(() => {
-        cy.setup("./fixtures/admin/sales/customer-2.html");
+        cy.setup("/test/snapshot/fixtures/admin/sales/customer-2.html");
       });
       const suite = {
         scope: "#order-shipping_address",
@@ -41,7 +41,7 @@ describe("Admin", () => {
     };
 
     before(() => {
-      cy.setup("./fixtures/admin/sales/new-customer.html");
+      cy.setup("/test/snapshot/fixtures/admin/sales/new-customer.html");
     });
     autocompleteSuite(suite);
   });

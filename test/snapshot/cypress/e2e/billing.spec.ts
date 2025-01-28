@@ -1,22 +1,28 @@
 /// <reference types="cypress" />
 
 import { address as fixtures } from "@ideal-postcodes/api-fixtures";
-import { autocompleteSuite, postcodeLookupSuite } from "../support/suite";
+import {
+  setupSuite,
+  autocompleteSuite,
+  postcodeLookupSuite,
+} from "../support/suite";
 import { selectors } from "../../../../lib/billing";
 
 const address = fixtures.jersey;
 
 const suite = {
-  scope: ".checkout-shipping-address",
+  scope: ".checkout-billing-address",
   selectors,
   address,
 };
 
 describe("Customer", () => {
-  describe("Checkout - Shipping form", () => {
+  describe("Checkout - Billing form", () => {
     beforeEach(() => {
-      cy.setup("./fixtures/checkout/shipping.html", true);
+      cy.setup("/test/snapshot/fixtures/checkout/billing.html", true);
     });
+
+    //setupSuite(suite);
     autocompleteSuite(suite);
     postcodeLookupSuite(suite);
   });

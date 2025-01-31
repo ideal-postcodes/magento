@@ -1,3 +1,10 @@
+## [2.4.3](https://github.com/ideal-postcodes/magento/compare/2.4.2...2.4.3) (2025-01-31)
+
+
+### Bug Fixes
+
+* **libs:** Update AF/PL version ([9db0175](https://github.com/ideal-postcodes/magento/commit/9db01753e19ad5456794925bbb272ae3522d5ea7))
+
 ## [2.4.2](https://github.com/ideal-postcodes/magento/compare/2.4.1...2.4.2) (2024-06-25)
 
 

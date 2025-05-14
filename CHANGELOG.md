@@ -1,3 +1,10 @@
+## [2.4.4](https://github.com/ideal-postcodes/magento/compare/2.4.3...2.4.4) (2025-05-14)
+
+
+### Bug Fixes
+
+* **axios:** Security issue v<1.8.3 ([30c7e78](https://github.com/ideal-postcodes/magento/commit/30c7e7846763fbc70fce646b8b8dbf6129636b53))
+
 ## [2.4.3](https://github.com/ideal-postcodes/magento/compare/2.4.2...2.4.3) (2025-01-31)
 
 

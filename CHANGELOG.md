@@ -1,3 +1,10 @@
+## [2.4.5](https://github.com/ideal-postcodes/magento/compare/2.4.4...2.4.5) (2025-09-17)
+
+
+### Bug Fixes
+
+* **axios:** bump [@ideal-postcodes](https://github.com/ideal-postcodes) dependencies to latest patch versions ([d8d9c4d](https://github.com/ideal-postcodes/magento/commit/d8d9c4ddfe0af4cc23e03e4f70f1b49eba82d5dd))
+
 ## [2.4.4](https://github.com/ideal-postcodes/magento/compare/2.4.3...2.4.4) (2025-05-14)
 
 

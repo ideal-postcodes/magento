@@ -193,7 +193,7 @@ export const setupPostcodeLookup = (
     },
     {
       getScope: (anchor: HTMLElement) => getParent(anchor, "FORM"),
-      anchor: outputFields.line_2,
+      anchor: outputFields.line_1,
       onAnchorFound(options) {
         const { scope } = options;
         const targets = getFields(outputFields, scope);

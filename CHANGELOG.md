@@ -1,3 +1,10 @@
+## [2.4.6](https://github.com/ideal-postcodes/magento/compare/2.4.5...2.4.6) (2025-10-22)
+
+
+### Bug Fixes
+
+* **anchor:** update postcode lookup anchor from line_2 to line_1 field ([8812fb4](https://github.com/ideal-postcodes/magento/commit/8812fb4d65909080054ae078498e57e97d8328d4))
+
 ## [2.4.5](https://github.com/ideal-postcodes/magento/compare/2.4.4...2.4.5) (2025-09-17)
 
 

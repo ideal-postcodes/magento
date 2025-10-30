@@ -1,3 +1,10 @@
+# [2.5.0](https://github.com/ideal-postcodes/magento/compare/2.4.6...2.5.0) (2025-10-30)
+
+
+### Features
+
+* **min-js:** Update minified js files ([0353cc7](https://github.com/ideal-postcodes/magento/commit/0353cc72f204d6e670a54dd34afedae0662a3e7f))
+
 ## [2.4.6](https://github.com/ideal-postcodes/magento/compare/2.4.5...2.4.6) (2025-10-22)
 
 

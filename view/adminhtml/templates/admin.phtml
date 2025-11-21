@@ -4,12 +4,12 @@ $helper = $this->helper('Idealpostcodes\Ukaddresssearch\Helper\Data');
 <?php if(!isset($secureRenderer)) { ?>
     <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function() {
-        var apiKey = "<?= $helper->getAdminConfig('api_key') ?>";
-        var autocomplete = <?= $helper->getAdminConfig('addressAutocomplete') ?>;
-        var removeOrganisation = <?= $helper->getAdminConfig('removeOrganisation') ?>;
-        var populateCounty = <?= $helper->getAdminConfig('requireCounty') ?>;
-        var enabled = <?= $helper->getAdminConfig('enabled') ?>;
-        var customFields = <?= trim(preg_replace("/\r|\n/", "", $helper->getAdminConfig('customFields'))) ?>;
+        var apiKey = "<?= $block->escapeJsQuote($helper->getAdminConfig('api_key')) ?>";
+        var autocomplete = <?= $block->escapeJs($helper->getAdminConfig('addressAutocomplete')) ?>;
+        var removeOrganisation = <?= $block->escapeJs($helper->getAdminConfig('removeOrganisation')) ?>;
+        var populateCounty = <?= $block->escapeJs($helper->getAdminConfig('requireCounty')) ?>;
+        var enabled = <?= $block->escapeJs($helper->getAdminConfig('enabled')) ?>;
+        var customFields = <?= $block->escapeJs(trim(preg_replace("/\r|\n/", "", $helper->getAdminConfig('customFields')))) ?>;
         // Exit early if disabled
         if (enabled === false) return;
         window.idpcConfig = {
@@ -27,12 +27,12 @@ $helper = $this->helper('Idealpostcodes\Ukaddresssearch\Helper\Data');
 <?php } else {
     echo $secureRenderer->renderTag('script', [], '
         document.addEventListener("DOMContentLoaded", function() {
-          var apiKey = "' . $helper->getAdminConfig('api_key') . '";
-          var autocomplete = ' . $helper->getAdminConfig('addressAutocomplete') . ';
-          var removeOrganisation = ' . $helper->getAdminConfig('removeOrganisation') . ';
-          var populateCounty = ' . $helper->getAdminConfig('requireCounty') . ';
-          var enabled = ' . $helper->getAdminConfig('enabled') . ';
-          var customFields = ' . trim(preg_replace("/\r|\n/", "", $helper->getAdminConfig('customFields'))) . ';
+          var apiKey = "' . $block->escapeJsQuote($helper->getAdminConfig('api_key')) . '";
+          var autocomplete = ' . $block->escapeJs($helper->getAdminConfig('addressAutocomplete')) . ';
+          var removeOrganisation = ' . $block->escapeJs($helper->getAdminConfig('removeOrganisation')) . ';
+          var populateCounty = ' . $block->escapeJs($helper->getAdminConfig('requireCounty')) . ';
+          var enabled = ' . $block->escapeJs($helper->getAdminConfig('enabled')) . ';
+          var customFields = ' . $block->escapeJs(trim(preg_replace("/\r|\n/", "", $helper->getAdminConfig('customFields')))) . ';
           // Exit early if disabled
           if (enabled === false) return;
           window.idpcConfig = {

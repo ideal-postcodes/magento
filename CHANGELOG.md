@@ -1,3 +1,10 @@
+## [2.5.1](https://github.com/ideal-postcodes/magento/compare/2.5.0...2.5.1) (2025-11-21)
+
+
+### Bug Fixes
+
+* **security:** add proper escaping to template variables to prevent XSS vulnerabilities ([7e2c52e](https://github.com/ideal-postcodes/magento/commit/7e2c52e4f10d6a6b5a0b576639326e3bc1847146))
+
 # [2.5.0](https://github.com/ideal-postcodes/magento/compare/2.4.6...2.5.0) (2025-10-30)
 
 

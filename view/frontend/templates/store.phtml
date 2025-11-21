@@ -4,16 +4,16 @@ $helper = $this->helper('Idealpostcodes\Ukaddresssearch\Helper\Data');
 <?php if(!isset($secureRenderer)) { ?>
 <script type="text/javascript" name="Ideal_Postcodes">
 document.addEventListener('DOMContentLoaded', function() {
-  var apiKey = "<?php echo $helper->getConfig('api_key'); ?>";
-  var postcodeLookup = <?php echo $helper->getConfig('postcodeLookup'); ?>;
-  var autocomplete = <?php echo $helper->getConfig('addressAutocomplete'); ?>;
-  var removeOrganisation = <?php echo $helper->getConfig('removeOrganisation'); ?>;
-  var hoistCountry = <?php echo $helper->getConfig('hoistCountryField'); ?>;
-  var populateCounty = <?php echo $helper->getConfig('requireCounty'); ?>;
-  var autocompleteOverride = <?php echo $helper->getConfig('autocompleteOverride'); ?>;
-  var postcodeLookupOverride = <?php echo $helper->getConfig('postcodeLookupOverride'); ?>;
-  var enabled = <?php echo $helper->getConfig('enabled'); ?>;
-  var customFields = <?php echo trim(preg_replace('/\r|\n/', '', $helper->getConfig('customFields'))); ?>;
+  var apiKey = "<?= $block->escapeJsQuote($helper->getConfig('api_key')) ?>";
+  var postcodeLookup = <?= $block->escapeJs($helper->getConfig('postcodeLookup')) ?>;
+  var autocomplete = <?= $block->escapeJs($helper->getConfig('addressAutocomplete')) ?>;
+  var removeOrganisation = <?= $block->escapeJs($helper->getConfig('removeOrganisation')) ?>;
+  var hoistCountry = <?= $block->escapeJs($helper->getConfig('hoistCountryField')) ?>;
+  var populateCounty = <?= $block->escapeJs($helper->getConfig('requireCounty')) ?>;
+  var autocompleteOverride = <?= /* @noEscape */ $helper->getConfig('autocompleteOverride') ?>;
+  var postcodeLookupOverride = <?= /* @noEscape */ $helper->getConfig('postcodeLookupOverride') ?>;
+  var enabled = <?= $block->escapeJs($helper->getConfig('enabled')) ?>;
+  var customFields = <?= /* @noEscape */ trim(preg_replace('/\r|\n/', '', $helper->getConfig('customFields'))) ?>;
   // Exit early if disabled
   if (enabled === false) return;
   window.idpcConfig = {
@@ -33,16 +33,16 @@ document.addEventListener('DOMContentLoaded', function() {
 <?php } else {
     echo $secureRenderer->renderTag('script', [], '
     document.addEventListener("DOMContentLoaded", function() {
-      var apiKey = "' . $helper->getConfig('api_key') . '";
-      var postcodeLookup = ' . $helper->getConfig('postcodeLookup') . ';
-      var autocomplete = ' . $helper->getConfig('addressAutocomplete') . ';
-      var removeOrganisation = ' . $helper->getConfig('removeOrganisation') . ';
-      var hoistCountry = ' . $helper->getConfig('hoistCountryField') . ';
-      var populateCounty = ' . $helper->getConfig('requireCounty') . ';
-      var autocompleteOverride = ' . $helper->getConfig('autocompleteOverride') . ';
-      var postcodeLookupOverride = ' . $helper->getConfig('postcodeLookupOverride') . ';
-      var enabled = ' . $helper->getConfig('enabled') . ';
-      var customFields = ' . trim(preg_replace('/\r|\n/', '', $helper->getConfig('customFields'))) . ';
+      var apiKey = "' . $block->escapeJsQuote($helper->getConfig('api_key')) . '";
+      var postcodeLookup = ' . $block->escapeJs($helper->getConfig('postcodeLookup')) . ';
+      var autocomplete = ' . $block->escapeJs($helper->getConfig('addressAutocomplete')) . ';
+      var removeOrganisation = ' . $block->escapeJs($helper->getConfig('removeOrganisation')) . ';
+      var hoistCountry = ' . $block->escapeJs($helper->getConfig('hoistCountryField')) . ';
+      var populateCounty = ' . $block->escapeJs($helper->getConfig('requireCounty')) . ';
+      var autocompleteOverride = ' . /* @noEscape */ $helper->getConfig('autocompleteOverride') . ';
+      var postcodeLookupOverride = ' . /* @noEscape */ $helper->getConfig('postcodeLookupOverride') . ';
+      var enabled = ' . $block->escapeJs($helper->getConfig('enabled')) . ';
+      var customFields = ' . /* @noEscape */ trim(preg_replace('/\r|\n/', '', $helper->getConfig('customFields'))) . ';
       // Exit early if disabled
       if (enabled === false) return;
       window.idpcConfig = {

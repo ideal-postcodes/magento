@@ -1,15 +1,16 @@
-<?php /** @var Magento\Framework\View\TemplateEngine\Php $this */
-$helper = $this->helper('Idealpostcodes\Ukaddresssearch\Helper\Data');
+<?php /** @var Magento\Framework\View\Element\Template $block */
+/** @var \Idealpostcodes\Ukaddresssearch\ViewModel\AdminConfig $viewModel */
+$viewModel = $block->getData('view_model');
 ?>
 <?php if(!isset($secureRenderer)) { ?>
     <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function() {
-        var apiKey = "<?= $block->escapeJsQuote($helper->getAdminConfig('api_key')) ?>";
-        var autocomplete = <?= $block->escapeJs($helper->getAdminConfig('addressAutocomplete')) ?>;
-        var removeOrganisation = <?= $block->escapeJs($helper->getAdminConfig('removeOrganisation')) ?>;
-        var populateCounty = <?= $block->escapeJs($helper->getAdminConfig('requireCounty')) ?>;
-        var enabled = <?= $block->escapeJs($helper->getAdminConfig('enabled')) ?>;
-        var customFields = <?= $block->escapeJs(trim(preg_replace("/\r|\n/", "", $helper->getAdminConfig('customFields')))) ?>;
+        var apiKey = "<?= $block->escapeJsQuote($viewModel->getAdminConfig('api_key')) ?>";
+        var autocomplete = <?= $block->escapeJs($viewModel->getAdminConfig('addressAutocomplete')) ?>;
+        var removeOrganisation = <?= $block->escapeJs($viewModel->getAdminConfig('removeOrganisation')) ?>;
+        var populateCounty = <?= $block->escapeJs($viewModel->getAdminConfig('requireCounty')) ?>;
+        var enabled = <?= $block->escapeJs($viewModel->getAdminConfig('enabled')) ?>;
+        var customFields = <?= $block->escapeJs(trim(preg_replace("/\r|\n/", "", $viewModel->getAdminConfig('customFields')))) ?>;
         // Exit early if disabled
         if (enabled === false) return;
         window.idpcConfig = {
@@ -27,12 +28,12 @@ $helper = $this->helper('Idealpostcodes\Ukaddresssearch\Helper\Data');
 <?php } else {
     echo $secureRenderer->renderTag('script', [], '
         document.addEventListener("DOMContentLoaded", function() {
-          var apiKey = "' . $block->escapeJsQuote($helper->getAdminConfig('api_key')) . '";
-          var autocomplete = ' . $block->escapeJs($helper->getAdminConfig('addressAutocomplete')) . ';
-          var removeOrganisation = ' . $block->escapeJs($helper->getAdminConfig('removeOrganisation')) . ';
-          var populateCounty = ' . $block->escapeJs($helper->getAdminConfig('requireCounty')) . ';
-          var enabled = ' . $block->escapeJs($helper->getAdminConfig('enabled')) . ';
-          var customFields = ' . $block->escapeJs(trim(preg_replace("/\r|\n/", "", $helper->getAdminConfig('customFields')))) . ';
+          var apiKey = "' . $block->escapeJsQuote($viewModel->getAdminConfig('api_key')) . '";
+          var autocomplete = ' . $block->escapeJs($viewModel->getAdminConfig('addressAutocomplete')) . ';
+          var removeOrganisation = ' . $block->escapeJs($viewModel->getAdminConfig('removeOrganisation')) . ';
+          var populateCounty = ' . $block->escapeJs($viewModel->getAdminConfig('requireCounty')) . ';
+          var enabled = ' . $block->escapeJs($viewModel->getAdminConfig('enabled')) . ';
+          var customFields = ' . $block->escapeJs(trim(preg_replace("/\r|\n/", "", $viewModel->getAdminConfig('customFields')))) . ';
           // Exit early if disabled
           if (enabled === false) return;
           window.idpcConfig = {

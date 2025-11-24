@@ -5,7 +5,11 @@
     </head>
     <body>
         <referenceContainer name="after.body.start">
-            <block name="iddqd-c-edit" class="Magento\Backend\Block\Page\RequireJs" template="Idealpostcodes_Ukaddresssearch::admin.phtml"/>
+            <block name="iddqd-c-edit" class="Magento\Backend\Block\Page\RequireJs" template="Idealpostcodes_Ukaddresssearch::admin.phtml">
+                <arguments>
+                    <argument name="view_model" xsi:type="object">Idealpostcodes\Ukaddresssearch\ViewModel\AdminConfig</argument>
+                </arguments>
+            </block>
         </referenceContainer>
     </body>
 </page>

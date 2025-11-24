@@ -5,7 +5,11 @@
     </head>
     <body>
         <referenceBlock name="head.additional">
-            <block class="Magento\Framework\View\Element\Template" name="idealpostcodes.ukaddresssearch.store" template="Idealpostcodes_Ukaddresssearch::store.phtml" />
+            <block class="Magento\Framework\View\Element\Template" name="idealpostcodes.ukaddresssearch.store" template="Idealpostcodes_Ukaddresssearch::store.phtml">
+                <arguments>
+                    <argument name="view_model" xsi:type="object">Idealpostcodes\Ukaddresssearch\ViewModel\StoreConfig</argument>
+                </arguments>
+            </block>
         </referenceBlock>
     </body>
 </page>

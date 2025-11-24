@@ -1,19 +1,21 @@
 <?php
-$helper = $this->helper('Idealpostcodes\Ukaddresssearch\Helper\Data');
+/** @var \Magento\Framework\View\Element\Template $block */
+/** @var \Idealpostcodes\Ukaddresssearch\ViewModel\StoreConfig $viewModel */
+$viewModel = $block->getData('view_model');
 ?>
 <?php if(!isset($secureRenderer)) { ?>
 <script type="text/javascript" name="Ideal_Postcodes">
 document.addEventListener('DOMContentLoaded', function() {
-  var apiKey = "<?= $block->escapeJsQuote($helper->getConfig('api_key')) ?>";
-  var postcodeLookup = <?= $block->escapeJs($helper->getConfig('postcodeLookup')) ?>;
-  var autocomplete = <?= $block->escapeJs($helper->getConfig('addressAutocomplete')) ?>;
-  var removeOrganisation = <?= $block->escapeJs($helper->getConfig('removeOrganisation')) ?>;
-  var hoistCountry = <?= $block->escapeJs($helper->getConfig('hoistCountryField')) ?>;
-  var populateCounty = <?= $block->escapeJs($helper->getConfig('requireCounty')) ?>;
-  var autocompleteOverride = <?= /* @noEscape */ $helper->getConfig('autocompleteOverride') ?>;
-  var postcodeLookupOverride = <?= /* @noEscape */ $helper->getConfig('postcodeLookupOverride') ?>;
-  var enabled = <?= $block->escapeJs($helper->getConfig('enabled')) ?>;
-  var customFields = <?= /* @noEscape */ trim(preg_replace('/\r|\n/', '', $helper->getConfig('customFields'))) ?>;
+  var apiKey = "<?= $block->escapeJsQuote($viewModel->getConfig('api_key')) ?>";
+  var postcodeLookup = <?= $block->escapeJs($viewModel->getConfig('postcodeLookup')) ?>;
+  var autocomplete = <?= $block->escapeJs($viewModel->getConfig('addressAutocomplete')) ?>;
+  var removeOrganisation = <?= $block->escapeJs($viewModel->getConfig('removeOrganisation')) ?>;
+  var hoistCountry = <?= $block->escapeJs($viewModel->getConfig('hoistCountryField')) ?>;
+  var populateCounty = <?= $block->escapeJs($viewModel->getConfig('requireCounty')) ?>;
+  var autocompleteOverride = <?= /* @noEscape */ $viewModel->getConfig('autocompleteOverride') ?>;
+  var postcodeLookupOverride = <?= /* @noEscape */ $viewModel->getConfig('postcodeLookupOverride') ?>;
+  var enabled = <?= $block->escapeJs($viewModel->getConfig('enabled')) ?>;
+  var customFields = <?= /* @noEscape */ trim(preg_replace('/\r|\n/', '', $viewModel->getConfig('customFields'))) ?>;
   // Exit early if disabled
   if (enabled === false) return;
   window.idpcConfig = {
@@ -33,16 +35,16 @@ document.addEventListener('DOMContentLoaded', function() {
 <?php } else {
     echo $secureRenderer->renderTag('script', [], '
     document.addEventListener("DOMContentLoaded", function() {
-      var apiKey = "' . $block->escapeJsQuote($helper->getConfig('api_key')) . '";
-      var postcodeLookup = ' . $block->escapeJs($helper->getConfig('postcodeLookup')) . ';
-      var autocomplete = ' . $block->escapeJs($helper->getConfig('addressAutocomplete')) . ';
-      var removeOrganisation = ' . $block->escapeJs($helper->getConfig('removeOrganisation')) . ';
-      var hoistCountry = ' . $block->escapeJs($helper->getConfig('hoistCountryField')) . ';
-      var populateCounty = ' . $block->escapeJs($helper->getConfig('requireCounty')) . ';
-      var autocompleteOverride = ' . /* @noEscape */ $helper->getConfig('autocompleteOverride') . ';
-      var postcodeLookupOverride = ' . /* @noEscape */ $helper->getConfig('postcodeLookupOverride') . ';
-      var enabled = ' . $block->escapeJs($helper->getConfig('enabled')) . ';
-      var customFields = ' . /* @noEscape */ trim(preg_replace('/\r|\n/', '', $helper->getConfig('customFields'))) . ';
+      var apiKey = "' . $block->escapeJsQuote($viewModel->getConfig('api_key')) . '";
+      var postcodeLookup = ' . $block->escapeJs($viewModel->getConfig('postcodeLookup')) . ';
+      var autocomplete = ' . $block->escapeJs($viewModel->getConfig('addressAutocomplete')) . ';
+      var removeOrganisation = ' . $block->escapeJs($viewModel->getConfig('removeOrganisation')) . ';
+      var hoistCountry = ' . $block->escapeJs($viewModel->getConfig('hoistCountryField')) . ';
+      var populateCounty = ' . $block->escapeJs($viewModel->getConfig('requireCounty')) . ';
+      var autocompleteOverride = ' . /* @noEscape */ $viewModel->getConfig('autocompleteOverride') . ';
+      var postcodeLookupOverride = ' . /* @noEscape */ $viewModel->getConfig('postcodeLookupOverride') . ';
+      var enabled = ' . $block->escapeJs($viewModel->getConfig('enabled')) . ';
+      var customFields = ' . /* @noEscape */ trim(preg_replace('/\r|\n/', '', $viewModel->getConfig('customFields'))) . ';
       // Exit early if disabled
       if (enabled === false) return;
       window.idpcConfig = {

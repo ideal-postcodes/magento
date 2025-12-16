@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) Ideal Postcodes Ltd
+ * Copyright (c) IDDQD Ltd
  *
  * Ideal Postcodes Magento Extension
  *
@@ -9,7 +9,7 @@
  *
  * @package   Idealpostcodes_Ukaddresssearch
  * @author    Ideal Postcodes <support@ideal-postcodes.co.uk>
- * @copyright Ideal Postcodes Ltd
+ * @copyright IDDQD Ltd
  * @license   MIT https://opensource.org/licenses/MIT
  * @link      https://ideal-postcodes.co.uk
  */

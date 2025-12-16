@@ -1,3 +1,10 @@
+## [2.5.2](https://github.com/ideal-postcodes/magento/compare/2.5.1...2.5.2) (2025-12-16)
+
+
+### Bug Fixes
+
+* **security:** add input sanitization plugins for customer and quote … ([#555](https://github.com/ideal-postcodes/magento/issues/555)) ([93d5d3e](https://github.com/ideal-postcodes/magento/commit/93d5d3e4f2200f8da4c419fb9116ad7f47a911db))
+
 ## [2.5.1](https://github.com/ideal-postcodes/magento/compare/2.5.0...2.5.1) (2025-11-21)
 
 

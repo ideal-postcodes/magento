@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) Ideal Postcodes Ltd
+ * Copyright (c) IDDQD Ltd
  *
  * Customer Address Sanitization Plugin
  *

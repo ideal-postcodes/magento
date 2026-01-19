@@ -1,65 +1,21 @@
 <?php
-/** @var \Magento\Framework\View\Element\Template $block */
-/** @var \Idealpostcodes\Ukaddresssearch\ViewModel\StoreConfig $viewModel */
+/**
+ * Ideal Postcodes UK Address Search - Frontend Configuration
+ *
+ * @var \Magento\Framework\View\Element\Template $block
+ * @var \Magento\Framework\Escaper $escaper
+ * @var \Idealpostcodes\Ukaddresssearch\ViewModel\StoreConfig $viewModel
+ */
 $viewModel = $block->getData('view_model');
-?>
-<?php if(!isset($secureRenderer)) { ?>
-<script type="text/javascript" name="Ideal_Postcodes">
-document.addEventListener('DOMContentLoaded', function() {
-  var apiKey = "<?= $block->escapeJsQuote($viewModel->getConfig('api_key')) ?>";
-  var postcodeLookup = <?= $block->escapeJs($viewModel->getConfig('postcodeLookup')) ?>;
-  var autocomplete = <?= $block->escapeJs($viewModel->getConfig('addressAutocomplete')) ?>;
-  var removeOrganisation = <?= $block->escapeJs($viewModel->getConfig('removeOrganisation')) ?>;
-  var hoistCountry = <?= $block->escapeJs($viewModel->getConfig('hoistCountryField')) ?>;
-  var populateCounty = <?= $block->escapeJs($viewModel->getConfig('requireCounty')) ?>;
-  var autocompleteOverride = <?= /* @noEscape */ $viewModel->getConfig('autocompleteOverride') ?>;
-  var postcodeLookupOverride = <?= /* @noEscape */ $viewModel->getConfig('postcodeLookupOverride') ?>;
-  var enabled = <?= $block->escapeJs($viewModel->getConfig('enabled')) ?>;
-  var customFields = <?= /* @noEscape */ trim(preg_replace('/\r|\n/', '', $viewModel->getConfig('customFields'))) ?>;
-  // Exit early if disabled
-  if (enabled === false) return;
-  window.idpcConfig = {
-    apiKey: apiKey,
-    postcodeLookup: postcodeLookup,
-    autocomplete: autocomplete,
-    populateCounty: populateCounty,
-    removeOrganisation: removeOrganisation,
-    hoistCountry: hoistCountry,
-    autocompleteOverride: autocompleteOverride,
-    postcodeLookupOverride: postcodeLookupOverride,
-    customFields: customFields
-  };
-  window.idpcStart();
-});
-</script>
-<?php } else {
-    echo $secureRenderer->renderTag('script', [], '
-    document.addEventListener("DOMContentLoaded", function() {
-      var apiKey = "' . $block->escapeJsQuote($viewModel->getConfig('api_key')) . '";
-      var postcodeLookup = ' . $block->escapeJs($viewModel->getConfig('postcodeLookup')) . ';
-      var autocomplete = ' . $block->escapeJs($viewModel->getConfig('addressAutocomplete')) . ';
-      var removeOrganisation = ' . $block->escapeJs($viewModel->getConfig('removeOrganisation')) . ';
-      var hoistCountry = ' . $block->escapeJs($viewModel->getConfig('hoistCountryField')) . ';
-      var populateCounty = ' . $block->escapeJs($viewModel->getConfig('requireCounty')) . ';
-      var autocompleteOverride = ' . /* @noEscape */ $viewModel->getConfig('autocompleteOverride') . ';
-      var postcodeLookupOverride = ' . /* @noEscape */ $viewModel->getConfig('postcodeLookupOverride') . ';
-      var enabled = ' . $block->escapeJs($viewModel->getConfig('enabled')) . ';
-      var customFields = ' . /* @noEscape */ trim(preg_replace('/\r|\n/', '', $viewModel->getConfig('customFields'))) . ';
-      // Exit early if disabled
-      if (enabled === false) return;
-      window.idpcConfig = {
-        apiKey: apiKey,
-        postcodeLookup: postcodeLookup,
-        autocomplete: autocomplete,
-        populateCounty: populateCounty,
-        removeOrganisation: removeOrganisation,
-        hoistCountry: hoistCountry,
-        autocompleteOverride: autocompleteOverride,
-        postcodeLookupOverride: postcodeLookupOverride,
-        customFields: customFields
-      };
-      window.idpcStart();
-    });
-', false);
+
+if (!$viewModel->isEnabled()) {
+    return;
 }
 ?>
+<script type="text/x-magento-init">
+{
+    "*": {
+        "Idealpostcodes_Ukaddresssearch/js/store-init": <?= /* @noEscape */ $viewModel->getJsonConfig() ?>
+    }
+}
+</script>

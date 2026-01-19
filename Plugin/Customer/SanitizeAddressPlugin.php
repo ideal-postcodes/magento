@@ -58,7 +58,7 @@ class SanitizeAddressPlugin
         // Also sanitize other text fields
         $street = $subject->getStreet();
         if (is_array($street)) {
-            $sanitizedStreet = array_map(function($line) {
+            $sanitizedStreet = array_map(function ($line) {
                 return is_string($line) ? $this->sanitizeText($line) : $line;
             }, $street);
             $subject->setStreet($sanitizedStreet);

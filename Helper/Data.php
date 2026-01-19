@@ -8,27 +8,73 @@ use Magento\Framework\Encryption\EncryptorInterface;
 use Magento\Framework\View\Asset\Repository;
 use Magento\Store\Model\ScopeInterface;
 use Magento\Store\Model\StoreManagerInterface;
+use Magento\Framework\Json\EncoderInterface;
 
-class Data extends AbstractHelper /** * @var EncryptorInterface */
+/**
+ * Helper class for Ideal Postcodes UK Address Search
+ */
+class Data extends AbstractHelper
 {
+    /**
+     * @var EncryptorInterface
+     */
     protected $encryptor;
+
+    /**
+     * @var Repository
+     */
     protected $repository;
+
+    /**
+     * @var StoreManagerInterface
+     */
     protected $storeManager;
-    /** * @param Context $context * @param EncryptorInterface $encryptor * @param Repository $repository */
 
+    /**
+     * @var EncoderInterface
+     */
+    protected $jsonEncoder;
 
-    public function __construct(Context $context, EncryptorInterface $encryptor, Repository $repository, StoreManagerInterface $storeManager)
-    {
+    /**
+     * Constructor
+     *
+     * @param Context $context
+     * @param EncryptorInterface $encryptor
+     * @param Repository $repository
+     * @param StoreManagerInterface $storeManager
+     * @param EncoderInterface $jsonEncoder
+     */
+    public function __construct(
+        Context $context,
+        EncryptorInterface $encryptor,
+        Repository $repository,
+        StoreManagerInterface $storeManager,
+        EncoderInterface $jsonEncoder
+    ) {
         parent::__construct($context);
         $this->encryptor = $encryptor;
         $this->repository = $repository;
         $this->storeManager = $storeManager;
+        $this->jsonEncoder = $jsonEncoder;
     }
 
-    public function getStoreId() {
-    	return $this->storeManager->getStore()->getId();
+    /**
+     * Get current store ID
+     *
+     * @return int
+     */
+    public function getStoreId()
+    {
+        return $this->storeManager->getStore()->getId();
     }
 
+    /**
+     * Check if module is enabled
+     *
+     * @param string $scope
+     * @param int|null $storeId
+     * @return bool
+     */
     public function isEnabled($scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $storeId = null)
     {
         return $this->scopeConfig->isSetFlag(
@@ -38,6 +84,13 @@ class Data extends AbstractHelper /** * @var EncryptorInterface */
         );
     }
 
+    /**
+     * Check if admin autocomplete is enabled
+     *
+     * @param string $scope
+     * @param int|null $storeId
+     * @return bool
+     */
     public function isEnabledAdminAutocomplete($scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $storeId = null)
     {
         return $this->scopeConfig->isSetFlag(
@@ -47,6 +100,13 @@ class Data extends AbstractHelper /** * @var EncryptorInterface */
         );
     }
 
+    /**
+     * Get API key
+     *
+     * @param string $scope
+     * @param int|null $storeId
+     * @return string|null
+     */
     public function getApiKey($scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $storeId = null)
     {
         $apiKey = $this->scopeConfig->getValue(
@@ -57,6 +117,13 @@ class Data extends AbstractHelper /** * @var EncryptorInterface */
         return $apiKey;
     }
 
+    /**
+     * Get checkout targets
+     *
+     * @param string $scope
+     * @param int|null $storeId
+     * @return string|null
+     */
     public function getCheckoutTargets($scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $storeId = null)
     {
         $apiKey = $this->scopeConfig->getValue(
@@ -67,6 +134,13 @@ class Data extends AbstractHelper /** * @var EncryptorInterface */
         return $apiKey;
     }
 
+    /**
+     * Get customer address target
+     *
+     * @param string $scope
+     * @param int|null $storeId
+     * @return string|null
+     */
     public function getCustomerAddressTarget($scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $storeId = null)
     {
         $apiKey = $this->scopeConfig->getValue(
@@ -77,8 +151,17 @@ class Data extends AbstractHelper /** * @var EncryptorInterface */
         return $apiKey;
     }
 
-    public function getMultishippingCheckoutTargets($scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $storeId = null)
-    {
+    /**
+     * Get multishipping checkout targets
+     *
+     * @param string $scope
+     * @param int|null $storeId
+     * @return string|null
+     */
+    public function getMultishippingCheckoutTargets(
+        $scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT,
+        $storeId = null
+    ) {
         $apiKey = $this->scopeConfig->getValue(
             'idealpostcodes/settings/multishipping_checkout_targets',
             $scope,
@@ -87,8 +170,17 @@ class Data extends AbstractHelper /** * @var EncryptorInterface */
         return $apiKey;
     }
 
-    public function getMultishippingCheckoutRegisterTarget($scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $storeId = null)
-    {
+    /**
+     * Get multishipping checkout register target
+     *
+     * @param string $scope
+     * @param int|null $storeId
+     * @return string|null
+     */
+    public function getMultishippingCheckoutRegisterTarget(
+        $scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT,
+        $storeId = null
+    ) {
         $apiKey = $this->scopeConfig->getValue(
             'idealpostcodes/settings/multishipping_checkout_register_target',
             $scope,
@@ -97,8 +189,16 @@ class Data extends AbstractHelper /** * @var EncryptorInterface */
         return $apiKey;
     }
 
+    /**
+     * Get user token
+     *
+     * @param string $scope
+     * @param int|null $storeId
+     * @return string|null
+     */
     public function getUserToken(
-        $scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $storeId = null
+        $scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT,
+        $storeId = null
     ) {
         $userToken = $this->scopeConfig->getValue(
             'idealpostcodes/settings/user_token',
@@ -108,8 +208,16 @@ class Data extends AbstractHelper /** * @var EncryptorInterface */
         return $userToken;
     }
 
+    /**
+     * Get autocomplete override configuration
+     *
+     * @param string $scope
+     * @param int|null $storeId
+     * @return string|null
+     */
     public function getAutocompleteOverride(
-        $scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $storeId = null
+        $scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT,
+        $storeId = null
     ) {
         return $this->scopeConfig->getValue(
             'idealpostcodes/settings/autocomplete_override',
@@ -118,8 +226,16 @@ class Data extends AbstractHelper /** * @var EncryptorInterface */
         );
     }
 
+    /**
+     * Get postcode lookup override configuration
+     *
+     * @param string $scope
+     * @param int|null $storeId
+     * @return string|null
+     */
     public function getPostcodeLookupOverride(
-        $scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $storeId = null
+        $scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT,
+        $storeId = null
     ) {
         return $this->scopeConfig->getValue(
             'idealpostcodes/settings/postcode_lookup_override',
@@ -128,8 +244,16 @@ class Data extends AbstractHelper /** * @var EncryptorInterface */
         );
     }
 
+    /**
+     * Check if postcode lookup is enabled
+     *
+     * @param string $scope
+     * @param int|null $storeId
+     * @return bool
+     */
     public function usesPostcodeLookup(
-        $scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $storeId = null
+        $scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT,
+        $storeId = null
     ) {
         return $this->scopeConfig->isSetFlag(
             'idealpostcodes/settings/postcode_lookup',
@@ -138,8 +262,16 @@ class Data extends AbstractHelper /** * @var EncryptorInterface */
         );
     }
 
+    /**
+     * Check if autocomplete is enabled
+     *
+     * @param string $scope
+     * @param int|null $storeId
+     * @return bool
+     */
     public function usesAutocomplete(
-        $scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $storeId = null
+        $scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT,
+        $storeId = null
     ) {
         return $this->scopeConfig->isSetFlag(
             'idealpostcodes/settings/autocomplete',
@@ -148,8 +280,16 @@ class Data extends AbstractHelper /** * @var EncryptorInterface */
         );
     }
 
+    /**
+     * Check if organisation should be removed
+     *
+     * @param string $scope
+     * @param int|null $storeId
+     * @return bool
+     */
     public function removeOrganisation(
-        $scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $storeId = null
+        $scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT,
+        $storeId = null
     ) {
         return $this->scopeConfig->isSetFlag(
             'idealpostcodes/settings/remove_organisation_store',
@@ -158,8 +298,16 @@ class Data extends AbstractHelper /** * @var EncryptorInterface */
         );
     }
 
+    /**
+     * Check if organisation should be removed in admin
+     *
+     * @param string $scope
+     * @param int|null $storeId
+     * @return bool
+     */
     public function removeOrganisationAdmin(
-        $scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $storeId = null
+        $scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT,
+        $storeId = null
     ) {
         return $this->scopeConfig->isSetFlag(
             'idealpostcodes/settings/remove_organisation_admin',
@@ -168,8 +316,16 @@ class Data extends AbstractHelper /** * @var EncryptorInterface */
         );
     }
 
+    /**
+     * Check if county is required
+     *
+     * @param string $scope
+     * @param int|null $storeId
+     * @return bool
+     */
     public function requireCounty(
-        $scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $storeId = null
+        $scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT,
+        $storeId = null
     ) {
         return $this->scopeConfig->isSetFlag(
             'idealpostcodes/settings/require_county',
@@ -178,8 +334,16 @@ class Data extends AbstractHelper /** * @var EncryptorInterface */
         );
     }
 
+    /**
+     * Check if country field should be hoisted
+     *
+     * @param string $scope
+     * @param int|null $storeId
+     * @return bool
+     */
     public function hoistCountry(
-        $scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $storeId = null
+        $scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT,
+        $storeId = null
     ) {
         return $this->scopeConfig->isSetFlag(
             'idealpostcodes/settings/hoist_country',
@@ -188,7 +352,15 @@ class Data extends AbstractHelper /** * @var EncryptorInterface */
         );
     }
 
-    public function customFields($scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $storeId = null) {
+    /**
+     * Get custom fields configuration
+     *
+     * @param string $scope
+     * @param int|null $storeId
+     * @return string|null
+     */
+    public function customFields($scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $storeId = null)
+    {
         return $this->scopeConfig->getValue(
             'idealpostcodes/settings/custom_fields',
             $scope,
@@ -196,26 +368,50 @@ class Data extends AbstractHelper /** * @var EncryptorInterface */
         );
     }
 
-    public function checkoutOnly($scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $storeId = null) {
-    	return $this->scopeConfig->isSetFlag(
-			'idealpostcodes/settings/checkout_only',
-			$scope,
-			$storeId
-		);
+    /**
+     * Check if checkout only mode is enabled
+     *
+     * @param string $scope
+     * @param int|null $storeId
+     * @return bool
+     */
+    public function checkoutOnly($scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $storeId = null)
+    {
+        return $this->scopeConfig->isSetFlag(
+            'idealpostcodes/settings/checkout_only',
+            $scope,
+            $storeId
+        );
     }
 
-    public function matchCheckout($scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $storeId = null) {
-		return $this->scopeConfig->getValue(
-			'idealpostcodes/settings/match_checkout_page',
-			$scope,
-			$storeId
-		);
-	}
+    /**
+     * Get match checkout page configuration
+     *
+     * @param string $scope
+     * @param int|null $storeId
+     * @return string|null
+     */
+    public function matchCheckout($scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $storeId = null)
+    {
+        return $this->scopeConfig->getValue(
+            'idealpostcodes/settings/match_checkout_page',
+            $scope,
+            $storeId
+        );
+    }
 
+    /**
+     * Get full configuration array
+     *
+     * @param string $scope
+     * @param int|null $storeId
+     * @return array
+     */
     public function toConfiguration(
-        $scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $storeId = null
+        $scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT,
+        $storeId = null
     ) {
-        $config = array(
+        $config = [
             'enabled' => $this->isEnabled($scope, $storeId),
             'api_key' => $this->getApiKey($scope, $storeId),
             'postcodeLookup' => $this->usesPostcodeLookup($scope, $storeId),
@@ -228,14 +424,20 @@ class Data extends AbstractHelper /** * @var EncryptorInterface */
             "customFields" => $this->customFields($scope, $storeId),
             "checkoutOnly" => $this->checkoutOnly($scope, $storeId),
             "matchCheckout" => $this->matchCheckout($scope, $storeId),
-        );
+        ];
         return $config;
     }
 
+    /**
+     * Get admin configuration array
+     *
+     * @param string $scope
+     * @return array
+     */
     public function toAdminConfiguration(
         $scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT
     ) {
-        $config = array(
+        $config = [
             'enabled' => $this->isEnabled($scope),
             'api_key' => $this->getApiKey($scope),
             'addressAutocomplete' => $this->isEnabledAdminAutocomplete($scope),
@@ -243,22 +445,54 @@ class Data extends AbstractHelper /** * @var EncryptorInterface */
             'hoistCountryField' => $this->hoistCountry($scope),
             'requireCounty' => $this->requireCounty($scope),
             "customFields" => $this->customFields($scope),
-        );
+        ];
         return $config;
     }
 
-    public function getConfig($field) {
+    /**
+     * Get configuration value for a specific field
+     *
+     * @param string $field
+     * @return mixed
+     */
+    public function getConfig($field)
+    {
         $config = $this->toConfiguration(ScopeInterface::SCOPE_STORE);
         return is_bool($config[$field]) ? ($config[$field] ? 'true' : 'false') : $config[$field];
     }
 
-    public function getAdminConfig($field) {
+    /**
+     * Get admin configuration value for a specific field
+     *
+     * @param string $field
+     * @return mixed
+     */
+    public function getAdminConfig($field)
+    {
         $config = $this->toAdminConfiguration();
         return is_bool($config[$field]) ? ($config[$field] ? 'true' : 'false') : $config[$field];
     }
 
-    public function getFileUrl($file) {
+    /**
+     * Get file URL from module assets
+     *
+     * @param string $file
+     * @return string
+     */
+    public function getFileUrl($file)
+    {
         $asset = $this->repository->createAsset("Idealpostcodes_Ukaddresssearch::$file");
         return $asset->getUrl();
+    }
+
+    /**
+     * Encode data to JSON
+     *
+     * @param mixed $data
+     * @return string
+     */
+    public function jsonEncode($data)
+    {
+        return $this->jsonEncoder->encode($data);
     }
 }

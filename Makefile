@@ -86,11 +86,11 @@ logs-magento:
 bundle:
 	zip -r idealpostcodes_magento-$$(git describe --tags --abbrev=0).zip . -x '.git/*' -x '.github/*' -x 'test/*' -x 'lib/*' -x 'node_modules/*' -x 'docker/*' -x '*.zip' -x '.gitignore' -x ".gitattributes"
 
-## Update repository against origin/master
+## Update repository against origin/main
 .PHONY: update
 update:
 	git fetch
-	git merge --ff-only origin/master
+	git merge --ff-only origin/main
 
 ## How to use this Makefile
 .PHONY: help

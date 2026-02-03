@@ -28,7 +28,7 @@ See our [guide](https://ideal-postcodes.co.uk/guides/magento) for installation a
 - [Ideal Postcodes](https://ideal-postcodes.co.uk/magento)
 - [Repository](https://github.com/ideal-postcodes/magento)
 - [Packagist](https://packagist.org/packages/idealpostcodes/module-ukaddresssearch)
-- [Changelog](https://github.com/ideal-postcodes/magento/blob/master/CHANGELOG.md)
+- [Changelog](https://github.com/ideal-postcodes/magento/blob/main/CHANGELOG.md)
 - [Releases](https://github.com/ideal-postcodes/magento/releases)
 - [Support](https://chat.ideal-postcodes.co.uk/support)
 - [Dev Chat](https://chat.ideal-postcodes.co.uk)

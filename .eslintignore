@@ -1,3 +1,9 @@
 # Magento RequireJS modules (not TypeScript)
 view/frontend/
 view/adminhtml/
+
+# Config files
+playwright.config.ts
+
+# Test files (use Playwright's own TS config)
+test/playwright/

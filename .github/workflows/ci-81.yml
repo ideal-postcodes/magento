@@ -18,21 +18,21 @@ jobs:
       - name: Setup Node
         uses: useblacksmith/setup-node@v5
         with:
-          node-version: '20'
+          node-version: '24'
           cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Cypress run
-        uses: cypress-io/github-action@v6
-        with:
-          project: ./test/e2e
-          config: baseUrl=http://localhost:3000
-          browser: chrome
-          wait-on: 'http://localhost:3000'
-          wait-on-timeout: 120
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Wait for Magento
+        run: npx wait-on http://localhost:3000 --timeout 120000
+
+      - name: Run E2E tests
+        run: npm run test:e2e
         env:
-          CYPRESS_API_KEY: ${{ secrets.API_KEY }}
-          CYPRESS_MAGENTO_VERSION: "2.4"
+          API_KEY: ${{ secrets.API_KEY }}
+          MAGENTO_VERSION: "2.4"
           NODE_OPTIONS: "--max-old-space-size=4096"

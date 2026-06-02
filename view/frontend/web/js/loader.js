@@ -11,12 +11,17 @@
         return;
     }
     
-    var script = document.createElement('script');
-    script.src = configEl.getAttribute('data-binding-url');
-    script.onload = function() {
-        if (typeof window.idpcStart === 'function') {
-            window.idpcStart();
-        }
-    };
-    document.head.appendChild(script);
+    var bindingUrl = configEl.getAttribute('data-binding-url');
+    
+    // Validate URL is relative or same-origin (security check)
+    if (bindingUrl && (bindingUrl.startsWith('/') || bindingUrl.startsWith(window.location.origin))) {
+        var script = document.createElement('script');
+        script.src = bindingUrl;
+        script.onload = function() {
+            if (typeof window.idpcStart === 'function') {
+                window.idpcStart();
+            }
+        };
+        document.head.appendChild(script);
+    }
 })();

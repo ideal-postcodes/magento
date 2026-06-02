@@ -2,6 +2,9 @@
 /**
  * Ideal Postcodes UK Address Search - Frontend Configuration
  *
+ * Universal template that works with all themes (Luma, Hyvä, custom).
+ * Uses external script loading for CSP compliance.
+ *
  * @var \Magento\Framework\View\Element\Template $block
  * @var \Magento\Framework\Escaper $escaper
  * @var \Idealpostcodes\Ukaddresssearch\ViewModel\StoreConfig $viewModel
@@ -11,11 +14,13 @@ $viewModel = $block->getData('view_model');
 if (!$viewModel->isEnabled()) {
     return;
 }
+
+$config = $viewModel->getJsonConfig();
+$bindingUrl = $block->getViewFileUrl('Idealpostcodes_Ukaddresssearch::binding.min.js');
+$loaderUrl = $block->getViewFileUrl('Idealpostcodes_Ukaddresssearch::js/loader.js');
 ?>
-<script type="text/x-magento-init">
-{
-    "*": {
-        "Idealpostcodes_Ukaddresssearch/js/store-init": <?= /* @noEscape */ $viewModel->getJsonConfig() ?>
-    }
-}
-</script>
+<div id="idpc-config" 
+     data-config="<?= $escaper->escapeHtmlAttr($config) ?>"
+     data-binding-url="<?= $escaper->escapeHtmlAttr($bindingUrl) ?>"
+     style="display:none;"></div>
+<script src="<?= $escaper->escapeHtmlAttr($loaderUrl) ?>"></script>

@@ -1,6 +1,7 @@
 PHP ?= 81
 PLATFORM ?= $(shell uname -m)
 YML_SUFFIX := $(if $(filter arm64,$(PLATFORM)),-arm64,)
+SEARCH_HOST := $(if $(filter 84,$(PHP)),opensearch,elasticsearch)
 .DEFAULT_GOAL := help
 TAG=${git describe --tags}
 
@@ -22,7 +23,7 @@ build:
 ## Initialise repository - run install-magento
 .PHONY: init
 init:
-	docker compose exec -T web dockerize -wait tcp://db:3306 -wait tcp://elasticsearch:9200 -timeout 60m /usr/local/bin/install-magento
+	docker compose exec -T web dockerize -wait tcp://db:3306 -wait tcp://${SEARCH_HOST}:9200 -timeout 60m /usr/local/bin/install-magento
 
 ## -- Development Methods --
 

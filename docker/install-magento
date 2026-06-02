@@ -24,7 +24,17 @@ MAGENTO_ADMIN_EMAIL='admin@ideal-postcodes.co.uk'
 MAGENTO_ADMIN_USERNAME='admin'
 MAGENTO_ADMIN_PASSWORD='foobar21'
 
+SEARCH_ENGINE=\${SEARCH_ENGINE:-elasticsearch7}
+SEARCH_HOST=\${SEARCH_HOST:-elasticsearch}
+
 echo 'Running magento setup:install'
+
+if [ "\$SEARCH_ENGINE" = "opensearch" ]; then
+  SEARCH_ARGS="--search-engine=opensearch --opensearch-host=\$SEARCH_HOST --opensearch-port=9200 --opensearch-timeout=60"
+else
+  SEARCH_ARGS="--search-engine=\$SEARCH_ENGINE --elasticsearch-host=\$SEARCH_HOST --elasticsearch-port=9200 --elasticsearch-enable-auth=0 --elasticsearch-timeout=60"
+fi
+
 /var/www/html/bin/magento setup:install \
   --base-url=$MAGENTO_URL \
   --backend-frontname=$MAGENTO_BACKEND_FRONTNAME \
@@ -43,11 +53,7 @@ echo 'Running magento setup:install'
   --admin-email=$MAGENTO_ADMIN_EMAIL \
   --admin-user=$MAGENTO_ADMIN_USERNAME \
   --admin-password=$MAGENTO_ADMIN_PASSWORD \
-  --search-engine='elasticsearch7' \
-  --elasticsearch-host='elasticsearch' \
-  --elasticsearch-port='9200' \
-  --elasticsearch-enable-auth='0' \
-  --elasticsearch-timeout='60'
+  \$SEARCH_ARGS
 
 echo 'Enabled Ideal Postcodes extension'
 /var/www/html/bin/magento module:enable Idealpostcodes_Ukaddresssearch

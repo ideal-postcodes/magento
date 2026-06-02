@@ -1,0 +1,49 @@
+<?php
+/**
+ * Ideal Postcodes UK Address Search - Hyvä Theme Compatible Template
+ *
+ * This template loads the binding directly without RequireJS for Hyvä themes.
+ * Hyvä does not use RequireJS, so x-magento-init scripts don't work.
+ *
+ * @var \Magento\Framework\View\Element\Template $block
+ * @var \Magento\Framework\Escaper $escaper
+ * @var \Idealpostcodes\Ukaddresssearch\ViewModel\StoreConfig $viewModel
+ */
+$viewModel = $block->getData('view_model');
+
+if (!$viewModel->isEnabled()) {
+    return;
+}
+
+$config = $viewModel->getJsonConfig();
+$bindingUrl = $block->getViewFileUrl('Idealpostcodes_Ukaddresssearch::binding.min.js');
+?>
+<div id="idpc-hyva-config" 
+     data-config="<?= $escaper->escapeHtmlAttr($config) ?>"
+     data-binding-url="<?= $escaper->escapeHtmlAttr($bindingUrl) ?>"
+     style="display:none;"></div>
+<script>
+    (function() {
+        var configEl = document.getElementById('idpc-hyva-config');
+        if (!configEl) return;
+        
+        // Parse config from data attribute
+        try {
+            window.idpcConfig = JSON.parse(configEl.getAttribute('data-config'));
+        } catch (e) {
+            console.error('Ideal Postcodes: Failed to parse config', e);
+            return;
+        }
+        
+        // Load binding script
+        var script = document.createElement('script');
+        script.src = configEl.getAttribute('data-binding-url');
+        script.onload = function() {
+            // Initialize once binding is loaded
+            if (typeof window.idpcStart === 'function') {
+                window.idpcStart();
+            }
+        };
+        document.head.appendChild(script);
+    })();
+</script>

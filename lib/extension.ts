@@ -32,6 +32,146 @@ interface LinesIdentifier {
   parentTest: ParentTest;
 }
 
+const isAmasty = () => {
+  // @ts-ignore
+  if (typeof require === 'function' && require.defined('Amasty_GdprFrontendUi/js/model/need-show')) {
+    console.log('Amasty_GdprFrontendUi/js/model/need-show');
+    return true;
+  }
+  return false;
+};
+
+// Closed shadow DOM styles for postcode lookup
+const SHADOW_STYLES = `
+  :host {
+    display: block;
+    position: relative;
+    margin-bottom: 15px;
+  }
+  .idpc_lookup {
+    display: block;
+    width: 100%;
+  }
+  .idpc_lookup label {
+    display: block;
+    width: 100%;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .idpc_lookup input[type="text"],
+  .idpc_lookup input:not([type]) {
+    display: inline-block;
+    width: 70%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-right: none;
+    border-radius: 1px 0 0 1px;
+    box-sizing: border-box;
+    font-size: 14px;
+    vertical-align: middle;
+    margin: 0;
+  }
+  .idpc_lookup input[type="text"]:focus,
+  .idpc_lookup input:not([type]):focus {
+    outline: none;
+    box-shadow: 0 0 3px 1px #00699d;
+    z-index: 1;
+    position: relative;
+  }
+  .idpc_lookup button {
+    display: inline-block;
+    width: 30%;
+    padding: 10px 12px;
+    margin: 0;
+    margin-left: -1px;
+    background-color: #1979c3;
+    color: white;
+    border: 1px solid #1979c3;
+    border-radius: 0 1px 1px 0;
+    cursor: pointer;
+    font-size: 14px;
+    white-space: nowrap;
+    vertical-align: middle;
+    box-sizing: border-box;
+  }
+  .idpc_lookup button:hover {
+    background-color: #006bb4;
+    border-color: #006bb4;
+  }
+  .idpc_lookup button:active {
+    background-color: #005a9e;
+    border-color: #005a9e;
+  }
+  .idpc_lookup select {
+    display: block;
+    width: 100%;
+    padding: 10px 12px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 1px;
+    font-size: 14px;
+    background-color: white;
+    cursor: pointer;
+    box-sizing: border-box;
+  }
+  .idpc_lookup select:focus {
+    box-shadow: 0 0 3px 1px #00699d;
+    outline: none;
+  }
+  .idpc_lookup .idpc-error,
+  .idpc_lookup .idpc-message {
+    display: block;
+    width: 100%;
+    padding: 8px 12px;
+    margin-top: 5px;
+    border-radius: 4px;
+    font-size: 13px;
+    box-sizing: border-box;
+  }
+  .idpc_lookup .idpc-error {
+    background-color: #fdecea;
+    color: #c00;
+    border: 1px solid #f5c6cb;
+  }
+`;
+
+// Store for closed shadow roots (internal access only)
+const shadowRoots = new WeakMap<HTMLElement, ShadowRoot>();
+
+/**
+ * Creates a closed shadow DOM container that external JS cannot access
+ * @returns Object with host element and internal shadow root reference
+ */
+export const createClosedShadowContainer = (): {
+  host: HTMLElement;
+  shadow: ShadowRoot;
+  container: HTMLElement;
+} => {
+  const host = document.createElement("div");
+  host.className = "idpc_lookup_host";
+  
+  // Closed mode - element.shadowRoot returns null for external JS
+  const shadow = host.attachShadow({ mode: "closed" });
+  
+  // Store reference internally
+  shadowRoots.set(host, shadow);
+  
+  // Store on element for testing (prefixed to avoid conflicts)
+  (host as any).__idpcShadowRoot = shadow;
+  
+  // Inject styles
+  const style = document.createElement("style");
+  style.textContent = SHADOW_STYLES;
+  shadow.appendChild(style);
+  
+  // Create container for lookup elements
+  const container = document.createElement("div");
+  container.className = "idpc_lookup field";
+  shadow.appendChild(container);
+  
+  return { host, shadow, container };
+};
+
 export const hoistCountry = (
   config: Config,
   outputFields: Targets,
@@ -202,12 +342,18 @@ export const setupPostcodeLookup = (
         options.config.outputFields = targets;
         if (target === null) return;
         hoistCountry(config, targets, linesIdentifier);
-        if (target.parentElement?.querySelector('.idpc_lookup[idpc="true"]'))
+        if (target.parentElement?.querySelector('.idpc_lookup_host[idpc="true"]'))
           return;
-        const postcodeField = document.createElement("div");
-        postcodeField.className = "idpc_lookup field";
-        options.config.context = postcodeField;
-        return insertBefore({ target, elem: postcodeField });
+        
+        // Create closed shadow DOM container - external JS cannot access elements inside
+        const { host, container } = createClosedShadowContainer();
+        host.setAttribute("idpc", "true");
+        options.config.context = container;
+        
+        if (isAmasty()) {
+          return target.prepend(host);
+        }
+        return insertBefore({ target, elem: host });
       },
       ...options,
     }

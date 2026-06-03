@@ -1,3 +1,69 @@
+# 1.0.0 (2026-06-03)
+
+
+### Bug Fixes
+
+* **Account:** Fix template on accounts page ([5e03fa5](https://github.com/ideal-postcodes/magento/commit/5e03fa5673d67465d1f4e588b35ffcbabe191cdb))
+* **Address Finder:** Fixes scoping for custom forms ([5b98b99](https://github.com/ideal-postcodes/magento/commit/5b98b9947b0946f96cd93c8a17d09252ec71fe47))
+* **address-finder:** Update to version 4.5.3 ([3f7b9a5](https://github.com/ideal-postcodes/magento/commit/3f7b9a53416a740b0476b25b3e40738b76c5ffc7))
+* **Admin Panel:** Fix county allocation ([cee422b](https://github.com/ideal-postcodes/magento/commit/cee422bee03075cdbb76ef4ff86507ca12fa7949))
+* **anchor:** update postcode lookup anchor from line_2 to line_1 field ([8812fb4](https://github.com/ideal-postcodes/magento/commit/8812fb4d65909080054ae078498e57e97d8328d4))
+* **Autocomplete:** Ensure listener init idempotent ([256f5da](https://github.com/ideal-postcodes/magento/commit/256f5da8a8345eae3e09578badd6c67d7120bd51))
+* **Autocomplete:** Fix potential race condition ([8a5b66d](https://github.com/ideal-postcodes/magento/commit/8a5b66df5308d082558ab1a0352a97c835e20997))
+* **axios:** bump [@ideal-postcodes](https://github.com/ideal-postcodes) dependencies to latest patch versions ([d8d9c4d](https://github.com/ideal-postcodes/magento/commit/d8d9c4ddfe0af4cc23e03e4f70f1b49eba82d5dd))
+* **axios:** Security issue v<1.8.3 ([30c7e78](https://github.com/ideal-postcodes/magento/commit/30c7e7846763fbc70fce646b8b8dbf6129636b53))
+* **Billing:** Poll DOM before applying search ([aba1a1c](https://github.com/ideal-postcodes/magento/commit/aba1a1c9ff0367d0a244ce8e6a827334e7a44416))
+* **Binding:** Check if valid country after asynchronous API Key checks ([3feb6a3](https://github.com/ideal-postcodes/magento/commit/3feb6a3045a4b1fcf066f0172ebd12850eed9bd3))
+* **Bindings:** Remove development artefacts ([ebb231b](https://github.com/ideal-postcodes/magento/commit/ebb231b0f95bc90d7db5e9d94a19e297fd69e46e))
+* **Composer:** Add 8.1 support ([6c249d6](https://github.com/ideal-postcodes/magento/commit/6c249d6d4e4b15f1b0a63155b5c189d37201460c))
+* **Composer:** Add PHP 8.0 ([#390](https://github.com/ideal-postcodes/magento/issues/390)) ([76b3864](https://github.com/ideal-postcodes/magento/commit/76b386401eb1292cd6ee77347b33228e77d1eac6))
+* **Composer:** Enable automated versioned releases ([f46e4d8](https://github.com/ideal-postcodes/magento/commit/f46e4d81caf5fc919e82af850b0c53596aaa4e81))
+* **Composer:** Expand compatible php versions ([43bc454](https://github.com/ideal-postcodes/magento/commit/43bc454df1c2c91e8565ecd2ecb7ecee3093166e))
+* **Content Security Policy:** Add ideal-postcodes.co.uk to CSP list ([1dfce1a](https://github.com/ideal-postcodes/magento/commit/1dfce1a953e872a6417fd44edddae6d344da49a4))
+* **Custom Bindings:** Apply custom bindings to store ([551fa41](https://github.com/ideal-postcodes/magento/commit/551fa41cb2c1e3969b90391aa076d05dcd7b089c))
+* **inline-script:** Fix problem with inline script tag in safari ([223f274](https://github.com/ideal-postcodes/magento/commit/223f2747fc84f2c89ee82b0712c03d45344487ce))
+* **jQuery:** Drop jquery requirement ([c078dfb](https://github.com/ideal-postcodes/magento/commit/c078dfb334f708d5e8ab9548c24884677061a863))
+* **JS Bundle:** Bypass Minifier ([b03542b](https://github.com/ideal-postcodes/magento/commit/b03542b791381e4c77a2f7620205c0340bdba955))
+* **JS:** Rebuild JS assets ([9d82acc](https://github.com/ideal-postcodes/magento/commit/9d82accbad8e94abb3b91b69302b1910b4a5c8a4))
+* **libs:** Update AF/PL version ([9db0175](https://github.com/ideal-postcodes/magento/commit/9db01753e19ad5456794925bbb272ae3522d5ea7))
+* **Magento 2.4:** Bump patch number ([294a6ca](https://github.com/ideal-postcodes/magento/commit/294a6ca1dd1f334fcb4f20eeaaac048501cab4ad))
+* **Minification:** Handle broken Magento minifiers ([5d9d6df](https://github.com/ideal-postcodes/magento/commit/5d9d6df5f0744adbd05e208edbec4e45c47807d6))
+* **Override:** Add custom overrides for Address Finder and Postcode Lookup ([cdb3cee](https://github.com/ideal-postcodes/magento/commit/cdb3ceef9215041718abdd4e7d30696c973c0784))
+* **package.json:** Remove duplicate fields ([90c2473](https://github.com/ideal-postcodes/magento/commit/90c24730669df453828d7091e7326b0cd8432995))
+* **PHP:** Allow all 7.x and 8.x ([f98a459](https://github.com/ideal-postcodes/magento/commit/f98a45918d6d03526c95b325b9a2df367c736c9a))
+* **README:** Add link to marketplace ([3157f47](https://github.com/ideal-postcodes/magento/commit/3157f4730f35994d683ee5efb835ba6340b772b6))
+* **Readme:** Add release badge ([ed38a57](https://github.com/ideal-postcodes/magento/commit/ed38a5793e1d3cb5c64535de7347cc1a35fbf038))
+* **Scoping:** Allow store by store scoping ([8d83a25](https://github.com/ideal-postcodes/magento/commit/8d83a25568b3c1f45ac2562f67a519c5b374b4f6))
+* **security:** add input sanitization plugins for customer and quote … ([#555](https://github.com/ideal-postcodes/magento/issues/555)) ([93d5d3e](https://github.com/ideal-postcodes/magento/commit/93d5d3e4f2200f8da4c419fb9116ad7f47a911db))
+* **security:** add proper escaping to template variables to prevent XSS vulnerabilities ([7e2c52e](https://github.com/ideal-postcodes/magento/commit/7e2c52e4f10d6a6b5a0b576639326e3bc1847146))
+* **security:** add URL validation to prevent loading external scripts in loader.js ([23c589a](https://github.com/ideal-postcodes/magento/commit/23c589ae0787f3b61aadd42eb317a03e53158c3f))
+* **System.xml:** Drop hyphen for underscore ([41bf894](https://github.com/ideal-postcodes/magento/commit/41bf8941b642d13c0af684607f77b6cb7458b3c2))
+* **test:** Remove old versions from testing scenario and clear files ([7a95296](https://github.com/ideal-postcodes/magento/commit/7a95296bcdc7466be0d79045330b38df4e306a81))
+* **Test:** Remove test artefacts ([717b0f3](https://github.com/ideal-postcodes/magento/commit/717b0f3420bcda166cef46d7cba6badcd89f4106))
+
+
+### Features
+
+* **Address Lines:** Variable address lines ([ac1dc47](https://github.com/ideal-postcodes/magento/commit/ac1dc471614932253f7135f19a51653869a8f365))
+* **address-finder:** Upgrade to version 4.2.0 ([e18aae8](https://github.com/ideal-postcodes/magento/commit/e18aae8ec6a6d8bbcd37fa675265ed0b360ff2b3))
+* **Admin:** Add address validation to admin pages ([2c01488](https://github.com/ideal-postcodes/magento/commit/2c01488ab5d0fee1c7d00be3bec9d9d851c2b8a0))
+* **Admin:** Update configuration page ([ae71716](https://github.com/ideal-postcodes/magento/commit/ae7171638023a625383c73cda59347e713332aa6))
+* **Advanced Configuration:** Allow custom targets ([b35f661](https://github.com/ideal-postcodes/magento/commit/b35f6618f059af2c0f8ea151d86a80b1708af9d5))
+* **commands:** Clean Make Commands ([09d1ae3](https://github.com/ideal-postcodes/magento/commit/09d1ae3d8c1edddc46bb779e7cdcc4e4fd5dfba3))
+* **Custom Fields:** Allow custom address field autofill ([f67f70f](https://github.com/ideal-postcodes/magento/commit/f67f70f9c68852950f47472e9d79a78abf587dd8))
+* **frontend:** replace RequireJS with direct script loading ([16bfef7](https://github.com/ideal-postcodes/magento/commit/16bfef78fda5a44244d04b479cbd09e9bed80522))
+* **hyva:** add Hyvä theme compatibility for address lookup ([01a1ccd](https://github.com/ideal-postcodes/magento/commit/01a1ccd8c5eb67310bcba10b0443a0276264e1ab))
+* **min-js:** Update minified js files ([0353cc7](https://github.com/ideal-postcodes/magento/commit/0353cc72f204d6e670a54dd34afedae0662a3e7f))
+* **Semantic-Release:** Enable release tagging ([1116e89](https://github.com/ideal-postcodes/magento/commit/1116e89ce32a3b6742edfbb2ce8f98cdcdec9cee))
+* **version:** Add Version 2.4.4 with php 7.4 ([159ba0a](https://github.com/ideal-postcodes/magento/commit/159ba0ad358da35f5a36d036cffea27005c3ff6c))
+
+
+### BREAKING CHANGES
+
+* **Admin:** HTML targets for the store integration has been removed
+
+HTML targets have been replaced by a more robust field detection method
+
 ## [2.5.2](https://github.com/ideal-postcodes/magento/compare/2.5.1...2.5.2) (2025-12-16)
 
 

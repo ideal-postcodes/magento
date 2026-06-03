@@ -18,7 +18,7 @@ jobs:
       - name: Use Node.js
         uses: useblacksmith/setup-node@v5
         with:
-          node-version: 16
+          node-version: 24
 
       - name: Cache node modules
         uses: useblacksmith/cache@v5

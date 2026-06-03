@@ -1,3 +1,17 @@
+# [2.6.0](https://github.com/ideal-postcodes/magento/compare/2.5.3...2.6.0) (2026-06-03)
+
+
+### Bug Fixes
+
+* **release:** use correct tag format without v prefix ([a73aad3](https://github.com/ideal-postcodes/magento/commit/a73aad3f17ac5f9c26d7055088333006fa12bb5b))
+* **security:** add URL validation to prevent loading external scripts in loader.js ([23c589a](https://github.com/ideal-postcodes/magento/commit/23c589ae0787f3b61aadd42eb317a03e53158c3f))
+
+
+### Features
+
+* **frontend:** replace RequireJS with direct script loading ([16bfef7](https://github.com/ideal-postcodes/magento/commit/16bfef78fda5a44244d04b479cbd09e9bed80522))
+* **hyva:** add Hyvä theme compatibility for address lookup ([01a1ccd](https://github.com/ideal-postcodes/magento/commit/01a1ccd8c5eb67310bcba10b0443a0276264e1ab))
+
 ## [2.5.2](https://github.com/ideal-postcodes/magento/compare/2.5.1...2.5.2) (2025-12-16)
 
 

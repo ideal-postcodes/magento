@@ -33,6 +33,8 @@ interface LinesIdentifier {
 }
 
 const tags = ["magento"];
+const postcodeLookupTags = [...tags, "postcodelookup"];
+const addressFinderTags = [...tags, "addressfinder"].join(",");
 
 export const hoistCountry = (
   config: Config,
@@ -162,7 +164,7 @@ export const setupPostcodeLookup = (
       apiKey: config.apiKey,
       checkKey: true,
       context: "div.idpc_lookup",
-      tags,
+      tags: postcodeLookupTags,
       outputFields,
       removeOrganisation: config.removeOrganisation,
       populateCounty: config.populateCounty,
@@ -229,8 +231,8 @@ export const setupAutocomplete = async (
     {
       apiKey: config.apiKey,
       checkKey: true,
-      queryOptions: { tags: tags.join(",") },
-      resolveOptions: { tags: tags.join(",") },
+      queryOptions: { tags: addressFinderTags },
+      resolveOptions: { tags: addressFinderTags },
       removeOrganisation: config.removeOrganisation,
       populateCounty: config.populateCounty,
       onLoaded() {

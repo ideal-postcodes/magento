@@ -229,7 +229,8 @@ export const setupAutocomplete = async (
     {
       apiKey: config.apiKey,
       checkKey: true,
-      tags,
+      queryOptions: { tags: tags.join(",") },
+      resolveOptions: { tags: tags.join(",") },
       removeOrganisation: config.removeOrganisation,
       populateCounty: config.populateCounty,
       onLoaded() {

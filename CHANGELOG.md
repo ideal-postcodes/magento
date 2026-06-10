@@ -1,3 +1,16 @@
+# [2.7.0](https://github.com/ideal-postcodes/magento/compare/2.6.0...2.7.0) (2026-06-10)
+
+
+### Bug Fixes
+
+* **tracking:** send AddressFinder tags via query/resolve options ([26d2a71](https://github.com/ideal-postcodes/magento/commit/26d2a71709cf70282561957e60ca0fc4f6ef22b4))
+
+
+### Features
+
+* **tracking:** differentiate AddressFinder and PostcodeLookup in usage tags ([4175b95](https://github.com/ideal-postcodes/magento/commit/4175b95be492ef434e101172753f6995494aafaa))
+* **tracking:** tag Magento address lookups for integration usage tracking ([6457226](https://github.com/ideal-postcodes/magento/commit/645722669f186f267b895f74d6c6e9c67ff148a8))
+
 # [2.6.0](https://github.com/ideal-postcodes/magento/compare/2.5.3...2.6.0) (2026-06-03)
 
 

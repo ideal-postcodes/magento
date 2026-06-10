@@ -32,6 +32,8 @@ interface LinesIdentifier {
   parentTest: ParentTest;
 }
 
+const tags = ["magento"];
+
 export const hoistCountry = (
   config: Config,
   outputFields: Targets,
@@ -160,6 +162,7 @@ export const setupPostcodeLookup = (
       apiKey: config.apiKey,
       checkKey: true,
       context: "div.idpc_lookup",
+      tags,
       outputFields,
       removeOrganisation: config.removeOrganisation,
       populateCounty: config.populateCounty,
@@ -226,6 +229,7 @@ export const setupAutocomplete = async (
     {
       apiKey: config.apiKey,
       checkKey: true,
+      tags,
       removeOrganisation: config.removeOrganisation,
       populateCounty: config.populateCounty,
       onLoaded() {

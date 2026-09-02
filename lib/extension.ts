@@ -256,3 +256,11 @@ export const setupAutocomplete = async (
 
 export const includes = (haystack: string, needle: string): boolean =>
   haystack.indexOf(needle) !== -1;
+
+/**
+ * Matches Magento's own `/checkout` as well as third-party checkout routes
+ * such as `/onestepcheckout`, `/onepagecheckout` and `/firecheckout`
+ */
+export const isCheckoutPage = (
+  pathname: string = window.location.pathname
+): boolean => includes(pathname.toLowerCase(), "checkout");

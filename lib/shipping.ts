@@ -1,12 +1,5 @@
-import { selectors } from "./billing";
-import {
-  Config,
-  setupAutocomplete,
-  includes,
-  setupPostcodeLookup,
-} from "./extension";
-
-const pageTest = () => includes(window.location.pathname, "/checkout");
+import { selectors, pageTest } from "./billing";
+import { Config, setupAutocomplete, setupPostcodeLookup } from "./extension";
 
 export const bind = (config: Config) => {
   setupAutocomplete(config, selectors, { pageTest });

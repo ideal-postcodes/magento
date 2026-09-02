@@ -40,7 +40,7 @@ describe("One Page Checkout", () => {
   });
   describe("Express Checkout Lane", () => {
     beforeEach(() => {
-      cy.setup("/test/snapshot/fixtures/checkout/onestepcheckoutcom-checkout.html", true);
+      cy.setup("/test/snapshot/fixtures/onestepcheckout/index.html", true);
     });
     autocompleteSuite(suiteShippingCom);
     postcodeLookupSuite(suiteShippingCom);

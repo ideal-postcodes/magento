@@ -1,7 +1,7 @@
 import {
   Config,
   setupAutocomplete,
-  includes,
+  isCheckoutPage,
   setupPostcodeLookup,
 } from "./extension";
 import {getParent} from "@ideal-postcodes/jsutil";
@@ -17,7 +17,7 @@ export const selectors = {
   country: '[name="country_id"]',
 };
 
-export const pageTest = () => includes(window.location.pathname, "/checkout");
+export const pageTest = () => isCheckoutPage();
 export const getScope = (anchor: HTMLElement) => getParent(anchor, "form")
 
 export const bind = (config: Config) => {

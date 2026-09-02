@@ -1,3 +1,10 @@
+## [2.7.1](https://github.com/ideal-postcodes/magento/compare/2.7.0...2.7.1) (2026-09-02)
+
+
+### Bug Fixes
+
+* **checkout:** bind on third-party one-step checkout routes ([9efb74b](https://github.com/ideal-postcodes/magento/commit/9efb74b2b3656972403e98616c2fe612d73071a2)), closes [#584](https://github.com/ideal-postcodes/magento/issues/584)
+
 # [2.7.0](https://github.com/ideal-postcodes/magento/compare/2.6.0...2.7.0) (2026-06-10)
 
 

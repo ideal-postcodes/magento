@@ -123,6 +123,28 @@ export const addLookupLabel = (
 
 const NOOP = () => {};
 
+const INPUT_TAGS = ["INPUT", "SELECT", "TEXTAREA"];
+
+/**
+ * Resolves Postcode Lookup `hide` entries against the address form. Entries
+ * pointing at an input (e.g. `[name="postcode"]`) are widened to their `.field`
+ * wrapper so the label is hidden along with the input
+ */
+export const resolveHiddenFields = (
+  hide: (string | HTMLElement)[] | undefined,
+  scope: HTMLElement | Document | null
+): HTMLElement[] => {
+  if (!hide) return [];
+  return hide.reduce<HTMLElement[]>((result, entry) => {
+    const elem =
+      typeof entry === "string" ? toElem(entry, scope || document) : entry;
+    if (!elem) return result;
+    if (INPUT_TAGS.indexOf(elem.tagName) === -1) return [...result, elem];
+    const field = getParent(elem, "div", (e) => e.classList.contains("field"));
+    return [...result, field || elem];
+  }, []);
+};
+
 export const watchCountry = (
   { country }: any,
   activate: any,
@@ -187,10 +209,12 @@ export const setupPostcodeLookup = (
           () => {
             label.hidden = false;
             this.context.style.display = "block";
+            this.hideFields();
           },
           () => {
             label.hidden = true;
             this.context.style.display = "none";
+            this.unhideFields();
           }
         );
       },
@@ -205,6 +229,7 @@ export const setupPostcodeLookup = (
         const target = getLinesContainer(targets, linesIdentifier);
         //@ts-expect-error
         options.config.outputFields = targets;
+        options.config.hide = resolveHiddenFields(options.config.hide, scope);
         if (target === null) return;
         hoistCountry(config, targets, linesIdentifier);
         if (target.parentElement?.querySelector('.idpc_lookup[idpc="true"]'))

@@ -33,6 +33,18 @@ See our [guide](https://ideal-postcodes.co.uk/guides/magento) for installation a
 - [Support](https://chat.ideal-postcodes.co.uk/support)
 - [Dev Chat](https://chat.ideal-postcodes.co.uk)
 
+## Hiding Address Fields Behind Postcode Lookup
+
+Postcode Lookup can hide address inputs until an address is selected, so that only the postcode search box is shown. Paste the following into **Stores > Configuration > Ideal Postcodes > Advanced > PostcodeLookup Override**:
+
+```json
+{
+  "hide": ["[name=\"postcode\"]"]
+}
+```
+
+Each entry is a CSS selector (resolved within the address form) or any option accepted by [Postcode Lookup's `hide`](https://docs.ideal-postcodes.co.uk/postcode-lookup/reference). When a selector points at an input, its surrounding `.field` wrapper (label included) is hidden. Hidden fields are revealed when an address is selected, when the customer clicks "Enter address manually", or when a non-UK country is chosen. Add more selectors (e.g. `[name=\"street[0]\"]`, `[name=\"city\"]`) to hide further fields.
+
 ## Screenshots
 
 ![Postcode Lookup](https://img.ideal-postcodes.co.uk/magento-postcode-lookup-checkout.png)

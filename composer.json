@@ -1,6 +1,6 @@
 {
   "name": "idealpostcodes/module-ukaddresssearch",
-  "version": "2.7.1",
+  "version": "2.7.2",
   "description": "Ideal Postcodes UK address search magento extension. Ideal-Postcodes.co.uk",
   "type": "magento2-module",
   "require": {

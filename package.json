@@ -43,7 +43,7 @@
       "@semantic-release/release-notes-generator",
       ["@semantic-release/changelog", { "changelogFile": "CHANGELOG.md" }],
       ["@semantic-release/exec", {
-        "prepareCmd": "node -e \"const fs=require('fs');const j=JSON.parse(fs.readFileSync('composer.json','utf8'));fs.writeFileSync('composer.json',JSON.stringify({name:j.name,version:'${nextRelease.version}',...j},null,2)+'\\n')\""
+        "prepareCmd": "node -e \"const fs=require('fs');const {name,version,...rest}=JSON.parse(fs.readFileSync('composer.json','utf8'));fs.writeFileSync('composer.json',JSON.stringify({name,version:'${nextRelease.version}',...rest},null,2)+'\\n')\""
       }],
       ["@semantic-release/git", {
         "assets": ["CHANGELOG.md", "composer.json"],

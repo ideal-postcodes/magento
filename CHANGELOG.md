@@ -1,3 +1,10 @@
+## [2.7.2](https://github.com/ideal-postcodes/magento/compare/2.7.1...2.7.2) (2026-09-04)
+
+
+### Bug Fixes
+
+* **composer:** set version in composer.json and keep it in sync on release ([f4eb964](https://github.com/ideal-postcodes/magento/commit/f4eb9641903c34292800d94b7de24e064742d2d4))
+
 ## [2.7.1](https://github.com/ideal-postcodes/magento/compare/2.7.0...2.7.1) (2026-09-02)
 
 

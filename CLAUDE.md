@@ -19,7 +19,7 @@ make fix-session-expire  # Fix session timeout (sets base URL to 127.0.0.1)
 make logs            # Tail all Docker logs
 ```
 
-PHP version selection: `PHP=81 make up` or `PHP=82 make up`
+PHP version selection: `PHP=83 make up` or `PHP=84 make up` (default 84)
 
 ### JavaScript/TypeScript Build
 

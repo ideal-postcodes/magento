@@ -10,12 +10,10 @@
 
 This extension enables [Ideal-Postcodes.co.uk](https://ideal-postcodes.co.uk) address validation for UK addresses on a Magento store.
 
-Tested on Magento 2.1 - 2.4 on PHP 7.1-7.3
+Tested on Magento 2.4.8 on PHP 8.3 and 8.4. Requires PHP 7.0 or later.
 
-![Magento 2.1 CI](https://github.com/ideal-postcodes/magento/workflows/Magento%202.1%20CI/badge.svg)
-![Magento 2.2 CI](https://github.com/ideal-postcodes/magento/workflows/Magento%202.2%20CI/badge.svg)
-![Magento 2.3 CI](https://github.com/ideal-postcodes/magento/workflows/Magento%202.3%20CI/badge.svg)
-![Magento 2.4 CI](https://github.com/ideal-postcodes/magento/workflows/Magento%202.4%20CI/badge.svg)
+![PHP 8.3 CI](https://github.com/ideal-postcodes/magento/actions/workflows/ci-83.yml/badge.svg)
+![PHP 8.4 CI](https://github.com/ideal-postcodes/magento/actions/workflows/ci-84.yml/badge.svg)
 
 See our [guide](https://ideal-postcodes.co.uk/guides/magento) for installation and configuration instructions.
 

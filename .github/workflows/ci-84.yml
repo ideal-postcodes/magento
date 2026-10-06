@@ -1,4 +1,4 @@
-name: Magento 2.4.6 CI with PHP 8.2
+name: Magento 2.4.8 CI with PHP 8.4
 
 on:
   - push
@@ -11,7 +11,7 @@ jobs:
 
       - name: Launch Magento test environment
         env:
-          PHP: "82"
+          PHP: "84"
           COMPOSE_INTERACTIVE_NO_CLI: "1"
         run: make up
 

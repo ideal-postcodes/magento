@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=idealpostcodes/magento-test:m2.4-php8.1
+ARG BASE_IMAGE=idealpostcodes/magento-test:m2.4.8-p4-php8.4
 FROM $BASE_IMAGE
 
 COPY docker/install-magento /usr/local/bin/install-magento

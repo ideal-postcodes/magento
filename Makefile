@@ -1,7 +1,7 @@
-PHP ?= 81
+PHP ?= 84
 PLATFORM ?= $(shell uname -m)
 YML_SUFFIX := $(if $(filter arm64,$(PLATFORM)),-arm64,)
-SEARCH_HOST := $(if $(filter 84,$(PHP)),opensearch,elasticsearch)
+SEARCH_HOST := $(if $(filter 83 84,$(PHP)),opensearch,elasticsearch)
 .DEFAULT_GOAL := help
 TAG=${git describe --tags}
 

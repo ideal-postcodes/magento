@@ -1,3 +1,11 @@
+## [2.7.4](https://github.com/ideal-postcodes/magento/compare/2.7.3...2.7.4) (2026-10-08)
+
+
+### Bug Fixes
+
+* **composer:** drop PHP 5.x and cap the PHP constraint at 8.x ([cbdba2c](https://github.com/ideal-postcodes/magento/commit/cbdba2c6fdfb6a5c9ddb785aecaad4bef0e33fdd))
+* **docker:** rebuild the web image on make up ([830b7a6](https://github.com/ideal-postcodes/magento/commit/830b7a6a58b11e9dfa2f6fa39ccf98fe8a6d1ae1))
+
 ## [2.7.3](https://github.com/ideal-postcodes/magento/compare/2.7.2...2.7.3) (2026-09-04)
 
 

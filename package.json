@@ -54,7 +54,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@ideal-postcodes/address-finder": "~5.2.6",
+    "@ideal-postcodes/address-finder": "~5.2.16",
     "@ideal-postcodes/postcode-lookup": "~3.1.6"
   },
   "devDependencies": {

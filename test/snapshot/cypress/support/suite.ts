@@ -48,12 +48,10 @@ export const autocompleteSuite = (suite: Suite) => {
       cy.get(selectors.country).select("GB", { force: true });
       cy.wait(2000);
       cy.get(selectors.line_1)
-        .clear({
-          force: true,
-        })
-        .type(address.line_1, {
-          force: true,
-        });
+        .scrollIntoView()
+        .should("be.visible")
+        .clear()
+        .type(address.line_1);
       cy.wait(3000);
       cy.get(".idpc_ul li").first().click({ force: true });
       assertions(scope, selectors, address);

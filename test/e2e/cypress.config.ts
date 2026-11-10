@@ -8,6 +8,7 @@ export default defineConfig({
     requestTimeout: 60000,
     video: false,
     setupNodeEvents(on, config) {
+      config.expose = { ...config.expose, MAGENTO_VERSION: config.env.MAGENTO_VERSION };
       return config
     },
     specPattern: join(__dirname, './cypress/e2e/**/*.{js,jsx,ts,tsx}'),

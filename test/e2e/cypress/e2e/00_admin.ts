@@ -1,5 +1,5 @@
 /// <reference types="cypress" />;
-const version = Cypress.env("MAGENTO_VERSION");
+const version = Cypress.expose("MAGENTO_VERSION");
 
 const logout = () => {
   if (version == "2.2") {
@@ -46,7 +46,6 @@ describe("Admin", () => {
     logout();
   });
 
-  const apiKey = Cypress.env("API_KEY");
 
   it("Can navigate to config page", () => {
     // Login to admin page
@@ -63,9 +62,11 @@ describe("Admin", () => {
       "include",
       "/index.php/admin/admin/system_config/edit/section/idealpostcodes"
     );
-    cy.get("#idealpostcodes_required_api_key")
-      .clear({ force: true })
-      .type(apiKey, { force: true });
+    cy.env(["API_KEY"], { log: false }).then(({ API_KEY }) => {
+      cy.get("#idealpostcodes_required_api_key")
+        .clear({ force: true })
+        .type(API_KEY, { force: true, log: false });
+    });
     cy.get("#idealpostcodes_admin-head").click();
     cy.get("#idealpostcodes_admin_autocomplete_override")
       .clear({ force: true })

@@ -1,5 +1,5 @@
 /// <reference types="cypress" />;
-const version = Cypress.env("MAGENTO_VERSION");
+const version = Cypress.expose("MAGENTO_VERSION");
 
 Cypress.on("uncaught:exception", (err) => {
   console.log(err);

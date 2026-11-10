@@ -80,33 +80,35 @@ const loadScript = async (url: string, { document }: Window): Promise<void> => {
 };
 
 Cypress.Commands.add("setup", (url, postcodeLookup, customFields) => {
-  cy.visit(url, {
-    onBeforeLoad: (window) => {
-      window.idpcConfig = {
-        apiKey: Cypress.env("API_KEY"),
-        populateOrganisation: true,
-        populateCounty: true,
-        autocomplete: true,
-        postcodeLookup: postcodeLookup || false,
-        postcodeLookupOverride: {
-          checkKey: false,
-        },
-        autocompleteOverride: {
-          checkKey: false,
-          defaultCountry: "GBR",
-          detectCountry: false,
-        },
-        // @ts-ignore
-        customFields: customFields || [],
-      };
-    },
-    onLoad: async (window) => {
-      const resources = postcodeLookup ? storeSourcesMap : adminSourcesMap;
-      for (const resource of resources) {
-        if (resource.type === "js") await loadScript(resource.url, window);
-        if (resource.type === "css") loadCss(resource.url, window);
-      }
-    },
+  cy.env(["API_KEY"], { log: false }).then(({ API_KEY }) => {
+    cy.visit(url, {
+      onBeforeLoad: (window) => {
+        window.idpcConfig = {
+          apiKey: API_KEY,
+          populateOrganisation: true,
+          populateCounty: true,
+          autocomplete: true,
+          postcodeLookup: postcodeLookup || false,
+          postcodeLookupOverride: {
+            checkKey: false,
+          },
+          autocompleteOverride: {
+            checkKey: false,
+            defaultCountry: "GBR",
+            detectCountry: false,
+          },
+          // @ts-ignore
+          customFields: customFields || [],
+        };
+      },
+      onLoad: async (window) => {
+        const resources = postcodeLookup ? storeSourcesMap : adminSourcesMap;
+        for (const resource of resources) {
+          if (resource.type === "js") await loadScript(resource.url, window);
+          if (resource.type === "css") loadCss(resource.url, window);
+        }
+      },
+    });
   });
   cy.wait(2000);
 });

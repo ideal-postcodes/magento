@@ -3,7 +3,7 @@
 
 ### Bug Fixes
 
-* **security:** complete ist-140 dependency fixes ([1f123a4](https://github.com/ideal-postcodes/magento/commit/1f123a4dc0e931323c9cb69da35c79ea885adb76))
+* **security:** complete dependency fixes ([1f123a4](https://github.com/ideal-postcodes/magento/commit/1f123a4dc0e931323c9cb69da35c79ea885adb76))
 
 ## [2.7.4](https://github.com/ideal-postcodes/magento/compare/2.7.3...2.7.4) (2026-10-08)
 

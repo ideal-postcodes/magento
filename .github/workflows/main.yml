@@ -21,7 +21,7 @@ jobs:
           node-version: 24
 
       - name: Cache node modules
-        uses: useblacksmith/cache@c5fe29eb0efdf1cf4186b9f7fcbbcbc0cf025662 # v5.1.0
+        uses: useblacksmith/cache@71c7c918062ba3861252d84b07fe5ab2a6b467a6 # v5
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}

@@ -30,7 +30,7 @@ jobs:
         run: npm ci
 
       - name: Cypress run
-        uses: cypress-io/github-action@f790eee7a50d9505912f50c2095510be7de06aa7 # v6.10.9
+        uses: cypress-io/github-action@0ed14f5d30c4ad6e5e8ffb6f57dbb69150137a3f # v7.4.10
         with:
           project: ./test/e2e
           config: baseUrl=http://localhost:3000

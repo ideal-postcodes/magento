@@ -3,11 +3,16 @@ name: Magento 2.4.8 CI with PHP 8.3
 on:
   - push
 
+permissions:
+  contents: read
+
 jobs:
   ci-83:
     runs-on: blacksmith-4vcpu-ubuntu-2404
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
 
       - name: Launch Magento test environment
         env:
